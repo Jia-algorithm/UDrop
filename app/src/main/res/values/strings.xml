@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UDrop</string>
+    <string name="app_name_cn">语滴</string>
+    <string name="warning">啊哦，哪里出错了！</string>
 </resources>

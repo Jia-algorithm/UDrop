@@ -4,56 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow_0"
     tools:context=".MainActivity">
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/welcome_text"
         android:src="@drawable/logo"/>
     <TextView
-        android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="语滴 v1.0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="语滴 1.0.0版本"
+        android:layout_marginEnd="30dp"
         app:layout_constraintTop_toTopOf="@id/logo"
-        app:layout_constraintBottom_toTopOf="@id/welcome_text"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/logo"/>
+    <ImageView
+        android:id="@+id/bg_lying"
+        android:src="@drawable/ic_bg_lying"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"/>
+    <TextView
+        android:id="@+id/text_lying"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="无论是坐卧……"
+        android:textColor="@color/orange_2"
+        app:layout_constraintTop_toBottomOf="@id/bg_lying"
+        app:layout_constraintStart_toStartOf="@id/bg_lying"
+        android:layout_marginStart="30dp"/>
+    <TextView
+        android:id="@+id/text_walking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="亦或行走……"
+        android:textColor="@color/orange_2"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="@id/bg_walking"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"/>
+    <ImageView
+        android:id="@+id/bg_walking"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_bg_walking"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_walking"/>
+
     <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:text="欢迎使用语滴智能背书APP"
-        app:layout_constraintBottom_toTopOf="@id/login_btn"
+        android:textSize="18sp"
+        android:textColor="@color/orange_2"
+        android:text="智能语音背书助手——语滴陪伴您的学习！"
+        app:layout_constraintTop_toBottomOf="@id/bg_walking"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintBottom_toTopOf="@id/login_btn" />
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/register_btn"
-        app:layout_constraintTop_toBottomOf="@id/welcome_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="登录"
-        android:background="#03A9F4"
-        app:backgroundTint="#03A9F4"/>
-    <Button
-        android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/login_btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome_text"
+        app:layout_constraintBottom_toTopOf="@id/register_content"
+        android:text="登录"
+        app:backgroundTint="@color/orange_1"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/register_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="注册"
-        android:background="#03A9F4"
-        app:backgroundTint="#03A9F4"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/white"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="没有账号？"
+            android:textColor="@color/orange_1"
+            />
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:text="注册"
+            app:backgroundTint="@color/orange_1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="了解更多>>"
+            android:layout_marginTop="5dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

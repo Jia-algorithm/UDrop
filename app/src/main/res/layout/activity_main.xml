@@ -27,7 +27,7 @@
         android:src="@drawable/ic_bg_lying"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="30dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo"/>
     <TextView
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="@id/bg_walking"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="130dp"/>
+        android:layout_marginTop="100dp"/>
     <ImageView
         android:id="@+id/bg_walking"
         android:layout_width="150dp"
@@ -62,7 +62,7 @@
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="@color/black"
         android:text="智能语音背书助手——语滴陪伴您的学习！"
         app:layout_constraintTop_toBottomOf="@id/bg_walking"
@@ -79,7 +79,8 @@
         app:layout_constraintTop_toBottomOf="@id/welcome_text"
         app:layout_constraintBottom_toTopOf="@id/register_content"
         android:text="登录"
-        app:backgroundTint="@color/orange_1"/>
+        android:background="@color/orange_1"
+        android:textColor="@color/white"/>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/register_content"
         android:layout_width="match_parent"
@@ -93,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:text="没有账号？"
             android:textColor="@color/orange_1"
             />
@@ -103,7 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:text="注册"
-            app:backgroundTint="@color/orange_1"/>
+            android:background="@color/orange_1"
+            android:textColor="@color/white"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

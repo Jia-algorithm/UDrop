@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/page_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@id/password_input"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/name_input"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toTopOf="@id/button"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -80,6 +80,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:clickable="true"
         android:linksClickable="false"
-        android:text="已有账号？返回登录。"
+        android:text="没有账号？点击免费注册。"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

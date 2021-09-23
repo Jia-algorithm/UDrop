@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/page_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@id/password_edit"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/name_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toTopOf="@id/password_confirm"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@id/password_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toTopOf="@id/button"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -91,7 +91,7 @@
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <TextView
-        android:id="@+id/to_register"
+        android:id="@+id/to_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/button"
@@ -99,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:clickable="true"
         android:linksClickable="false"
-        android:text="没有账号？点击免费注册。"
+        android:text="已有帐号？点击登录。"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

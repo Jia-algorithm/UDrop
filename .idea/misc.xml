@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/bg_cloud_system.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/bg_learned_text_item.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_book.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_setting.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profilr_setting.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/triangle_up.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_login.xml" value="0.11775362318840579" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_profile.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/profile_learned_texts_item.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.yudi.udrop.model.data.ProfileModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/profile_toolbar"
+            layout="@layout/toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_toolbar">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_profile_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/profile_head_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/temp_profile_head"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/profile_edit_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginBottom="55dp"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="@id/profile_head_icon"
+                app:layout_constraintStart_toStartOf="@id/profile_head_icon" />
+
+            <TextView
+                android:id="@+id/profile_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/orange_0"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_head_icon"
+                android:text="@{model.Name}"
+                tools:text="Rebecca Dai" />
+
+            <TextView
+                android:id="@+id/profile_motto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="5dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAlignment="center"
+                android:textColor="@color/orange_0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_user_name"
+                tools:text="Keep learning!"
+                android:text="@{model.Motto}"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/triangle_up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_motto" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profile_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_0"
+            android:paddingVertical="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_head">
+
+            <TextView
+                android:id="@+id/learned_days_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_0"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toStartOf="@id/learned_texts_data"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="258"
+                android:text="@{model.DaysNum}"/>
+
+            <TextView
+                android:id="@+id/profile_learned_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学习天数"
+                android:textColor="@color/red_0"
+                app:layout_constraintEnd_toEndOf="@id/learned_days_data"
+                app:layout_constraintStart_toStartOf="@id/learned_days_data"
+                app:layout_constraintTop_toBottomOf="@id/learned_days_data" />
+
+            <TextView
+                android:id="@+id/learned_texts_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_0"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/learned_days_data"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="34"
+                android:text="@{model.TextsNum}"/>
+
+            <TextView
+                android:id="@+id/learned_texts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已背篇数"
+                android:textColor="@color/red_0"
+                app:layout_constraintEnd_toEndOf="@id/learned_texts_data"
+                app:layout_constraintStart_toStartOf="@id/learned_texts_data"
+                app:layout_constraintTop_toBottomOf="@id/learned_texts_data" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/review_learned_texts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/gary_0"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_data">
+            <ImageView
+                android:id="@+id/review_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_profile_book"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/review_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已背篇目"
+                android:textColor="@color/black_blue"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/review_icon"
+                app:layout_constraintTop_toTopOf="@id/review_icon"
+                app:layout_constraintBottom_toBottomOf="@id/review_icon"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/review_item"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/review_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

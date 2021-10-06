@@ -56,6 +56,7 @@
             android:src="@drawable/ic_nickname"/>
         <EditText
             android:hint="昵称"
+            android:singleLine="true"
             android:padding="5dp"
             android:background="@drawable/text_input_border"
             android:textColorHint="@color/text_light"
@@ -79,6 +80,7 @@
             android:src="@drawable/ic_password"/>
         <EditText
             android:hint="密码"
+            android:singleLine="true"
             android:padding="5dp"
             android:background="@drawable/text_input_border"
             android:textColorHint="@color/text_light"
@@ -101,6 +103,7 @@
             android:src="@drawable/ic_password"/>
         <EditText
             android:hint="确认密码"
+            android:singleLine="true"
             android:padding="5dp"
             android:background="@drawable/text_input_border"
             android:textColorHint="@color/text_light"

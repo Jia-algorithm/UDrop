@@ -146,10 +146,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/review_learned_texts"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@color/gary_0"
             android:padding="20dp"
-            app:layout_constraintBottom_toTopOf="@id/profile_schedule"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_data">
             <ImageView
@@ -174,9 +173,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/review_item"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/review_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -185,6 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/review_learned_texts"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/white"
             android:padding="20dp">
@@ -194,6 +193,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="学习计划"
+                android:textStyle="bold"
                 android:textColor="@color/black_blue"
                 android:textSize="16sp"/>
             <ImageView

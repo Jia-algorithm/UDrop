@@ -22,7 +22,7 @@ class ProfileActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.review_item)
         recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation= RecyclerView.VERTICAL
+        layoutManager.orientation= RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
     }
 }

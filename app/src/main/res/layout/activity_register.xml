@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="50dp"
     android:background="@color/yellow_0"
-    tools:context=".MainActivity">
+    tools:context=".LaunchActivity">
     <ImageView
         android:id="@+id/resgiter_icon"
         android:layout_width="wrap_content"

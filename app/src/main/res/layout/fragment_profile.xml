@@ -43,7 +43,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="55dp"
                 android:layout_marginBottom="55dp"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_profile_edit"
                 app:layout_constraintBottom_toBottomOf="@id/profile_head_icon"
                 app:layout_constraintStart_toStartOf="@id/profile_head_icon" />
 

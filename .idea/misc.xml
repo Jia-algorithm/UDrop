@@ -6,9 +6,12 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/bg_learned_text_item.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/color_text_selector.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic__temp.xml" value="0.1265625" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_edit.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_selected.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_selector.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_unselected.xml" value="0.1265625" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_launch_lying.xml" value="0.1" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_micro_selected.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_micro_selector.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_micro_unselected.xml" value="0.1265625" />
@@ -18,6 +21,7 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_book.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_schedule.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_toolbar_back.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_drop.xml" value="0.11041666666666666" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_home.xml" value="0.11041666666666666" />
@@ -28,7 +32,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

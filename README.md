@@ -15,6 +15,9 @@
   - drawable文件：类型_场景（ _item/selector/...）
   - layout文件：（类型_）场景（ _item/head/...）
 
+#### 颜色
+ - 统一放到values的colors中，在其他地方直接通过@color/...调用
+
 ### 开发进度
 
 #### Launch页面

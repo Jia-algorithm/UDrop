@@ -10,6 +10,8 @@
     <color name="gary_0">#EEEBDD</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_0">#FFF8E5</color>
+    <color name="white_1">#FDF6F0</color>
+    <color name="white_2">#FFFCEF</color>
     <color name="border_light">#CCCCCC</color>
     <color name="text_light">#95A1AA</color>
     <color name="yellow_0">#F7F3E9</color>

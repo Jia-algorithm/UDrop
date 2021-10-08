@@ -1,12 +1,10 @@
 package com.yudi.udrop
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yudi.udrop.fragment.HomeFragment
 import com.yudi.udrop.fragment.ProfileFragment
@@ -43,11 +41,13 @@ class OverviewActivity : AppCompatActivity(),
         return false
     }
 
+    @SuppressLint("ResourceType")
     private fun initializeTabBar() {
         val tabBar = findViewById<BottomNavigationView>(R.id.tabBar)
         tabBar.setOnNavigationItemSelectedListener(this)
         tabBar.selectedItemId = R.id.tabBar_item0
         tabBar.itemIconTintList = null
+
     }
 
     companion object {

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/bg_learned_text_item.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/color_text_selector.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic__temp.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_selected.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_selector.xml" value="0.1265625" />
@@ -21,7 +22,7 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_drop.xml" value="0.11041666666666666" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_home.xml" value="0.11041666666666666" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_profile.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/main.xml" value="0.292125317527519" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/profile_learned_texts_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/menu/tabbar_item.xml" value="0.22" />
       </map>

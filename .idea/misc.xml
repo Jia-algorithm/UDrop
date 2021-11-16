@@ -27,17 +27,23 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_register.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_right_arrow.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_toolbar_back.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_send.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/text_input_border.xml" value="0.16822916666666668" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/triangle_up.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_launch.xml" value="0.1" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_login.xml" value="0.13134057971014493" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_drop.xml" value="0.11041666666666666" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_home.xml" value="0.22" />
-        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_profile.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_profile.xml" value="0.22" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_udrop.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_texts_item.xml" value="0.1796875" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_toolbar.xml" value="0.1796875" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/main.xml" value="0.292125317527519" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/profile_learned_texts_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/toolbar.xml" value="0.1796875" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/udrop_message_item.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/menu/tabbar_item.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />

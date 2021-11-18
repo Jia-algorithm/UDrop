@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
-import com.yudi.udrop.adapter.HomeAdapter
+import com.yudi.udrop.adapter.HomeTextAdapter
 import com.yudi.udrop.databinding.FragmentHomeBinding
 
 class HomeFragment:Fragment() {
@@ -30,8 +29,8 @@ class HomeFragment:Fragment() {
         //setupToolBar()
     }
     fun setupRecyclerView(view: View) {
-        val adapter = context?.let { HomeAdapter(it) }
-        val adapter1 = context?.let { HomeAdapter(it) }
+        val adapter = context?.let { HomeTextAdapter(it) }
+        val adapter1 = context?.let { HomeTextAdapter(it) }
         val ScheduleRecyclerView = view.findViewById<RecyclerView>(R.id.home_current_schedule)
         val ReviewRecyclerView = view.findViewById<RecyclerView>(R.id.home_review)
         ReviewRecyclerView.adapter = adapter

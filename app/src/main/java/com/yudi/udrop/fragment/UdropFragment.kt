@@ -21,20 +21,20 @@ class UdropFragment : Fragment() {
         inflater: LayoutInflater,
         @Nullable container: ViewGroup?,
         @Nullable savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUdropBinding.inflate(inflater)
-        binding.model = ToolbarModel("语滴助手")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.model = ToolbarModel("语滴助手")
         setupRecyclerView(view)
     }
 
-    fun setupRecyclerView(view: View) {
-        val adapter = MessageAdapter()
+    private fun setupRecyclerView(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.fragment_udrop_content)
+        val adapter = context?.let { MessageAdapter(it) }
         recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.VERTICAL

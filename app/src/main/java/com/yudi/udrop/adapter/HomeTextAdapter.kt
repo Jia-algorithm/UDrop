@@ -9,8 +9,8 @@ import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeTextsItemBinding
 import com.yudi.udrop.model.data.TextReviewModel
 
-class HomeAdapter (val context: Context) :
-    RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeTextAdapter (val context: Context) :
+    RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
     inner class HomeViewHolder(val binding: HomeTextsItemBinding) : RecyclerView.ViewHolder(binding.root)
     //创建ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -31,5 +31,5 @@ class HomeAdapter (val context: Context) :
         itemViewHolder.binding.executePendingBindings()
     }
     //获取item个数
-    override fun getItemCount(): Int = 4//设有40个item
+    override fun getItemCount(): Int = 4//设有4个item
 }

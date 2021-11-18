@@ -17,13 +17,14 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="?attr/actionBarSize" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/tabBar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/tabBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="start"
-        android:background="@color/white"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+        android:background="@color/white"
         app:itemTextColor="@drawable/color_text_selector"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/tabbar_item" />

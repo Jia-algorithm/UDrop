@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
-import com.yudi.udrop.adapter.ProfileAdapter
+import com.yudi.udrop.adapter.ProfileTextAdapter
 import com.yudi.udrop.databinding.FragmentProfileBinding
 import com.yudi.udrop.model.data.ProfileModel
 
@@ -32,8 +32,8 @@ class ProfileFragment : Fragment() {
         setupRecyclerView(view)
     }
     fun setupRecyclerView(view:View) {
-        val adapter = context?.let { ProfileAdapter(it) }
-        val adapter1 = context?.let { ProfileAdapter(it) }
+        val adapter = context?.let { ProfileTextAdapter(it) }
+        val adapter1 = context?.let { ProfileTextAdapter(it) }
         val TextRecyclerView = view.findViewById<RecyclerView>(R.id.review_item)
         val ScheduleRecyclerView = view.findViewById<RecyclerView>(R.id.schedule_item)
         TextRecyclerView.adapter = adapter

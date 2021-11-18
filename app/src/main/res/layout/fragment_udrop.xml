@@ -9,6 +9,7 @@
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -17,12 +18,13 @@
             android:id="@+id/fragment_udrop_toolbar"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            bind:model="@{model}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_udrop_content"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white_0"
             android:paddingHorizontal="10dp"

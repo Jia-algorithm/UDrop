@@ -16,14 +16,14 @@ class MessageAdapter(val context: Context) : RecyclerView.Adapter<MessageAdapter
     inner class ViewHolder(val binding: UdropMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var messageList = mutableListOf<MessageModel>()
+    lateinit var messageList : ArrayList<MessageModel>
 
     private fun getData() {
-        val time = System.currentTimeMillis()
-        val format: CharSequence =
-            DateFormat.format("yyyy" + "/" + "MM" + "/" + "dd" + " " + "hh:mm:ss", time)
-        messageList.add(MessageModel(false, "你好，我是语滴~", format.toString()))
-        messageList.add(MessageModel(false, "每天都要坚持背书哦~", format.toString()))
+        var newMessage : ArrayList<MessageModel> = ArrayList()
+        val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+        newMessage.add(MessageModel(false, "你好，我是语滴。", "${TimeFormatter.format(LocalDateTime.now())}"))
+        newMessage.add(MessageModel(false, "你可以和我聊天，也可以输入“背书”，开始背书之旅哦~", "${TimeFormatter.format(LocalDateTime.now())}"))
+        messageList = newMessage
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,11 +37,11 @@ class MessageAdapter(val context: Context) : RecyclerView.Adapter<MessageAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        getData()
-//        holder.binding.model = messageList[position]
-        val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-        holder.binding.model = MessageModel(false,"你好，我是语滴！","${TimeFormatter.format(LocalDateTime.now())}")
+        getData()
+        holder.binding.model = messageList[position]
+//        val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+//        holder.binding.model = MessageModel(false,"你好，我是语滴！","${TimeFormatter.format(LocalDateTime.now())}")
     }
 
-    override fun getItemCount(): Int = 1
+    override fun getItemCount(): Int = 2
 }

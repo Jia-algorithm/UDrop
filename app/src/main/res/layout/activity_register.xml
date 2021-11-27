@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:background="@color/udrop_text_3"
         android:paddingHorizontal="50dp"
-        android:text="登录"
+        android:text="@string/register"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/password_confirm"

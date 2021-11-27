@@ -42,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_text_rectangle"
+                android:background="@drawable/bg_rectangle_shape"
+                android:backgroundTint="@color/white"
                 android:padding="5dp"
                 android:textColorHint="@color/black" />
 

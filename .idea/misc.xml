@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/bg_learned_text_item.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable-v24/color_text_selector.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/bg_launch.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/bg_launcher.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/bg_text_rectangle.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/color_text_selector.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic__temp.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_edit.xml" value="0.1" />
@@ -22,18 +26,25 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_my_selected.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_my_selector.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_my_unselected.xml" value="0.1265625" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_nickname.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_password.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_book.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_profile_schedule.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_register.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_right_arrow.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_sign_up.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_toolbar_back.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_selected.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_send.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_unselected.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/text_input_border.xml" value="0.16822916666666668" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/triangle_up.xml" value="0.19583333333333333" />
-        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_launch.xml" value="0.1" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/txt_launch_logo.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_launch.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_login.xml" value="0.13134057971014493" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_drop.xml" value="0.11041666666666666" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_profile.xml" value="0.22" />

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="udrop_text_0">#7C848D</color>
+    <color name="udrop_text_1">#4A5559</color>
+    <color name="udrop_text_2">#22465A</color>
+    <color name="udrop_text_3">#EADEC4</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -10,7 +14,7 @@
     <color name="gray_0">#EEEBDD</color>
     <color name="gray_1">#333333</color>
     <color name="gray_2">#666666</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="white_0">#FFF8E5</color>
     <color name="white_1">#FDF6F0</color>
     <color name="white_2">#FFFCEF</color>

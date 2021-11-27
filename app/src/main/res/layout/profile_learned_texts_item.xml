@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_learned_text_item"
+        android:background="@drawable/bg_rectangle_shape"
         android:layout_margin="10dp"
         android:padding="20dp">
         <ImageView

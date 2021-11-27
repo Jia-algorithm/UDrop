@@ -10,10 +10,10 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
         //实现点击页面跳转
-        findViewById<Button>(R.id.login_btn).setOnClickListener {
+        findViewById<Button>(R.id.launch_login).setOnClickListener {
             startActivity(Intent(this,LoginActivity::class.java))
         }
-        findViewById<Button>(R.id.register_btn).setOnClickListener {
+        findViewById<Button>(R.id.launch_register).setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
         }
     }

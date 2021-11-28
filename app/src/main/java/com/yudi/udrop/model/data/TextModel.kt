@@ -1,7 +1,7 @@
 package com.yudi.udrop.model.data
 
-data class TextReviewModel(
+data class TextModel(
     val Title:String,
     val Writer:String,
-    val ReviewContext:String
+    val Context:String
 )

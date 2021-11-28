@@ -9,9 +9,11 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/bg_launcher.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/bg_text_rectangle.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/color_text_selector.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/home_schedule_tab_item.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic__temp.xml" value="0.1265625" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_edit.xml" value="0.1" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_collection.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_errorbook.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_game.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_more.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_home_notebook.xml" value="0.19583333333333333" />
@@ -34,6 +36,7 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_register.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_right_arrow.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_sign_up.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_tab_indicator.xml" value="0.10052083333333334" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_toolbar_back.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_selected.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/drawable/ic_udrop_send.xml" value="0.16822916666666668" />
@@ -50,10 +53,14 @@
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_profile.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/fragment_udrop.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_texts_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_more_item.xml" value="0.1480978260869565" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_schedule_item.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_schedule_tab_item.xml" value="0.5" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_texts_item.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/home_toolbar.xml" value="0.1796875" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/main.xml" value="0.292125317527519" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/profile_learned_texts_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/text_content.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/toolbar.xml" value="0.1796875" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/layout/udrop_message_item.xml" value="0.22" />
         <entry key="..\:/Users/I554840/Desktop/UDrop/app/src/main/res/menu/tabbar_item.xml" value="0.22" />

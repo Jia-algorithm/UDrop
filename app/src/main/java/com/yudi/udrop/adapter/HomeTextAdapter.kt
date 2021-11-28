@@ -7,11 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeTextsItemBinding
-import com.yudi.udrop.model.data.TextReviewModel
+import com.yudi.udrop.model.data.TextModel
 
-class HomeTextAdapter (val context: Context) :
+class HomeTextAdapter(val context: Context) :
     RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
-    inner class HomeViewHolder(val binding: HomeTextsItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class HomeViewHolder(val binding: HomeTextsItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     //创建ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding = DataBindingUtil.inflate<HomeTextsItemBinding>(
@@ -22,14 +24,17 @@ class HomeTextAdapter (val context: Context) :
         )
         return HomeViewHolder(binding)
     }
+
     //数据绑定
     override fun onBindViewHolder(itemViewHolder: HomeViewHolder, position: Int) {
-        itemViewHolder.binding.model = TextReviewModel(
+        itemViewHolder.binding.model = TextModel(
             "Title $position",
             "Writer $position",
-            "")
+            ""
+        )
         itemViewHolder.binding.executePendingBindings()
     }
+
     //获取item个数
     override fun getItemCount(): Int = 4//设有4个item
 }

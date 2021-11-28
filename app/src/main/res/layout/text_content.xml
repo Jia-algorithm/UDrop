@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.yudi.udrop.model.data.TextModel" />
+    </data>
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/udrop_text_2"
+            android:text="@{model.title}"
+            tools:text="《静夜思》" />
+
+        <TextView
+            android:id="@+id/text_writer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/udrop_text_2"
+            android:textSize="10sp"
+            android:text="@{model.writer}"
+            tools:text="唐·李白" />
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:textColor="@color/udrop_text_2"
+            android:textSize="12sp"
+            android:text="@{model.context}"
+            tools:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

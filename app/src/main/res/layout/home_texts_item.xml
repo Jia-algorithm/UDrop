@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="model"
-            type="com.yudi.udrop.model.data.TextReviewModel" />
+            type="com.yudi.udrop.model.data.TextModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_rectangle_shape"
-        android:layout_margin="10dp"
-        android:padding="20dp">
-        <ImageView
-            android:id="@+id/text_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/mock_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toEndOf="@id/text_picture"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@{model.Title}"
-            tools:text="岳阳楼记"/>
-        <TextView
-            android:id="@+id/text_writer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/text_title"
-            app:layout_constraintTop_toBottomOf="@id/text_title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@{model.Writer}"
-            tools:text="北宋·范仲淹"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="190dp"
+        android:layout_marginHorizontal="8dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_rectangle_shape"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_home_logo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/home_text_review"
+                    layout="@layout/text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_weight="1"
+                    bind:model="@{model}" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/home_text_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="84dp"
+                        android:layout_height="113dp"
+                        android:src="@drawable/mock_image" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

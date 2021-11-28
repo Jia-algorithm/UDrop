@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.yudi.udrop.model.data.TextReviewModel" />
+            type="com.yudi.udrop.model.data.TextModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:layout_marginTop="10dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="@{model.reviewContext}"
+            android:text="@{model.context}"
             tools:text="庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上，属予作文以记之."
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

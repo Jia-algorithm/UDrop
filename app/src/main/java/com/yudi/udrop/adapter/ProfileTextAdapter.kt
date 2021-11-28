@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
 import com.yudi.udrop.databinding.ProfileLearnedTextsItemBinding
-import com.yudi.udrop.model.data.TextReviewModel
+import com.yudi.udrop.model.data.TextModel
 
 class ProfileTextAdapter(val context: Context) :
     RecyclerView.Adapter<ProfileTextAdapter.ProfileViewHolder>() {
@@ -24,7 +24,7 @@ class ProfileTextAdapter(val context: Context) :
     }
     //数据绑定
     override fun onBindViewHolder(itemViewHolder: ProfileViewHolder, position: Int) {
-        itemViewHolder.binding.model = TextReviewModel(
+        itemViewHolder.binding.model = TextModel(
             "Ttile $position",
             "Writer $position",
             "Context Context Context Context Context Context Context Context Context Context Context Context")

@@ -10,6 +10,12 @@
     <string name="collection">收藏夹</string>
     <string name="errorbook">错题本</string>
     <string name="game_center">游戏中心</string>
+    <string name="my_collection">我的收藏</string>
+    <string name="my_errorbook">我的错题</string>
+    <string name="help_for_new">新手帮助</string>
+    <string name="feedback">用户反馈</string>
+    <string name="about_us">关于我们</string>
+    <string name="days_learned">已坚持学习%1$d天</string>
     <string name="app_name">UDrop</string>
     <string name="app_name_cn">语滴</string>
     <string name="warning">啊哦，哪里出错了！</string>

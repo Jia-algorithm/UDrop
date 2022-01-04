@@ -62,10 +62,7 @@
 
 ##### 已完成
 
-- 布局Layout
-- recyclerview的简单adapter
-- model和databinding
-- 页面加载ProfileFragment
+- 基本页面布局
 
 ##### 待完成
 
@@ -80,9 +77,7 @@
 
 ##### 已完成
 
-- 布局Layout
-- recyclerview的简单aadapter
-- 页面加载HomeFragment
+- 基本页面布局
 
 ##### 待完成
 - 获取用户当日背书计划

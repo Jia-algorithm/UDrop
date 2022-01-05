@@ -45,8 +45,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:riv_border_color="@color/white"
-                    app:riv_border_width="20dp"
-                    app:riv_corner_radius="360dp"
+                    app:riv_border_width="3dp"
+                    app:riv_corner_radius="100dp"
                     tools:src="@drawable/logo" />
 
                 <TextView
@@ -90,6 +90,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/bg_profile_learning_record"
                     android:paddingVertical="10dp"
+                    android:text="@{model.keepLearningDays}"
                     android:textAlignment="center"
                     android:textColor="@color/udrop_text_2"
                     android:textSize="18dp"

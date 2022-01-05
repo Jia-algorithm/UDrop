@@ -9,8 +9,6 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yudi.udrop.R
 import com.yudi.udrop.adapter.HomeScheduleAdapter
@@ -33,39 +31,38 @@ class HomeFragment : Fragment(), TabLayoutInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView(view)
-        setupViewpager(view)
+        setupRecyclerView()
+        setupViewpager()
         setupTabLayout(view)
     }
 
-    private fun setupRecyclerView(view: View) {
-        val adapter = HomeTextAdapter(view.context)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.home_text_learned)
+    private fun setupRecyclerView() {
+        val adapter = HomeTextAdapter()
+        val recyclerView = binding.homeTextLearned
         recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
     }
 
-    private fun setupViewpager(view: View) {
-        val viewpager = view.findViewById<ViewPager2>(R.id.home_schedule_viewpager)
-        viewpager.adapter = HomeScheduleAdapter()
+    private fun setupViewpager() {
+        binding.homeScheduleViewpager.adapter = HomeScheduleAdapter()
     }
 
     private fun setupTabLayout(view: View) {
-        val tabLayout = view.findViewById<TabLayout>(R.id.home_schedule_tab)
-        val viewPager = view.findViewById<ViewPager2>(R.id.home_schedule_viewpager)
+        val tabLayout = binding.homeScheduleTab
+        val viewPager = binding.homeScheduleViewpager
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            val view =
+            val tabView =
                 LayoutInflater.from(context)
                     .inflate(R.layout.home_schedule_tab_item, null, false)
             when (position) {
-                0 -> view.findViewById<TextView>(R.id.home_schedule_tab_item_title).text =
+                0 -> tabView.findViewById<TextView>(R.id.home_schedule_tab_item_title).text =
                     getString(R.string.new_to_learn)
-                1 -> view.findViewById<TextView>(R.id.home_schedule_tab_item_title).text =
+                1 -> tabView.findViewById<TextView>(R.id.home_schedule_tab_item_title).text =
                     getString(R.string.to_review)
             }
-            tab.customView = view
+            tab.customView = tabView
         }.attach()
         super.setupTabLayout(view.context, tabLayout, R.id.home_schedule_tab_item_title)
     }

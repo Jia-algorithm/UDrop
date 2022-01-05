@@ -31,8 +31,6 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.model = messageList[position]
-//        val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-//        holder.binding.model = MessageModel(false,"你好，我是语滴！","${TimeFormatter.format(LocalDateTime.now())}")
     }
 
     override fun getItemCount(): Int = messageList.size

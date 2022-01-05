@@ -1,6 +1,5 @@
 package com.yudi.udrop.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,12 +8,10 @@ import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeTextsItemBinding
 import com.yudi.udrop.model.data.TextModel
 
-class HomeTextAdapter(val context: Context) :
-    RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
+class HomeTextAdapter : RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
     inner class HomeViewHolder(val binding: HomeTextsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    //创建ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding = DataBindingUtil.inflate<HomeTextsItemBinding>(
             LayoutInflater.from(parent.context),
@@ -25,16 +22,16 @@ class HomeTextAdapter(val context: Context) :
         return HomeViewHolder(binding)
     }
 
-    //数据绑定
     override fun onBindViewHolder(itemViewHolder: HomeViewHolder, position: Int) {
+        // TODO: get real data
         itemViewHolder.binding.model = TextModel(
-            "Title $position",
-            "Writer $position",
-            ""
+            "诗名 $position",
+            "作者 $position",
+            "这里是内容这里是内，这里是内容这里是内，这里是内容这里是内，这里是内容这里是内。"
         )
         itemViewHolder.binding.executePendingBindings()
     }
 
-    //获取item个数
-    override fun getItemCount(): Int = 4//设有4个item
+    // TODO: get real data
+    override fun getItemCount(): Int = 4 // Test mock data
 }

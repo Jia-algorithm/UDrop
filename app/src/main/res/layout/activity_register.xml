@@ -31,9 +31,10 @@
     <Button
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/udrop_text_3"
-        android:paddingHorizontal="50dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_rectangle_shape"
+        android:backgroundTint="@color/udrop_text_3"
+        android:paddingHorizontal="100dp"
         android:text="@string/register"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,6 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="已有帐号？点击登录。"
+        android:textColor="@color/udrop_text_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_button" />

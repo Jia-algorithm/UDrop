@@ -80,6 +80,7 @@
             tools:text="已学 30/100" />
 
         <TextView
+            android:id="@+id/home_schedule_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -87,12 +88,12 @@
             android:background="@drawable/bg_rectangle_shape"
             android:backgroundTint="@color/udrop_text_3"
             android:paddingVertical="10dp"
+            android:text="@{buttonText}"
             android:textAlignment="center"
             android:textColor="@color/udrop_text_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/home_schedule_process"
-            android:text="@{buttonText}"
             tools:text="@string/start_to_learn" />
 
 

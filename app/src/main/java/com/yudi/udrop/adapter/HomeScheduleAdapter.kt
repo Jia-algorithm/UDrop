@@ -2,6 +2,7 @@ package com.yudi.udrop.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -30,20 +31,29 @@ class HomeScheduleAdapter : RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>
             0 -> with(holder.binding) {
                 buttonText = holder.itemView.context.getString(R.string.start_to_learn)
                 homeScheduleButton.setOnClickListener {
-                    it.context.startActivity(
-                        Intent(
-                            it.context,
-                            UdropActivity::class.java
-                        )
-                    )
+                    onScheduleClick(it, R.string.daily_learn)
                 }
                 model = ScheduleModel("1", "10") // Test mock data
             }
             else -> with(holder.binding) {
                 buttonText = holder.itemView.context.getString(R.string.start_to_review)
+                homeScheduleButton.setOnClickListener {
+                    onScheduleClick(it, R.string.daily_review)
+                }
                 model = ScheduleModel("2", "5") // Test mock data
             }
         }
+    }
+
+    private fun onScheduleClick(view: View, title: Int) {
+        view.context.startActivity(
+            Intent(
+                view.context,
+                UdropActivity::class.java
+            ).apply {
+                putExtra(UdropActivity.INTENT_EXTRA_TITLE, title)
+            }
+        )
     }
 
     override fun getItemCount(): Int = 2

@@ -8,18 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yudi.udrop.adapter.MessageAdapter
 import com.yudi.udrop.databinding.ActivityUdropBinding
+import com.yudi.udrop.interfaces.ToolbarInterface
 import com.yudi.udrop.model.data.ToolbarModel
 
-class UdropActivity : AppCompatActivity() {
+class UdropActivity : AppCompatActivity(), ToolbarInterface {
     lateinit var binding: ActivityUdropBinding
+    private val titleResId: Int by lazy {
+        intent.getIntExtra(INTENT_EXTRA_TITLE, R.string.app_name_cn)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_udrop)
         Glide.with(this)
             .load(R.drawable.siri)
             .into(findViewById(R.id.udrop_microphone_gif))
-        // TODO: get title
-        binding.toolbarModel = ToolbarModel("语滴") // Test mock data
+        binding.toolbarModel = ToolbarModel(getString(titleResId), R.drawable.ic_back_to_home)
+        binding.toolbarHandler = this
         setupRecyclerView()
     }
 
@@ -29,5 +34,13 @@ class UdropActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
+    }
+
+    companion object {
+        const val INTENT_EXTRA_TITLE = "title"
+    }
+
+    override fun onLeftItemClick() {
+        onBackPressed()
     }
 }

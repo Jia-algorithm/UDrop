@@ -8,6 +8,8 @@
     <string name="process_check">进度查看</string>
     <string name="start_to_learn">开始学习</string>
     <string name="start_to_review">开始复习</string>
+    <string name="daily_learn">每日新学</string>
+    <string name="daily_review">每日复习</string>
     <string name="collection">收藏夹</string>
     <string name="errorbook">错题本</string>
     <string name="game_center">游戏中心</string>

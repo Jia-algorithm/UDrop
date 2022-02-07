@@ -26,24 +26,26 @@ class SQLiteManager
 ) :
     SQLiteOpenHelper(context, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("create table user(id int not null primary key,name varchar(50) not null,motto varchar(1000))")
+        db.execSQL("create table user(id int not null primary key,name varchar(50) not null,motto varchar(1000),days int)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
-    fun addUser(id: Int, name: String, motto: String) {
+    fun addUser(id: Int, name: String, motto: String, days: Int) {
         val contentValues = ContentValues()
         contentValues.put("id", id)
         contentValues.put("name", name)
         contentValues.put("motto", motto)
+        contentValues.put("days", days)
         writableDatabase.insert("user", null, contentValues)
         writableDatabase.close()
     }
 
-    fun updateInfo(id: Int, name: String, motto: String) {
+    fun updateInfo(id: Int, name: String, motto: String, days: Int) {
         val contentValues = ContentValues()
         contentValues.put("id", id)
         contentValues.put("name", name)
         contentValues.put("motto", motto)
+        contentValues.put("days", days)
         writableDatabase.update("user", contentValues, "id=?", arrayOf(id.toString()))
         writableDatabase.close()
     }
@@ -64,7 +66,7 @@ class SQLiteManager
         val cursor: Cursor = readableDatabase.query("user", null, null, null, null, null, null)
         return try {
             cursor.moveToFirst()
-            UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2))
+            UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3))
         } catch (e: Exception) {
             null
         } finally {

@@ -119,5 +119,11 @@
   - 1: success
 #### 2.1 get_schedule
 - param: (user_id: Int)
-- return: (schedule_list: Array)
-  - 所有计划的课文信息
+- return: (new_list: Array, review_list: Array)
+  - new_list: 今日所有需要新学的课文，每个课文信息中包含是否已背诵
+  - review_list: 今日所有需要复习的课文，每个课文信息中包含是否已背诵
+#### 2.2 set_new_schedule
+- param: (user_id: Int, new_schedule: Array)
+- return: (resultCode: Int)
+  - 0: failure
+  - 1: success

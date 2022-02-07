@@ -97,3 +97,27 @@
 - 识别用户语音输入
 - 调取百度语音API实现语音交互
 - 背书功能的实现
+### 接口
+#### 1.1 add_new_user
+- param: (name: String, password: String)
+- return: (resultCode: Int)
+  - 0: failure
+  - 1: success
+  - 2: existed user
+#### 1.2 check_existed_user
+- param: (name: String, password: String)
+- return: (user_id: Int)
+  - user_id: exist
+  - -1: not exist
+#### 1.3 get_user_info
+- param: (user_id: Int)
+- return: (user_name: String, user_motto: String, learned_days: Int)
+#### 1.4 change_user_info
+- param: (user_id: Int, user_name: String, user_motto: String)
+- return: (resultCode: Int)
+  - 0: failure
+  - 1: success
+#### 2.1 get_schedule
+- param: (user_id: Int)
+- return: (schedule_list: Array)
+  - 所有计划的课文信息

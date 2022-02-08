@@ -2,13 +2,15 @@ package com.yudi.udrop
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.interfaces.InputInterface
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(), InputInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
@@ -24,5 +26,13 @@ class RegisterActivity : AppCompatActivity() {
             SQLiteManager.addUser(0, name.toString(), "", 0)
             startActivity(Intent(this, OverviewActivity::class.java))
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_DOWN && currentFocus != null) {
+            if (shouldHideInput(currentFocus!!, ev))
+                hideKeyboard(this, currentFocus!!)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 }

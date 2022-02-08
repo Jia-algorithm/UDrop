@@ -7,6 +7,8 @@
 
         <import type="com.yudi.udrop.R" />
 
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="com.yudi.udrop.model.data.ProfileModel" />
@@ -14,7 +16,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -70,18 +73,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:drawableEnd="@drawable/ic_profile_edit"
-                    android:drawablePadding="4dp"
                     android:ellipsize="end"
                     android:lines="1"
                     android:maxWidth="224dp"
                     android:text="@{model.motto}"
                     android:textColor="@color/udrop_text_1"
-                    android:textSize="12dp"
+                    android:textSize="14dp"
+                    android:visibility="@{model.doEdit? View.INVISIBLE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/profile_user_name"
-                    tools:text="此处是个性签名签名签名签名此处是个性签名" />
+                    tools:text="此处是个性签名签名签名签名此处是个性签名"
+                    tools:visibility="invisible" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintBottom_toBottomOf="@id/profile_signature"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/profile_signature"
+                    tools:visibility="visible"
+                    android:visibility="@{model.doEdit? View.VISIBLE : View.INVISIBLE}">
+
+                    <EditText
+                        android:id="@+id/profile_signature_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxWidth="224dp"
+                        android:singleLine="true"
+                        android:text="@{model.motto}"
+                        android:textColor="@color/udrop_text_1"
+                        android:textSize="14dp"
+                        tools:text="此处是个性签名签名签名签名此处是个性签名" />
+
+                    <ImageView
+                        android:id="@+id/profile_signature_edit_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_profile_edit"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/profile_learning_record"

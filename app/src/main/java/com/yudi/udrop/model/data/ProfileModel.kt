@@ -10,6 +10,8 @@ data class ProfileModel(
 ) {
     val keepLearningDays: String
         get() = "已坚持学习 $DaysNum 天"
+    val headIconText: String
+        get() = Name.first().toString()
     var doEdit = ObservableBoolean(false)
     var motto = ObservableField(_motto)
     var editMotto = ObservableField(_motto)

@@ -46,7 +46,7 @@
                     android:layout_height="112dp"
                     android:layout_marginTop="55dp"
                     android:textAlignment="center"
-                    android:text="@{model.name.charAt(0)}"
+                    android:text="@{model.headIconText}"
                     android:textColor="@color/white_2"
                     android:textStyle="bold"
                     android:textSize="70sp"

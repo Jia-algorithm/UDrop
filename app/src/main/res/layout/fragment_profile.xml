@@ -39,18 +39,21 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <TextView
                     android:id="@+id/profile_head_icon"
+                    android:background="@drawable/ic_user_icon_bg"
                     android:layout_width="112dp"
                     android:layout_height="112dp"
                     android:layout_marginTop="55dp"
+                    android:textAlignment="center"
+                    android:text="@{model.name.charAt(0)}"
+                    android:textColor="@color/white_2"
+                    android:textStyle="bold"
+                    android:textSize="70sp"
+                    tools:text="D"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:riv_border_color="@color/white"
-                    app:riv_border_width="3dp"
-                    app:riv_corner_radius="100dp"
-                    tools:src="@drawable/logo" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/profile_user_name"

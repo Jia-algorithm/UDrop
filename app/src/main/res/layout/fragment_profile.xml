@@ -106,7 +106,7 @@
                         android:ellipsize="end"
                         android:maxWidth="224dp"
                         android:singleLine="true"
-                        android:text="@{model.motto}"
+                        android:text="@{model.editMotto}"
                         android:textColor="@color/udrop_text_1"
                         android:textSize="14dp"
                         tools:text="此处是个性签名签名签名签名此处是个性签名" />

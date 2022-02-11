@@ -94,6 +94,7 @@
             android:background="@drawable/bg_rectangle_shape"
             android:backgroundTint="@color/white"
             android:hint="密码"
+            android:inputType="textPassword"
             android:padding="5dp"
             android:textColorHint="@color/text_light" />
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -40,14 +40,17 @@ class SQLiteManager
         writableDatabase.close()
     }
 
-    fun updateInfo(id: Int, name: String, motto: String, days: Int) {
-        val contentValues = ContentValues()
-        contentValues.put("id", id)
-        contentValues.put("name", name)
-        contentValues.put("motto", motto)
-        contentValues.put("days", days)
-        writableDatabase.update("user", contentValues, "id=?", arrayOf(id.toString()))
-        writableDatabase.close()
+    fun updateInfo(name: String, motto: String, days: Int) {
+        getInfo()?.let {
+            val contentValues = ContentValues()
+            contentValues.put("id", it.id)
+            contentValues.put("name", name)
+            contentValues.put("motto", motto)
+            contentValues.put("days", days)
+            writableDatabase.update("user", contentValues, "id=?", arrayOf(it.id.toString()))
+            writableDatabase.close()
+        }
+
     }
 
     fun deleteUser(id: Int) {

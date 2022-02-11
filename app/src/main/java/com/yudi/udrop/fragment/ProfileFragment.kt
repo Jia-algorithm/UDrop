@@ -1,6 +1,8 @@
 package com.yudi.udrop.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +49,30 @@ class ProfileFragment : Fragment(), InputInterface {
             .load(R.drawable.logo)
             .into(binding.profileHeadIcon)
         binding.profileSignature.setOnClickListener {
-            binding.model?.let { it.doEdit.set(true) }
+            binding.model?.let {
+                it.doEdit.set(true)
+            }
         }
-        binding.profileSignatureEditIcon.setOnClickListener {
-            binding.model?.let { it.doEdit.set(false) }
+        binding.profileSignatureEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                binding.model?.editMotto?.set(s.toString())
+            }
+        })
+        binding.profileSignatureEditIcon.setOnClickListener { v ->
+            binding.model?.let { it ->
+                if (it.motto.get() != it.editMotto.get().toString())
+                    SQLiteManager.updateInfo(
+                        it.Name,
+                        it.editMotto.toString(),
+                        it.DaysNum
+                    )
+                it.motto.set(it.editMotto.get().toString())
+                it.doEdit.set(false)
+            }
         }
     }
 

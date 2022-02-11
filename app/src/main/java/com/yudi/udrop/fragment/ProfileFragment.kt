@@ -44,10 +44,6 @@ class ProfileFragment : Fragment(), InputInterface {
             binding.model =
                 ProfileModel(it.name, if (it.motto == "") "点击修改个性签名" else it.motto, it.days)
         }
-        // TODO: use default head icon
-        Glide.with(binding.root)
-            .load(R.drawable.logo)
-            .into(binding.profileHeadIcon)
         binding.profileSignature.setOnClickListener {
             binding.model?.let {
                 it.doEdit.set(true)

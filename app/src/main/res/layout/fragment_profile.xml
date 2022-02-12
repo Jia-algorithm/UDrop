@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -39,21 +40,31 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <include
+                    android:id="@+id/profile_setting_list"
+                    layout="@layout/setting_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    app:layout_constraintEnd_toEndOf="@id/profile_setting"
+                    app:layout_constraintTop_toBottomOf="@id/profile_setting"
+                    bind:show="@{model.showSettingList}" />
+
                 <TextView
                     android:id="@+id/profile_head_icon"
-                    android:background="@drawable/ic_user_icon_bg"
                     android:layout_width="112dp"
                     android:layout_height="112dp"
                     android:layout_marginTop="55dp"
-                    android:textAlignment="center"
+                    android:background="@drawable/ic_user_icon_bg"
                     android:text="@{model.headIconText}"
+                    android:textAlignment="center"
                     android:textColor="@color/white_2"
-                    android:textStyle="bold"
                     android:textSize="70sp"
-                    tools:text="D"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="D" />
 
                 <TextView
                     android:id="@+id/profile_user_name"
@@ -92,15 +103,15 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
                     android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="@{model.doEdit? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/profile_signature"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/profile_signature"
-                    tools:visibility="visible"
-                    android:visibility="@{model.doEdit? View.VISIBLE : View.INVISIBLE}">
+                    tools:visibility="visible">
 
                     <EditText
                         android:id="@+id/profile_signature_edit"
@@ -118,8 +129,8 @@
                         android:id="@+id/profile_signature_edit_icon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_profile_edit"
-                        android:layout_marginStart="4dp" />
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_profile_edit" />
                 </LinearLayout>
 
                 <TextView

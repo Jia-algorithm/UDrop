@@ -25,7 +25,7 @@ class OverviewActivity : AppCompatActivity(),
         when (item.itemId) {
             R.id.tabBar_item0 -> fragment = HomeFragment()
             R.id.tabBar_item1 -> fragment = UdropFragment()
-            R.id.tabBar_item2 -> fragment = ProfileFragment()
+            R.id.tabBar_item2 -> fragment = ProfileFragment(this)
         }
         return loadFragment(fragment)
     }

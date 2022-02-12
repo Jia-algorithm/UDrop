@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CursorFactory
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import androidx.annotation.Nullable
 import com.yudi.udrop.model.local.UserModel
 
@@ -53,9 +54,11 @@ class SQLiteManager
 
     }
 
-    fun deleteUser(id: Int) {
-        writableDatabase.delete("user", "id=?", arrayOf(id.toString()))
-        writableDatabase.close()
+    fun deleteUser() {
+        getInfo()?.let {
+            writableDatabase.delete("user", "id=?", arrayOf(it.id.toString()))
+            writableDatabase.close()
+        }
     }
 
     fun getInfo(): UserModel? {
@@ -71,6 +74,7 @@ class SQLiteManager
             cursor.moveToFirst()
             UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3))
         } catch (e: Exception) {
+            Log.e("SQLiteManager", e.toString())
             null
         } finally {
             readableDatabase.close()

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="show"
+            type="boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="@{show ? View.VISIBLE : View.GONE}"
+        android:background="@drawable/bg_rectangle_shape"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:id="@+id/setting_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_out"
+            android:textColor="@color/udrop_text_2" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

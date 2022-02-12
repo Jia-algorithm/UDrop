@@ -13,6 +13,7 @@ data class ProfileModel(
     val headIconText: String
         get() = Name.first().toString()
     var doEdit = ObservableBoolean(false)
+    var showSettingList = ObservableBoolean(false)
     var motto = ObservableField(_motto)
     var editMotto = ObservableField(_motto)
 }

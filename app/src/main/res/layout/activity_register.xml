@@ -12,195 +12,202 @@
             type="com.yudi.udrop.model.data.RegisterModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="50dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/resgiter_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/ic_register"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/page_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="注册"
-            android:textColor="#000000"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resgiter_icon" />
-
-        <Button
-            android:id="@+id/register_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_rectangle_shape"
-            android:backgroundTint="@color/udrop_text_3"
-            android:paddingHorizontal="100dp"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/password_confirm"
-            app:layout_constraintStart_toStartOf="@id/password_confirm"
-            app:layout_constraintTop_toBottomOf="@id/password_confirm" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/name_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/password_edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/page_title">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp">
 
             <ImageView
+                android:id="@+id/resgiter_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_nickname" />
-
-            <EditText
-                android:id="@+id/register_name"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rectangle_shape"
-                android:backgroundTint="@color/white"
-                android:hint="昵称"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColorHint="@color/text_light" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/password_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/password_confirm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_edit">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_password" />
-
-            <EditText
-                android:id="@+id/register_password"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rectangle_shape"
-                android:backgroundTint="@color/white"
-                android:hint="密码"
-                android:inputType="textPassword"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColorHint="@color/text_light" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="@{model.showInputWarning? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="@id/password_edit"
-            app:layout_constraintTop_toBottomOf="@id/password_edit">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@{context.getDrawable(model.tipIcon)}"
-                tools:src="@drawable/ic_success" />
+                android:layout_marginTop="100dp"
+                android:src="@drawable/ic_register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/page_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@{model.tipText}"
-                android:textSize="9sp"
-                tools:text="@string/password_tip" />
-        </LinearLayout>
+                android:layout_marginTop="30dp"
+                android:text="注册"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/resgiter_icon" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/password_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/register_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_edit">
-
-            <ImageView
+            <Button
+                android:id="@+id/register_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_password" />
-
-            <EditText
-                android:id="@+id/register_confirm_password"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/bg_rectangle_shape"
-                android:backgroundTint="@color/white"
-                android:hint="确认密码"
-                android:inputType="textPassword"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColorHint="@color/text_light"
-                tools:text="1234" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:backgroundTint="@color/udrop_text_3"
+                android:paddingHorizontal="100dp"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/password_confirm"
+                app:layout_constraintStart_toStartOf="@id/password_confirm"
+                app:layout_constraintTop_toBottomOf="@id/password_confirm" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="@{model.showConfirmWarning? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="@id/password_confirm"
-            app:layout_constraintTop_toBottomOf="@id/password_confirm">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/name_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/password_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/page_title">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_warning" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_nickname" />
+
+                <EditText
+                    android:id="@+id/register_name"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rectangle_shape"
+                    android:backgroundTint="@color/white"
+                    android:hint="昵称"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_light" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/password_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toTopOf="@id/password_confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_edit">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_password" />
+
+                <EditText
+                    android:id="@+id/register_password"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rectangle_shape"
+                    android:backgroundTint="@color/white"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_light" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{model.showInputWarning? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="@id/password_edit"
+                app:layout_constraintTop_toBottomOf="@id/password_edit">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@{context.getDrawable(model.tipIcon)}"
+                    tools:src="@drawable/ic_success" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{model.tipText}"
+                    android:textSize="9sp"
+                    tools:text="@string/password_tip" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/password_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toTopOf="@id/register_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/password_edit">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_password" />
+
+                <EditText
+                    android:id="@+id/register_confirm_password"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rectangle_shape"
+                    android:backgroundTint="@color/white"
+                    android:hint="确认密码"
+                    android:inputType="textPassword"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_light"
+                    tools:text="1234" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{model.showConfirmWarning? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="@id/password_confirm"
+                app:layout_constraintTop_toBottomOf="@id/password_confirm">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_warning" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/password_confirm_tip"
+                    android:textSize="9sp" />
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/to_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/password_confirm_tip"
-                android:textSize="9sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/to_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="已有帐号？点击登录。"
-            android:textColor="@color/udrop_text_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/register_button" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginTop="10dp"
+                android:text="已有帐号？点击登录。"
+                android:textColor="@color/udrop_text_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/register_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

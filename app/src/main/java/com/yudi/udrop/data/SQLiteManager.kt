@@ -30,12 +30,12 @@ class SQLiteManager
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
-    fun addUser(id: Int, name: String) {
+    fun addUser(id: Int, name: String, motto: String, days: Int) {
         val contentValues = ContentValues()
         contentValues.put("id", id)
         contentValues.put("name", name)
-        contentValues.put("motto", "")
-        contentValues.put("days", 0)
+        contentValues.put("motto", motto)
+        contentValues.put("days", days)
         writableDatabase.insert("user", null, contentValues)
         writableDatabase.close()
     }

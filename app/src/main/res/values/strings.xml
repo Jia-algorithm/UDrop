@@ -1,5 +1,4 @@
 <resources>
-    <string name="none"></string>
     <string name="version">版本：1.0.0</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -23,6 +22,4 @@
     <string name="app_name">UDrop</string>
     <string name="app_name_cn">语滴</string>
     <string name="warning">啊哦，哪里出错了！</string>
-    <string name="password_tip">密码长度至少为8位字符，且包含字母和数字！</string>
-    <string name="password_confirm_tip">两次密码不同，请检查输入。</string>
 </resources>

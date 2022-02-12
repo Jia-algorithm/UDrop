@@ -1,2 +1,3 @@
+include ':baidu-reco'
 include ':app'
 rootProject.name = "UDrop"

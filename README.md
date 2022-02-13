@@ -98,31 +98,52 @@
 - 调取百度语音API实现语音交互
 - 背书功能的实现
 ### 接口
-#### 1.1 add_new_user
-- param: (name: String, password: String)
-- return: (resultCode: Int)
-  - 0: failure
-  - 1: success
-  - 2: existed user
-#### 1.2 check_existed_user
-- param: (name: String, password: String)
-- return: (user_id: Int)
-  - user_id: exist
-  - -1: not exist
-#### 1.3 get_user_info
-- param: (user_id: Int)
+url: http://121.199.77.139:5001
+#### 1.1 add_new_user (Done)
+/user/register
+
+- POST
+- form: \[name: String, password: String]
+- return:
+  - user_id: Integer
+  - added: Integer: 0, new user added; 1, not added (exist)
+#### 1.2 check_existed_user (Done)
+/user/name
+
+- GET
+- param: \[name: String]
+- return:
+  - "Exist", "Not exist", "Failed"
+#### 1.3 get_user_info (Done)
+/user/basic_info
+
+- GET
+- param: \[user_id: Int]
 - return: (user_name: String, user_motto: String, learned_days: Int)
-#### 1.4 change_user_info
-- param: (user_id: Int, user_name: String, user_motto: String)
-- return: (resultCode: Int)
-  - 0: failure
-  - 1: success
-#### 2.1 get_schedule
+#### 1.4 change_user_info (Done)
+/user/basic_info
+
+- POST
+- param: \[user_id: Int, name: String, user_motto: String]
+- return: 
+  - "Failed", "Success"
+#### 1.5 login (Done)
+/user/login
+
+- POST
+- form: \[name: String, password: String]
+- return:
+  - success: Integer 1 or 0
+  - userId: Integer
+#### 2.1 get_schedule (Mock)
+/study/schedule
+
+- GET
 - param: (user_id: Int)
 - return: (new_list: Array, review_list: Array)
   - new_list: 今日所有需要新学的课文，每个课文信息中包含是否已背诵
   - review_list: 今日所有需要复习的课文，每个课文信息中包含是否已背诵
-#### 2.2 set_new_schedule
+#### 2.2 set_new_schedule (Todo)
 - param: (user_id: Int, new_schedule: Array)
 - return: (resultCode: Int)
   - 0: failure

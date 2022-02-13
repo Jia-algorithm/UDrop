@@ -1,5 +1,6 @@
 package com.yudi.udrop.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yudi.udrop.LaunchActivity
 import com.yudi.udrop.OverviewActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.adapter.ProfileFeatureAdapter
@@ -54,7 +56,10 @@ class ProfileFragment(activity: OverviewActivity) : Fragment(), InputInterface {
             it.setOnClickListener {
                 showConfirmDialog {
                     SQLiteManager.deleteUser()
-                    activity?.finish()
+                    activity?.let { it ->
+                        startActivity(Intent(context, LaunchActivity::class.java))
+                        it.finish()
+                    }
                 }
             }
         }

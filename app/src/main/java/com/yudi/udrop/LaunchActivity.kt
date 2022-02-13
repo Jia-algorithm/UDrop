@@ -12,14 +12,17 @@ class LaunchActivity : AppCompatActivity() {
         val SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
         SQLiteManager.getInfo()?.let {
             startActivity(Intent(this, OverviewActivity::class.java))
+            finish()
         }
         setContentView(R.layout.activity_launch)
         //实现点击页面跳转
         findViewById<TextView>(R.id.launch_login).setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
         findViewById<TextView>(R.id.launch_register).setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
         }
     }
 }

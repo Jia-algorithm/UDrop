@@ -14,9 +14,11 @@ class LoginActivity : AppCompatActivity(), InputInterface {
         setContentView(R.layout.activity_login)
         findViewById<TextView>(R.id.to_register).setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
+            super.finish()
         }
         findViewById<Button>(R.id.login_button).setOnClickListener {
             startActivity(Intent(this, OverviewActivity::class.java))
+            super.finish()
         }
     }
 
@@ -26,5 +28,10 @@ class LoginActivity : AppCompatActivity(), InputInterface {
                 hideKeyboard(this, currentFocus!!)
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun finish() {
+        startActivity(Intent(this, LaunchActivity::class.java))
+        super.finish()
     }
 }

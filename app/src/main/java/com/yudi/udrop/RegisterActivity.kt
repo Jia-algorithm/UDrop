@@ -22,6 +22,7 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
         val SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
         binding.toLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
+            super.finish()
         }
         binding.registerPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -49,6 +50,7 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
                 if (model.tipIcon == R.drawable.ic_success && !model.showConfirmWarning && name.toString() != "") {
                     SQLiteManager.addUser(0, name.toString())
                     startActivity(Intent(this, OverviewActivity::class.java))
+                    super.finish()
                 }
             }
         }
@@ -60,5 +62,10 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
                 hideKeyboard(this, currentFocus!!)
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun finish() {
+        startActivity(Intent(this, LaunchActivity::class.java))
+        super.finish()
     }
 }

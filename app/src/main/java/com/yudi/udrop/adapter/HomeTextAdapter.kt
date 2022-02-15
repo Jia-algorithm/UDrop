@@ -6,9 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeTextsItemBinding
+import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.model.data.TextModel
 
-class HomeTextAdapter : RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
+class HomeTextAdapter(val handler: OverviewInterface) :
+    RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
     inner class HomeViewHolder(val binding: HomeTextsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -27,8 +29,10 @@ class HomeTextAdapter : RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
         itemViewHolder.binding.model = TextModel(
             "诗名 $position",
             "作者 $position",
-            "这里是内容这里是内，这里是内容这里是内，这里是内容这里是内，这里是内容这里是内。"
+            "这里是内容这里是内，这里是内容这里是内，这里是内容这里是内，这里是内容这里是内。",
+            false
         )
+        itemViewHolder.binding.handler = handler
         itemViewHolder.binding.executePendingBindings()
     }
 

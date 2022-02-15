@@ -15,7 +15,10 @@
     <string name="start_to_review">开始复习</string>
     <string name="daily_learn">每日新学</string>
     <string name="daily_review">每日复习</string>
-    <string name="collection">收藏夹</string>
+    <string name="recite_by_sentence">逐句跟背</string>
+    <string name="recite_whole">全文背诵</string>
+    <string name="about_writer">作者简介</string>
+    <string name="collection_package">收藏夹</string>
     <string name="errorbook">错题本</string>
     <string name="game_center">游戏中心</string>
     <string name="my_collection">我的收藏</string>
@@ -26,6 +29,8 @@
     <string name="days_learned">已坚持学习%1$d天</string>
     <string name="app_name">UDrop</string>
     <string name="app_name_cn">语滴</string>
+    <string name="collect">收藏</string>
+    <string name="collected">已收藏</string>
     <string name="warning">啊哦，哪里出错了！</string>
     <string name="password_tip">密码长度至少为8位字符，且包含字母和数字！</string>
     <string name="password_confirm_tip">两次密码不同，请检查输入。</string>

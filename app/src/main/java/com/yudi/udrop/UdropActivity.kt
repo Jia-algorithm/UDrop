@@ -23,7 +23,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface {
         Glide.with(this)
             .load(R.drawable.siri)
             .into(findViewById(R.id.udrop_microphone_gif))
-        binding.toolbarModel = ToolbarModel(getString(titleResId), R.drawable.ic_back_to_home)
+        binding.toolbarModel = ToolbarModel(getString(titleResId), R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         setupRecyclerView()
     }

@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.LaunchActivity
-import com.yudi.udrop.OverviewActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.adapter.ProfileFeatureAdapter
 import com.yudi.udrop.data.SQLiteManager
@@ -21,7 +20,7 @@ import com.yudi.udrop.databinding.FragmentProfileBinding
 import com.yudi.udrop.interfaces.InputInterface
 import com.yudi.udrop.model.data.ProfileModel
 
-class ProfileFragment(activity: OverviewActivity) : Fragment(), InputInterface {
+class ProfileFragment : Fragment(), InputInterface {
     lateinit var binding: FragmentProfileBinding
     lateinit var SQLiteManager: SQLiteManager
 

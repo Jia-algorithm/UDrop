@@ -20,6 +20,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".OverviewActivity" />
         <activity android:name=".UdropActivity" />
+        <activity android:name=".TextDetailActivity" />
     </application>
 
 </manifest>

@@ -28,6 +28,11 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
                 putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_whole)
             })
         }
+        binding.textDetailCollection.setOnClickListener {
+            with(binding.model as TextModel) {
+                collected = !collected // TODO: update to service
+            }
+        }
     }
 
     override fun onLeftItemClick() {

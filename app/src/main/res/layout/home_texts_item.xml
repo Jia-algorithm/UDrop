@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="handler"
+            type="com.yudi.udrop.interfaces.OverviewInterface" />
+
+        <variable
             name="model"
             type="com.yudi.udrop.model.data.TextModel" />
     </data>
@@ -12,7 +16,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:layout_marginHorizontal="8dp">
+        android:layout_marginHorizontal="8dp"
+        android:onClick="@{(v) -> handler.clickTextItem(model)}">
 
         <FrameLayout
             android:layout_width="match_parent"

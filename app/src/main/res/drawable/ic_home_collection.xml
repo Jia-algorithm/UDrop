@@ -1,9 +1,9 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="25dp"
-    android:height="24dp"
+    android:width="16dp"
+    android:height="16dp"
     android:viewportWidth="25"
     android:viewportHeight="24">
-  <path
-      android:pathData="M12.5,18.26L5.447,22.208L7.022,14.28L1.087,8.792L9.114,7.84L12.5,0.5L15.886,7.84L23.913,8.792L17.978,14.28L19.553,22.208L12.5,18.26ZM12.5,15.968L16.747,18.345L15.798,13.572L19.371,10.267L14.538,9.694L12.5,5.275L10.462,9.695L5.629,10.267L9.202,13.572L8.253,18.345L12.5,15.968Z"
-      android:fillColor="@color/udrop_text_2"/>
+    <path
+        android:pathData="M12.5,18.26L5.447,22.208L7.022,14.28L1.087,8.792L9.114,7.84L12.5,0.5L15.886,7.84L23.913,8.792L17.978,14.28L19.553,22.208L12.5,18.26ZM12.5,15.968L16.747,18.345L15.798,13.572L19.371,10.267L14.538,9.694L12.5,5.275L10.462,9.695L5.629,10.267L9.202,13.572L8.253,18.345L12.5,15.968Z"
+        android:fillColor="@color/udrop_text_2" />
 </vector>

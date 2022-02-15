@@ -1,5 +1,6 @@
 package com.yudi.udrop.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yudi.udrop.R
+import com.yudi.udrop.TextDetailActivity
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
 import com.yudi.udrop.databinding.FragmentHomeBinding
+import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
+import com.yudi.udrop.model.data.TextModel
 
-class HomeFragment : Fragment(), TabLayoutInterface {
+class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
 
     @Nullable
@@ -36,8 +40,16 @@ class HomeFragment : Fragment(), TabLayoutInterface {
         setupTabLayout(view)
     }
 
+    override fun clickTextItem(model: TextModel) {
+        activity?.let {
+            startActivity(Intent(context, TextDetailActivity::class.java).apply {
+                putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, model.Title)
+            })
+        }
+    }
+
     private fun setupRecyclerView() {
-        val adapter = HomeTextAdapter()
+        val adapter = HomeTextAdapter(this)
         val recyclerView = binding.homeTextLearned
         recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(context)

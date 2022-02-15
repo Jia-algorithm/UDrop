@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+
         <variable
             name="handler"
             type="com.yudi.udrop.interfaces.ToolbarInterface" />
@@ -16,7 +17,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/udrop_background_1"
+        android:background="@color/udrop_text_2"
         android:padding="10dp">
 
         <ImageView

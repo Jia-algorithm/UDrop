@@ -1,6 +1,7 @@
 package com.yudi.udrop.data
 
 import android.util.Log
+import com.yudi.udrop.model.local.UserModel
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -9,7 +10,7 @@ import java.io.IOException
 
 
 class ServiceManager {
-    fun register(name: String, password: String, completion: (Int)->Unit) {
+    fun register(name: String, password: String, completion: (Int) -> Unit) {
         val params = "{\"name\":\"$name\",\"password\":\"$password\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/register").build()
@@ -29,7 +30,7 @@ class ServiceManager {
         })
     }
 
-    fun login(name: String, password: String) {
+    fun login(name: String, password: String, completion: (Int) -> Unit) {
         val params = "{\"name\":\"$name\",\"password\":\"$password\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/login").build()
@@ -37,16 +38,16 @@ class ServiceManager {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "failed to login.")
                 e.printStackTrace()
+                completion(-2)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println(response.message)
-                println(response.body?.string())
+                completion(JSONObject(response.body?.string()).getInt("userId"))
             }
         })
     }
 
-    fun getUserInfo(userId: Int) {
+    fun getUserInfo(userId: Int, completion: (UserModel) -> Unit) {
         val params = "{\"user_id\":$userId}"
         val request =
             Request.Builder().url("$baseURL/user/basic_info?user_id=$userId").build()
@@ -57,8 +58,16 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println(response.message)
-                println(response.body?.string())
+                with(JSONObject(response.body?.string())) {
+                    completion(
+                        UserModel(
+                            userId,
+                            getString("user_name"),
+                            getString("user_motto") ?: "",
+                            getInt("learned_days")
+                        )
+                    )
+                }
             }
         })
     }

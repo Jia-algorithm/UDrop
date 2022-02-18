@@ -4,23 +4,27 @@ import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.IOException
 
 
 class ServiceManager {
-    fun register(name: String, password: String) {
-        val params = "{[\"name\":\"$name\",\"password\":\"$password\"]}"
+    fun register(name: String, password: String, completion: (Int)->Unit) {
+        val params = "{\"name\":\"$name\",\"password\":\"$password\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/register").build()
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "failed to register.")
                 e.printStackTrace()
+                completion(-2)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println(response.message)
-                println(response.body?.string())
+                if (JSONObject(response.body?.string()).getInt("user_id") == 0)
+                    completion(JSONObject(response.body?.string()).getInt("user_id"))
+                else
+                    completion(-1)
             }
         })
     }
@@ -45,8 +49,7 @@ class ServiceManager {
     fun getUserInfo(userId: Int) {
         val params = "{\"user_id\":$userId}"
         val request =
-            Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/basic_info")
-                .build()
+            Request.Builder().url("$baseURL/user/basic_info?user_id=$userId").build()
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "failed to get user info.")

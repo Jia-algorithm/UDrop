@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.fragment.HomeFragment
 import com.yudi.udrop.fragment.ProfileFragment
 import com.yudi.udrop.fragment.UdropFragment
@@ -13,11 +14,16 @@ import com.yudi.udrop.fragment.UdropFragment
 
 class OverviewActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
-
+    private val SQLiteManager = com.yudi.udrop.data.SQLiteManager(this, "udrop.db", null, 1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
         initializeTabBar()
+        SQLiteManager.getInfo()?.let {
+            ServiceManager().getUserInfo(it.id) { user ->
+                SQLiteManager.updateInfo(user.name, user.motto, user.days)
+            }
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

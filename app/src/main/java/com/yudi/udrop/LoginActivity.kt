@@ -38,12 +38,12 @@ class LoginActivity : AppCompatActivity(), InputInterface {
             binding.password?.let {
                 ServiceManager().login(name, it) { userId ->
                     when (userId) {
-                        -2 -> Snackbar.make(binding.root, "登陆失败", Snackbar.LENGTH_SHORT)
+                        -2 -> Snackbar.make(binding.root, "登陆失败", Snackbar.LENGTH_SHORT).show()
                         -1 -> Snackbar.make(
                             binding.root,
                             "请检查用户名是否存在或密码是否正确",
                             Snackbar.LENGTH_SHORT
-                        )
+                        ).show()
                         else -> {
                             SQLiteManager.addUser(userId, name)
                             startActivity(Intent(this, OverviewActivity::class.java))
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity(), InputInterface {
                     }
                 }
             } ?: run {
-                Snackbar.make(binding.root, "请输入密码", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, "请输入密码", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

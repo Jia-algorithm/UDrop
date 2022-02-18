@@ -48,7 +48,6 @@ class ServiceManager {
     }
 
     fun getUserInfo(userId: Int, completion: (UserModel) -> Unit) {
-        val params = "{\"user_id\":$userId}"
         val request =
             Request.Builder().url("$baseURL/user/basic_info?user_id=$userId").build()
         OkHttpClient().newCall(request).enqueue(object : Callback {
@@ -72,7 +71,12 @@ class ServiceManager {
         })
     }
 
-    fun changeUserInfo(userId: Int, name: String, userMotto: String) {
+    fun changeUserInfo(
+        userId: Int,
+        name: String,
+        userMotto: String,
+        completion: (Boolean) -> Unit
+    ) {
         val params = "{\"user_id\":$userId,\"name\":\"$name\",\"user_motto\":\"$userMotto\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/basic_info")
@@ -81,11 +85,11 @@ class ServiceManager {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "failed to change user info.")
                 e.printStackTrace()
+                completion(false)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println(response.message)
-                println(response.body?.string())
+                if (response.body?.string() == "Success") completion(true) else completion(false)
             }
         })
     }

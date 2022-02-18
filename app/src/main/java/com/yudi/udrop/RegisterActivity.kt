@@ -52,8 +52,8 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
                 if (model.tipIcon == R.drawable.ic_success && !model.showConfirmWarning && name.toString() != "") {
                     ServiceManager().register(name.toString(), model.password) {
                         when (it) {
-                            -2 -> Snackbar.make(binding.root, "注册失败", Snackbar.LENGTH_SHORT)
-                            -1 -> Snackbar.make(binding.root, "用户名已存在", Snackbar.LENGTH_SHORT)
+                            -2 -> Snackbar.make(binding.root, "注册失败", Snackbar.LENGTH_SHORT).show()
+                            -1 -> Snackbar.make(binding.root, "用户名已存在", Snackbar.LENGTH_SHORT).show()
                             else -> {
                                 SQLiteManager.addUser(it, name.toString())
                                 startActivity(Intent(this, OverviewActivity::class.java))
@@ -62,7 +62,7 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
                         }
                     }
                 } else {
-                    Snackbar.make(binding.root, "请检查两次密码输入", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.root, "请检查两次密码输入", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

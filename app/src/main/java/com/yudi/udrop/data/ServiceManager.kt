@@ -62,7 +62,7 @@ class ServiceManager {
                         UserModel(
                             userId,
                             getString("user_name"),
-                            getString("user_motto") ?: "",
+                            if (getString("user_motto") == "null") "" else getString("user_motto"),
                             getInt("learned_days")
                         )
                     )

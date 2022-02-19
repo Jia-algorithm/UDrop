@@ -88,12 +88,12 @@ class ProfileFragment : Fragment(), InputInterface {
                     ServiceManager().changeUserInfo(
                         it.id,
                         it.Name,
-                        it.editMotto.toString()
+                        it.editMotto.get().toString()
                     ) { result ->
                         if (result) {
                             SQLiteManager.updateInfo(
                                 it.Name,
-                                it.editMotto.toString(),
+                                it.editMotto.get().toString(),
                                 it.DaysNum
                             )
                             refreshPage()

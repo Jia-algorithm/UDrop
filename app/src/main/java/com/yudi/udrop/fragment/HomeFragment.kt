@@ -15,13 +15,19 @@ import com.yudi.udrop.R
 import com.yudi.udrop.TextDetailActivity
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
+import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
 import com.yudi.udrop.model.data.TextModel
+import org.json.JSONArray
 
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
+    lateinit var SQLiteManager: SQLiteManager
+    private var newScheduleList = JSONArray()
+    private var reviewScheduleList = JSONArray()
 
     @Nullable
     override fun onCreateView(
@@ -35,6 +41,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
         setupViewpager()
         setupTabLayout(view)
@@ -48,6 +55,15 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         }
     }
 
+    private fun getData() {
+        SQLiteManager.getInfo()?.let {
+            ServiceManager().getSchedule(it.id) { new, review ->
+                newScheduleList = new
+                reviewScheduleList = review
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
         val adapter = HomeTextAdapter(this)
         val recyclerView = binding.homeTextLearned
@@ -58,7 +74,8 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     }
 
     private fun setupViewpager() {
-        binding.homeScheduleViewpager.adapter = HomeScheduleAdapter()
+        binding.homeScheduleViewpager.adapter =
+            HomeScheduleAdapter(newScheduleList, reviewScheduleList)
     }
 
     private fun setupTabLayout(view: View) {

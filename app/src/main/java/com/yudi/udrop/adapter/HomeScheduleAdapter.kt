@@ -10,8 +10,10 @@ import com.yudi.udrop.R
 import com.yudi.udrop.UdropActivity
 import com.yudi.udrop.databinding.HomeScheduleItemBinding
 import com.yudi.udrop.model.data.ScheduleModel
+import org.json.JSONArray
 
-class HomeScheduleAdapter : RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
+class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
+    RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: HomeScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -33,14 +35,14 @@ class HomeScheduleAdapter : RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>
                 homeScheduleButton.setOnClickListener {
                     onScheduleClick(it, R.string.daily_learn)
                 }
-                model = ScheduleModel("1", "10") // Test mock data
+                model = getSchedule(new_list)
             }
             else -> with(holder.binding) {
                 buttonText = holder.itemView.context.getString(R.string.start_to_review)
                 homeScheduleButton.setOnClickListener {
                     onScheduleClick(it, R.string.daily_review)
                 }
-                model = ScheduleModel("2", "5") // Test mock data
+                model = getSchedule(review_list)
             }
         }
     }
@@ -54,6 +56,14 @@ class HomeScheduleAdapter : RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>
                 putExtra(UdropActivity.INTENT_EXTRA_TITLE, title)
             }
         )
+    }
+
+    private fun getSchedule(list: JSONArray): ScheduleModel {
+        var count = 0
+        for (i in 0 until list.length()) {
+            if (list.getJSONObject(i).getInt("done") == 1) count++
+        }
+        return ScheduleModel(count, list.length())
     }
 
     override fun getItemCount(): Int = 2

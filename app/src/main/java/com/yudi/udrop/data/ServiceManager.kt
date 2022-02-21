@@ -5,6 +5,7 @@ import com.yudi.udrop.model.local.UserModel
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -90,6 +91,23 @@ class ServiceManager {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.body?.string() == "Success") completion(true) else completion(false)
+            }
+        })
+    }
+
+    fun getSchedule(userId: Int, completion: (JSONArray, JSONArray) -> Unit) {
+        val request =
+            Request.Builder().url("$baseURL/study/schedule?user_id=$userId").build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user schedule.")
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(getJSONArray("new_list"), getJSONArray("review_list"))
+                }
             }
         })
     }

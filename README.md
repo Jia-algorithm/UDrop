@@ -140,11 +140,17 @@ url: http://121.199.77.139:5001
 
 - GET
 - param: (user_id: Int)
-- return: (new_list: Array, review_list: Array)
+- return: (new_list: JSONArray, review_list: JSONArray)
   - new_list: 今日所有需要新学的课文，每个课文信息中包含是否已背诵
   - review_list: 今日所有需要复习的课文，每个课文信息中包含是否已背诵
 #### 2.2 set_new_schedule (Todo)
-- param: (user_id: Int, new_schedule: Array)
+- param: (user_id: Int, new_schedule: JSONArray)
 - return: (resultCode: Int)
   - 0: failure
   - 1: success
+#### 3.1 get_text_detail (Todo)
+- param: (title: String)
+- return: (title: String, writer: String, writer_info: String, content: String)
+#### 3.2 search_text (Todo)
+- param: (key: String)
+- return: (result_list: JSONArray) 诗名或作者与关键词匹配

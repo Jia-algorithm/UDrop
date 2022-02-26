@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.yudi.udrop.model.local.TextDetail" />
+
+        <variable
+            name="handler"
+            type="com.yudi.udrop.interfaces.ProgressInterface" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_rectangle_shape"
+        android:backgroundTint="@color/white"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/collection_text_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{model.title}"
+            android:textColor="@color/udrop_text_2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/check_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="《静夜思》" />
+
+        <TextView
+            android:id="@+id/collection_text_item_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@{model.writer}"
+            android:textColor="@color/udrop_text_1"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/collection_text_item_title"
+            tools:text="唐·李白" />
+
+        <TextView
+            android:id="@+id/collection_text_item_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@{model.content}"
+            android:textFontWeight="300"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/collection_text_item_writer"
+            app:layout_constraintTop_toBottomOf="@id/collection_text_item_writer"
+            tools:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。" />
+
+        <LinearLayout
+            android:id="@+id/collection_text_item_operation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/collection_text_item_content">
+
+            <TextView
+                android:id="@+id/remove_from_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_delete"
+                android:drawablePadding="4dp"
+                android:text="@string/remove_from_collection"
+                android:textColor="@color/udrop_text_3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/check_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="4dp"
+            android:onClick="@{() -> handler.checkDetail(model.title)}"
+            android:text="@string/check_detail"
+            android:textColor="@color/udrop_text_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="icon"
+            type="Integer" />
+
+        <variable
             name="tip"
             type="Integer" />
     </data>
@@ -22,7 +26,8 @@
             android:id="@+id/no_data_item_icon"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:src="@drawable/ic_no_schedule" />
+            android:src="@{context.getDrawable(icon)}"
+            tools:src="@drawable/ic_no_schedule" />
 
         <TextView
             android:id="@+id/no_data_item_text"

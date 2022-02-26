@@ -1,14 +1,17 @@
 package com.yudi.udrop.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.yudi.udrop.CollectionActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.databinding.ProfileItemBinding
 import com.yudi.udrop.model.data.FeatureModel
 
-class ProfileFeatureAdapter :
+class ProfileFeatureAdapter(val activity: FragmentActivity?) :
     RecyclerView.Adapter<ProfileFeatureAdapter.ProfileViewHolder>() {
     inner class ProfileViewHolder(val binding: ProfileItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -37,7 +40,12 @@ class ProfileFeatureAdapter :
             )
             divider = position == 3
         }
-        // TODO: add intent
+        if (position == 0)
+            itemViewHolder.itemView.setOnClickListener { view ->
+                activity?.let {
+                    it.startActivity(Intent(view.context, CollectionActivity::class.java))
+                }
+            }
     }
 
     override fun getItemCount(): Int = 6

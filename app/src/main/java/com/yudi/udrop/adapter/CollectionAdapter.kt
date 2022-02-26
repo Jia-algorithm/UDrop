@@ -5,28 +5,28 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.yudi.udrop.R
 import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
+import com.yudi.udrop.databinding.CollectionTextItemBinding
 import com.yudi.udrop.databinding.NoDataItemBinding
-import com.yudi.udrop.databinding.ProgressTextItemBinding
 import com.yudi.udrop.interfaces.ProgressInterface
-import com.yudi.udrop.model.data.ProgressModel
-import com.yudi.udrop.model.local.ScheduleType
+import com.yudi.udrop.model.local.TextDetail
 
-class ProgressAdapter(
+class CollectionAdapter(
     private val localManager: SQLiteManager,
-    private val scheduleType: ScheduleType,
     private val handler: ProgressInterface
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ProgressTextItemBinding) :
+    inner class ViewHolder(val binding: CollectionTextItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class DummyHolder(val binding: NoDataItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    var progressList: ArrayList<ProgressModel> = arrayListOf()
+    var collectionList: ArrayList<TextDetail> = arrayListOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -48,9 +48,9 @@ class ProgressAdapter(
                 DummyHolder(binding)
             }
             1 -> {
-                val binding = DataBindingUtil.inflate<ProgressTextItemBinding>(
+                val binding = DataBindingUtil.inflate<CollectionTextItemBinding>(
                     LayoutInflater.from(parent.context),
-                    R.layout.progress_text_item,
+                    R.layout.collection_text_item,
                     parent,
                     false
                 )
@@ -65,31 +65,39 @@ class ProgressAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ViewHolder -> {
-                holder.binding.model = progressList[position]
+                holder.binding.model = collectionList[position]
                 holder.binding.handler = handler
-                holder.binding.removeFromSchedule.setOnClickListener {
-                    when (scheduleType) {
-                        ScheduleType.REVIEW -> localManager.deleteReview(progressList[position].title)
-                        ScheduleType.NEW -> localManager.deleteNew(progressList[position].title)
+                holder.binding.removeFromCollection.setOnClickListener {
+                    localManager.getInfo()?.let {
+                        ServiceManager().removeCollection(
+                            it.id,
+                            collectionList[position].title
+                        ) { success ->
+                            if (success) {
+                                collectionList.removeAt(position)
+                                notifyItemRemoved(position)
+                                notifyDataSetChanged()
+                            } else
+                                Snackbar.make(
+                                    holder.itemView,
+                                    R.string.warning,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                        }
                     }
-                    progressList.removeAt(position)
-                    notifyItemRemoved(position)
-                    notifyDataSetChanged()
                 }
             }
             is DummyHolder -> {
-                holder.binding.tip = when (scheduleType) {
-                    ScheduleType.NEW -> R.string.no_new_schedule
-                    ScheduleType.REVIEW -> R.string.no_review_schedule
-                }
-                holder.binding.icon = R.drawable.ic_no_schedule
+                holder.binding.tip = R.string.no_collection
+                holder.binding.icon = R.drawable.ic_no_collection
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (progressList.isNullOrEmpty()) 0 else 1
+        return if (collectionList.isNullOrEmpty()) 0 else 1
     }
 
-    override fun getItemCount(): Int = if (progressList.isNullOrEmpty()) 1 else progressList.size
+    override fun getItemCount(): Int =
+        if (collectionList.isNullOrEmpty()) 1 else collectionList.size
 }

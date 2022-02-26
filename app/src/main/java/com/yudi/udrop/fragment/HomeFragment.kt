@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.yudi.udrop.CollectionActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.TextDetailActivity
 import com.yudi.udrop.adapter.HomeScheduleAdapter
@@ -47,6 +48,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         getData { new, review ->
             adapter.newList = new
             adapter.reviewList = review
+        }
+        binding.homeCollectionItem.setOnClickListener {
+            activity?.let {
+                startActivity(Intent(context, CollectionActivity::class.java))
+            }
         }
     }
 

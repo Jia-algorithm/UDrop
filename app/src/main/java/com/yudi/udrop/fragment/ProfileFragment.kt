@@ -108,7 +108,7 @@ class ProfileFragment : Fragment(), InputInterface {
         val recyclerviewLayoutManager = LinearLayoutManager(context)
         recyclerviewLayoutManager.orientation = RecyclerView.VERTICAL
         with(binding.profileFeatures) {
-            adapter = ProfileFeatureAdapter()
+            adapter = ProfileFeatureAdapter(this@ProfileFragment.activity)
             layoutManager = recyclerviewLayoutManager
         }
     }

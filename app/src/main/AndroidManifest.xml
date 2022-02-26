@@ -25,6 +25,7 @@
         <activity android:name=".UdropActivity" />
         <activity android:name=".TextDetailActivity" />
         <activity android:name=".ProgressActivity" />
+        <activity android:name=".CollectionActivity" />
     </application>
 
 </manifest>

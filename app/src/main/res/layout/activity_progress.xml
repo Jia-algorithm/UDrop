@@ -5,6 +5,16 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="toolbarHandler"
+            type="com.yudi.udrop.interfaces.ToolbarInterface" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
         <variable
             name="toolbarModel"
             type="com.yudi.udrop.model.data.ToolbarModel" />
@@ -21,13 +31,24 @@
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            bind:handler="@{toolbarHandler}"
             bind:model="@{toolbarModel}" />
+
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress_toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/progress_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="20dp"
+            android:visibility="@{loading ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progress_toolbar" />

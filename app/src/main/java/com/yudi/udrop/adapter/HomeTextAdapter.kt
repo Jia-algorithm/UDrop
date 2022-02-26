@@ -30,6 +30,7 @@ class HomeTextAdapter(val handler: OverviewInterface) :
             "诗名 $position",
             "作者 $position",
             "这里是内容这里是内，这里是内容这里是内，这里是内容这里是内，这里是内容这里是内。",
+            "",
             false
         )
         itemViewHolder.binding.handler = handler

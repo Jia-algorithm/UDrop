@@ -5,7 +5,7 @@ import androidx.databinding.Bindable
 import com.yudi.udrop.BR
 import com.yudi.udrop.R
 
-data class ProgressModel(val title: String, val writer: String, val _finished: Int) :
+data class ProgressModel(val title: String, val writer: String, val content: String, val _finished: Int) :
     BaseObservable() {
     @get:Bindable
     var finished: Int = _finished

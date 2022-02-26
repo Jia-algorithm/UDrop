@@ -13,10 +13,22 @@ import com.yudi.udrop.databinding.HomeScheduleItemBinding
 import com.yudi.udrop.model.data.ScheduleModel
 import org.json.JSONArray
 
-class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
+class HomeScheduleAdapter :
     RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: HomeScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    var newList = JSONArray()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var reviewList = JSONArray()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate<HomeScheduleItemBinding>(
@@ -36,7 +48,7 @@ class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
                 homeScheduleButton.setOnClickListener {
                     onScheduleClick(it, R.string.daily_learn)
                 }
-                model = getSchedule(new_list)
+                model = getSchedule(newList)
                 homeScheduleCheckProcess.setOnClickListener {
                     onCheckClick(it, R.string.new_progress)
                 }
@@ -46,7 +58,7 @@ class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
                 homeScheduleButton.setOnClickListener {
                     onScheduleClick(it, R.string.daily_review)
                 }
-                model = getSchedule(review_list)
+                model = getSchedule(reviewList)
                 homeScheduleCheckProcess.setOnClickListener {
                     onCheckClick(it, R.string.review_progress)
                 }

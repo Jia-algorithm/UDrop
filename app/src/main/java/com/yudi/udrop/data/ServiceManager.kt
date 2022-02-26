@@ -1,6 +1,7 @@
 package com.yudi.udrop.data
 
 import android.util.Log
+import com.yudi.udrop.model.local.TextDetail
 import com.yudi.udrop.model.local.UserModel
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -108,6 +109,72 @@ class ServiceManager {
                 with(JSONObject(response.body?.string())) {
                     completion(getJSONArray("new_list"), getJSONArray("review_list"))
                 }
+            }
+        })
+    }
+
+    fun getTextDetail(title: String, completion: (TextDetail?) -> Unit) {
+        val request = Request.Builder().url("$baseURL/passage/detail?title=$title").build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user schedule.")
+                e.printStackTrace()
+                completion(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            TextDetail(
+                                title,
+                                getString("author"),
+                                getString("content"),
+                                getString("author_info")
+                            )
+                        )
+                    }
+            }
+        })
+    }
+
+    fun setNewSchedule(userId: Int, newScheduleList: JSONArray, completion: (Boolean) -> Unit) {
+        val params = "{\"user_id\":$userId,\"new_schedule\":\"$newScheduleList\"}"
+        val request =
+            Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/study/new_schedule")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to update new schedule.")
+                e.printStackTrace()
+                completion(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.body?.string() == "Success") completion(true) else completion(false)
+            }
+        })
+    }
+
+    fun setReviewSchedule(
+        userId: Int,
+        reviewScheduleList: JSONArray,
+        completion: (Boolean) -> Unit
+    ) {
+        val params = "{\"user_id\":$userId,\"review_schedule\":\"$reviewScheduleList\"}"
+        val request =
+            Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/study/review_schedule")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to update review schedule.")
+                e.printStackTrace()
+                completion(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.body?.string() == "Success") completion(true) else completion(false)
             }
         })
     }

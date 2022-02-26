@@ -5,21 +5,31 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
+import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.databinding.ProgressNoDataItemBinding
 import com.yudi.udrop.databinding.ProgressTextItemBinding
 import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.model.data.ProgressModel
 import com.yudi.udrop.model.local.ScheduleType
 
-class ProgressAdapter(val handler: ProgressInterface, val scheduleType: ScheduleType) :
+class ProgressAdapter(
+    private val localManager: SQLiteManager,
+    private val scheduleType: ScheduleType,
+    private val handler: ProgressInterface
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var progressList: ArrayList<ProgressModel> = arrayListOf()
 
     inner class ViewHolder(val binding: ProgressTextItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class DummyHolder(val binding: ProgressNoDataItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    var progressList: ArrayList<ProgressModel> = arrayListOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -54,6 +64,15 @@ class ProgressAdapter(val handler: ProgressInterface, val scheduleType: Schedule
             is ViewHolder -> {
                 holder.binding.model = progressList[position]
                 holder.binding.handler = handler
+                holder.binding.removeFromSchedule.setOnClickListener {
+                    when (scheduleType) {
+                        ScheduleType.REVIEW -> localManager.deleteReview(progressList[position].title)
+                        ScheduleType.NEW -> localManager.deleteNew(progressList[position].title)
+                    }
+                    progressList.removeAt(position)
+                    notifyItemRemoved(position)
+                    notifyDataSetChanged()
+                }
             }
             is DummyHolder -> {
                 holder.binding.tip = when (scheduleType) {
@@ -69,5 +88,4 @@ class ProgressAdapter(val handler: ProgressInterface, val scheduleType: Schedule
     }
 
     override fun getItemCount(): Int = if (progressList.isNullOrEmpty()) 1 else progressList.size
-
 }

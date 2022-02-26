@@ -197,7 +197,7 @@ class ServiceManager {
     }
 
     fun addCollection(userId: Int, title: String, completion: (Boolean) -> Unit) {
-        val params = "{\"user_id\":$userId,\"title\":$title}"
+        val params = "{\"user_id\":$userId,\"title\":\"$title\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/collection")
                 .build()
@@ -215,7 +215,7 @@ class ServiceManager {
     }
 
     fun removeCollection(userId: Int, title: String, completion: (Boolean) -> Unit) {
-        val params = "{\"user_id\":$userId,\"title\":$title}"
+        val params = "{\"user_id\":$userId,\"title\":\"$title\"}"
         val request =
             Request.Builder().delete(params.toRequestBody(JSON)).url("$baseURL/user/collection")
                 .build()

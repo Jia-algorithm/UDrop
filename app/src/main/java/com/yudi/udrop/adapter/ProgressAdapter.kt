@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
+import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.databinding.ProgressNoDataItemBinding
 import com.yudi.udrop.databinding.ProgressTextItemBinding
 import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.model.data.ProgressModel
 import com.yudi.udrop.model.local.ScheduleType
 
-class ProgressAdapter(val handler: ProgressInterface, val scheduleType: ScheduleType) :
+class ProgressAdapter(val handler: ProgressInterface, val scheduleType: ScheduleType, val progressList: ArrayList<ProgressModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var progressList: ArrayList<ProgressModel> = arrayListOf()
 
     inner class ViewHolder(val binding: ProgressTextItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -69,5 +69,4 @@ class ProgressAdapter(val handler: ProgressInterface, val scheduleType: Schedule
     }
 
     override fun getItemCount(): Int = if (progressList.isNullOrEmpty()) 1 else progressList.size
-
 }

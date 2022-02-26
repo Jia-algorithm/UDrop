@@ -1,6 +1,7 @@
 package com.yudi.udrop.data
 
 import android.util.Log
+import com.yudi.udrop.model.local.TextDetail
 import com.yudi.udrop.model.local.UserModel
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -107,6 +108,23 @@ class ServiceManager {
             override fun onResponse(call: Call, response: Response) {
                 with(JSONObject(response.body?.string())) {
                     completion(getJSONArray("new_list"), getJSONArray("review_list"))
+                }
+            }
+        })
+    }
+
+    fun getTextDetail(title: String, completion: (TextDetail?) -> Unit){
+        val request = Request.Builder().url("$baseURL/passage/detail?title=$title").build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user schedule.")
+                e.printStackTrace()
+                completion(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(TextDetail(title, getString("author"),getString("content"),getString("author_info")))
                 }
             }
         })

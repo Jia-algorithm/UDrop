@@ -45,6 +45,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         setupRecyclerView()
         setupViewpager()
         setupTabLayout(view)
+        getData()
     }
 
     override fun clickTextItem(model: TextModel) {

@@ -12,14 +12,16 @@ import com.yudi.udrop.model.data.ToolbarModel
 
 class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
     lateinit var binding: ActivityTextDetailBinding
+    private val SQLiteManager = com.yudi.udrop.data.SQLiteManager(this, "udrop.db", null, 1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_text_detail)
         binding.toolbarModel = ToolbarModel("古诗详情", R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
-        binding.model = TextModel("", "", "", "", false)
+        binding.model = TextModel("", "", "", "")
         getData {
             binding.model = it
+            checkCollected(it.Title)
             binding.reciteBySentence.setOnClickListener {
                 startActivity(Intent(this, UdropActivity::class.java).apply {
                     putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_by_sentence)
@@ -32,7 +34,16 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
             }
             binding.textDetailCollection.setOnClickListener {
                 with(binding.model as TextModel) {
-                    collected = !collected // TODO: update to service
+                    SQLiteManager.getInfo()?.let { userInfo ->
+                        if (collected)
+                            ServiceManager().removeCollection(userInfo.id, Title) { success ->
+                                if (success) collected = false
+                            }
+                        else
+                            ServiceManager().addCollection(userInfo.id, Title) { success ->
+                                if (success) collected = true
+                            }
+                    }
                 }
             }
         }
@@ -46,12 +57,19 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
         intent?.getStringExtra(INTENT_EXTRA_TEXT_TITLE)?.let { title ->
             ServiceManager().getTextDetail(title) { detail ->
                 detail?.let {
-                    completion(TextModel(it.title, it.writer, it.content, it.writerInfo, false))
+                    completion(TextModel(it.title, it.writer, it.content, it.writerInfo))
                 }
             }
         }
     }
 
+    private fun checkCollected(title: String) {
+        SQLiteManager.getInfo()?.let {
+            ServiceManager().checkCollection(it.id, title) { collected ->
+                binding.model?.collected = collected
+            }
+        }
+    }
 
     companion object {
         const val INTENT_EXTRA_TEXT_TITLE = "text_title"

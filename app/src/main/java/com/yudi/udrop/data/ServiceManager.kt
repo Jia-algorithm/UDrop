@@ -179,6 +179,76 @@ class ServiceManager {
         })
     }
 
+    fun getCollection(userId: Int, completion: (JSONArray) -> Unit) {
+        val request =
+            Request.Builder().url("$baseURL/user/collection?user_id=$userId").build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user collection.")
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(getJSONArray("collection_list"))
+                }
+            }
+        })
+    }
+
+    fun addCollection(userId: Int, title: String, completion: (Boolean) -> Unit) {
+        val params = "{\"user_id\":$userId,\"title\":$title}"
+        val request =
+            Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/user/collection")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to update review schedule.")
+                e.printStackTrace()
+                completion(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.body?.string() == "Added") completion(true) else completion(false)
+            }
+        })
+    }
+
+    fun removeCollection(userId: Int, title: String, completion: (Boolean) -> Unit) {
+        val params = "{\"user_id\":$userId,\"title\":$title}"
+        val request =
+            Request.Builder().delete(params.toRequestBody(JSON)).url("$baseURL/user/collection")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to update review schedule.")
+                e.printStackTrace()
+                completion(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.body?.string() == "Removed") completion(true) else completion(false)
+            }
+        })
+    }
+
+    fun checkCollection(userId: Int, title: String, completion: (Boolean) -> Unit) {
+        val request =
+            Request.Builder().url("$baseURL/user/check_collection?user_id=$userId&title=$title")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user collection.")
+                e.printStackTrace()
+                completion(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                completion(response.body?.string() == "Yes")
+            }
+        })
+    }
+
     companion object {
         val JSON = String.format("application/json; charset=utf-8").toMediaType()
         const val baseURL = "http://121.199.77.139:5001"

@@ -135,7 +135,7 @@ url: http://121.199.77.139:5001
 - return:
   - success: Integer 1 or 0
   - userId: Integer
-#### 2.1 get_schedule (Mock)
+#### 2.1 get_schedule (Done)
 /study/schedule
 
 - GET
@@ -143,17 +143,32 @@ url: http://121.199.77.139:5001
 - return: (new_list: JSONArray, review_list: JSONArray)
   - new_list: 今日所有需要新学的课文，每个课文信息中包含是否已背诵
   - review_list: 今日所有需要复习的课文，每个课文信息中包含是否已背诵
-#### 2.2 set_new_schedule (Todo)
+#### 2.2 set_new_schedule (Done)
+
+/study/new_schedule
+
+- POST
+
 - param: (user_id: Int, new_schedule: JSONArray) 这里的JSONArray就是你前面返回的古诗列表格式，不用管它是个什么词
 - return: (resultCode: Int)
   - 0: failure
   - 1: success
-#### 2.3 set_review_schedule (Todo)
+#### 2.3 set_review_schedule (Done)
+
+/study/review_schedule
+
+- POST
+
 - param: (user_id: Int, review_schedule: JSONArray)
 - return: (resultCode: Int)
   - 0: failure
   - 1: success
 #### 3.1 get_text_detail (Done)
+
+/passage/detail
+
+- GET
+
 - param: (title: String)
 - return: (title: String, author: String, author_info: String, content: String)
 #### 3.2 search_text (Todo)
@@ -163,7 +178,7 @@ url: http://121.199.77.139:5001
 
 /user/collection
 
-GET
+- GET
 
 - param: (user_id: Int)
 - return: (collection_list: JSONArray)
@@ -171,7 +186,7 @@ GET
 
 /user/collection
 
-DELETE
+- DELETE
 
 - param: (user_id: Int, title: String)
 - return:
@@ -180,7 +195,7 @@ DELETE
 
 /user/collection
 
-POST
+- POST
 
 - param: (user_id: Int, title: String)
 - return:

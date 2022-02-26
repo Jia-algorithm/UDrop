@@ -23,6 +23,7 @@
         <activity android:name=".OverviewActivity" />
         <activity android:name=".UdropActivity" />
         <activity android:name=".TextDetailActivity" />
+        <activity android:name=".ProgressActivity" />
     </application>
 
 </manifest>

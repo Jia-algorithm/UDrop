@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.yudi.udrop.ProgressActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.UdropActivity
 import com.yudi.udrop.databinding.HomeScheduleItemBinding
@@ -36,6 +37,9 @@ class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
                     onScheduleClick(it, R.string.daily_learn)
                 }
                 model = getSchedule(new_list)
+                homeScheduleCheckProcess.setOnClickListener {
+                    onCheckClick(it, R.string.new_progress)
+                }
             }
             else -> with(holder.binding) {
                 buttonText = holder.itemView.context.getString(R.string.start_to_review)
@@ -43,8 +47,22 @@ class HomeScheduleAdapter(val new_list: JSONArray, val review_list: JSONArray) :
                     onScheduleClick(it, R.string.daily_review)
                 }
                 model = getSchedule(review_list)
+                homeScheduleCheckProcess.setOnClickListener {
+                    onCheckClick(it, R.string.review_progress)
+                }
             }
         }
+    }
+
+    private fun onCheckClick(view: View, title: Int) {
+        view.context.startActivity(
+            Intent(
+                view.context,
+                ProgressActivity::class.java
+            ).apply {
+                putExtra(ProgressActivity.INTENT_EXTRA_TITLE, title)
+            }
+        )
     }
 
     private fun onScheduleClick(view: View, title: Int) {

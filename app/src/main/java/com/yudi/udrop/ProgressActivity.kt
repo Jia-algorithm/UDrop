@@ -21,7 +21,7 @@ import org.json.JSONArray
 
 class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityProgressBinding
-    lateinit var SQLiteManager: SQLiteManager
+    private lateinit var SQLiteManager: SQLiteManager
     private val adapter by lazy {
         ProgressAdapter(
             SQLiteManager,
@@ -54,7 +54,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
                 ServiceManager().setNewSchedule(it.id, SQLiteManager.getNew()) { requestStatus ->
                     if (!requestStatus) {
                         Looper.prepare()
-                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
                         Looper.loop()
                     }
                 }
@@ -63,7 +63,11 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
                     it.id,
                     SQLiteManager.getReview()
                 ) { requestStatus ->
-                    if (!requestStatus) Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                    if (!requestStatus) {
+                        Looper.prepare()
+                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
+                        Looper.loop()
+                    }
                 }
         }
         finish()
@@ -99,7 +103,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
     }
 
     private fun getProgressList(list: JSONArray): ArrayList<ProgressModel> {
-        var progressList: ArrayList<ProgressModel> = arrayListOf()
+        val progressList: ArrayList<ProgressModel> = arrayListOf()
         for (i in 0 until list.length()) {
             ServiceManager().getTextDetail(list.getJSONObject(i).getString("title")) {
                 it?.let {

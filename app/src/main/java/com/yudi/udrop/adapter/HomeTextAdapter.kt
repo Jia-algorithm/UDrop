@@ -1,41 +1,69 @@
 package com.yudi.udrop.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeTextsItemBinding
+import com.yudi.udrop.databinding.NoDataItemBinding
 import com.yudi.udrop.interfaces.OverviewInterface
-import com.yudi.udrop.model.data.TextModel
+import com.yudi.udrop.model.local.TextDetail
 
 class HomeTextAdapter(val handler: OverviewInterface) :
-    RecyclerView.Adapter<HomeTextAdapter.HomeViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class HomeViewHolder(val binding: HomeTextsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val binding = DataBindingUtil.inflate<HomeTextsItemBinding>(
-            LayoutInflater.from(parent.context),
-            R.layout.home_texts_item,
-            parent,
-            false
-        )
-        return HomeViewHolder(binding)
+    inner class DummyHolder(val binding: NoDataItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    var recommendList: ArrayList<TextDetail> = arrayListOf()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            0 -> {
+                val binding = DataBindingUtil.inflate<HomeTextsItemBinding>(
+                    LayoutInflater.from(parent.context),
+                    R.layout.home_texts_item,
+                    parent,
+                    false
+                )
+                HomeViewHolder(binding)
+            }
+            1 -> {
+                val binding = DataBindingUtil.inflate<NoDataItemBinding>(
+                    LayoutInflater.from(parent.context),
+                    R.layout.no_data_item,
+                    parent,
+                    false
+                )
+                DummyHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
     }
 
-    override fun onBindViewHolder(itemViewHolder: HomeViewHolder, position: Int) {
-        // TODO: get real data
-        itemViewHolder.binding.model = TextModel(
-            "诗名 $position",
-            "作者 $position",
-            "这里是内容这里是内，这里是内容这里是内，这里是内容这里是内，这里是内容这里是内。",
-            ""
-        )
-        itemViewHolder.binding.handler = handler
-        itemViewHolder.binding.executePendingBindings()
+    override fun onBindViewHolder(itemViewHolder: RecyclerView.ViewHolder, position: Int) {
+        when (itemViewHolder) {
+            is HomeViewHolder -> {
+                itemViewHolder.binding.model = recommendList[position]
+                itemViewHolder.binding.handler = handler
+            }
+            is DummyHolder -> {
+                itemViewHolder.binding.tip = R.string.no_collection
+                itemViewHolder.binding.icon = R.drawable.ic_no_collection
+            }
+        }
     }
 
-    // TODO: get real data
-    override fun getItemCount(): Int = 4 // Test mock data
+    override fun getItemViewType(position: Int): Int = if (recommendList.isNullOrEmpty()) 1 else 0
+
+    override fun getItemCount(): Int = if (recommendList.isNullOrEmpty()) 1 else recommendList.size
 }

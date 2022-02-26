@@ -34,12 +34,4 @@
     <string name="warning">啊哦，哪里出错了！</string>
     <string name="password_tip">密码长度至少为8位字符，且包含字母和数字！</string>
     <string name="password_confirm_tip">两次密码不同，请检查输入。</string>
-    <string name="finished">已完成</string>
-    <string name="unfinished">未完成</string>
-    <string name="remove_from_schedule">移除</string>
-    <string name="check_detail">查看详情</string>
-    <string name="new_progress">学习进度</string>
-    <string name="review_progress">复习进度</string>
-    <string name="no_new_schedule">您还没有背书计划哦，快去添加吧！</string>
-    <string name="no_review_schedule">您还没有复习计划哦，先去学习新古诗吧！</string>
 </resources>

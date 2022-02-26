@@ -69,9 +69,7 @@ class ProfileFragment : Fragment(), InputInterface {
             }
         }
         binding.profileSignature.setOnClickListener {
-            binding.model?.let {
-                it.doEdit.set(true)
-            }
+            binding.model?.doEdit?.set(true)
         }
         binding.profileSignatureEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

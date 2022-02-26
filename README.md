@@ -148,12 +148,12 @@ url: http://121.199.77.139:5001
 - return: (resultCode: Int)
   - 0: failure
   - 1: success
+#### 2.3 set_review_schedule (Todo)
+- param: (user_id: Int, review_schedule: JSONArray)
+- return: (resultCode: Int)
+  - 0: failure
+  - 1: success
 #### 3.1 get_text_detail (Done)
-
-/passage/detail
-
-- GET
-
 - param: (title: String)
 - return: (title: String, author: String, author_info: String, content: String)
 #### 3.2 search_text (Todo)

@@ -77,12 +77,14 @@
         <entry key="app/src/main/res/drawable/ic_success.xml" value="0.2037037037037037" />
         <entry key="app/src/main/res/drawable/ic_toolbar_back.xml" value="0.18425925925925926" />
         <entry key="app/src/main/res/drawable/ic_warning.xml" value="0.2037037037037037" />
+        <entry key="app/src/main/res/layout/activity_collection.xml" value="0.13949275362318841" />
         <entry key="app/src/main/res/layout/activity_launch.xml" value="0.11752786220871327" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.12239583333333333" />
         <entry key="app/src/main/res/layout/activity_progress.xml" value="0.14947916666666666" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.34782608695652173" />
         <entry key="app/src/main/res/layout/activity_text_detail.xml" value="0.23811985318241619" />
         <entry key="app/src/main/res/layout/activity_udrop.xml" value="0.11752786220871327" />
+        <entry key="app/src/main/res/layout/collection_text_item.xml" value="0.4003072529055708" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5451807228915663" />
         <entry key="app/src/main/res/layout/fragment_udrop.xml" value="0.11752786220871327" />
@@ -90,6 +92,7 @@
         <entry key="app/src/main/res/layout/home_schedule_tab_item.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/home_texts_item.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/profile_item.xml" value="0.10364583333333334" />
+        <entry key="app/src/main/res/layout/progress_no_data_item.xml" value="0.13949275362318841" />
         <entry key="app/src/main/res/layout/progress_text_item.xml" value="0.3460212544809239" />
         <entry key="app/src/main/res/layout/text_content.xml" value="0.11752786220871327" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.1" />

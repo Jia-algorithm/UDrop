@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="toolbarHandler"
+            type="com.yudi.udrop.interfaces.ToolbarInterface" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="toolbarModel"
+            type="com.yudi.udrop.model.data.ToolbarModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_launch"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/collection_toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            bind:handler="@{toolbarHandler}"
+            bind:model="@{toolbarModel}" />
+
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/collection_toolbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collection_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="20dp"
+            android:visibility="@{loading ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/collection_toolbar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

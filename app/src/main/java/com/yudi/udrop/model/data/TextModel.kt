@@ -9,11 +9,10 @@ data class TextModel(
     val Title: String,
     val Writer: String,
     val Context: String,
-    val WriterInfo: String,
-    val _collected: Boolean
+    val WriterInfo: String
 ) : BaseObservable() {
     @get:Bindable
-    var collected: Boolean = _collected
+    var collected: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.collected)

@@ -30,10 +30,6 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
         binding.toolbarModel = ToolbarModel("收藏夹", R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         setupRecyclerView(binding.collectionRecyclerview)
-        getData { collection ->
-            adapter.collectionList = collection
-            binding.loading = false
-        }
     }
 
     override fun onLeftItemClick() {
@@ -50,7 +46,11 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+        getData { collection ->
+            adapter.collectionList = collection
+            recyclerView.adapter = adapter
+            binding.loading = false
+        }
     }
 
     private fun getData(completion: (ArrayList<TextDetail>) -> Unit) {

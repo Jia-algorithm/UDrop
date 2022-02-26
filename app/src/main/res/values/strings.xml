@@ -44,4 +44,5 @@
     <string name="no_new_schedule">您还没有背书计划哦，快去添加吧！</string>
     <string name="no_review_schedule">您还没有复习计划哦，先去学习新古诗吧！</string>
     <string name="no_collection">您还没有收藏的古诗哦，快去添加吧！</string>
+    <string name="no_recommendation">暂时没有推荐的古诗～</string>
 </resources>

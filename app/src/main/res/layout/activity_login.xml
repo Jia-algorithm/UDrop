@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="password"
             type="String" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -72,6 +75,7 @@
                 android:background="@drawable/bg_rectangle_shape"
                 android:backgroundTint="@color/white"
                 android:hint="昵称"
+                android:lines="1"
                 android:padding="5dp"
                 android:textColorHint="@color/text_light"
 
@@ -102,9 +106,9 @@
                 android:background="@drawable/bg_rectangle_shape"
                 android:backgroundTint="@color/white"
                 android:hint="密码"
-                android:text="@{password}"
                 android:inputType="textPassword"
                 android:padding="5dp"
+                android:text="@{password}"
                 android:textColorHint="@color/text_light" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

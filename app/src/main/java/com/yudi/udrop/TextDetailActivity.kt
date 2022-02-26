@@ -22,28 +22,28 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
         getData {
             binding.model = it
             checkCollected(it.Title)
-            binding.reciteBySentence.setOnClickListener {
-                startActivity(Intent(this, UdropActivity::class.java).apply {
-                    putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_by_sentence)
-                })
-            }
-            binding.reciteWhole.setOnClickListener {
-                startActivity(Intent(this, UdropActivity::class.java).apply {
-                    putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_whole)
-                })
-            }
-            binding.textDetailCollection.setOnClickListener {
-                with(binding.model as TextModel) {
-                    SQLiteManager.getInfo()?.let { userInfo ->
-                        if (collected)
-                            ServiceManager().removeCollection(userInfo.id, Title) { success ->
-                                if (success) collected = false
-                            }
-                        else
-                            ServiceManager().addCollection(userInfo.id, Title) { success ->
-                                if (success) collected = true
-                            }
-                    }
+        }
+        binding.reciteBySentence.setOnClickListener {
+            startActivity(Intent(this, UdropActivity::class.java).apply {
+                putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_by_sentence)
+            })
+        }
+        binding.reciteWhole.setOnClickListener {
+            startActivity(Intent(this, UdropActivity::class.java).apply {
+                putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_whole)
+            })
+        }
+        binding.textDetailCollection.setOnClickListener {
+            with(binding.model as TextModel) {
+                SQLiteManager.getInfo()?.let { userInfo ->
+                    if (collected)
+                        ServiceManager().removeCollection(userInfo.id, Title) { success ->
+                            if (success) collected = false
+                        }
+                    else
+                        ServiceManager().addCollection(userInfo.id, Title) { success ->
+                            if (success) collected = true
+                        }
                 }
             }
         }

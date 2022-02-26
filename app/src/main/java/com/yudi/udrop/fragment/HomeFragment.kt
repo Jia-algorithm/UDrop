@@ -21,13 +21,16 @@ import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
-import com.yudi.udrop.model.data.TextModel
+import com.yudi.udrop.model.local.TextDetail
 import org.json.JSONArray
 
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
     lateinit var SQLiteManager: SQLiteManager
     private val adapter = HomeScheduleAdapter()
+    private val textAdapter by lazy {
+        HomeTextAdapter(this)
+    }
 
     @Nullable
     override fun onCreateView(
@@ -43,12 +46,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         super.onViewCreated(view, savedInstanceState)
         SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
-        setupViewpager()
-        setupTabLayout(view)
-        getData { new, review ->
-            adapter.newList = new
-            adapter.reviewList = review
-        }
+        setupViewpager(view)
         binding.homeCollectionItem.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, CollectionActivity::class.java))
@@ -56,10 +54,10 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         }
     }
 
-    override fun clickTextItem(model: TextModel) {
+    override fun clickTextItem(title: String) {
         activity?.let {
             startActivity(Intent(context, TextDetailActivity::class.java).apply {
-                putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, model.Title)
+                putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, title)
             })
         }
     }
@@ -77,17 +75,43 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         }
     }
 
+    private fun getRecommendation(completion: (ArrayList<TextDetail>) -> Unit) {
+        ServiceManager().getRecommendation(4) {
+            val list = arrayListOf<TextDetail>()
+            for (i in 0 until it.length()) {
+                with(it.getJSONObject(i)) {
+                    list.add(
+                        com.yudi.udrop.model.local.TextDetail(
+                            getString("title"),
+                            getString("author"),
+                            getString("content"),
+                            ""
+                        )
+                    )
+                }
+            }
+            completion(list)
+        }
+    }
+
     private fun setupRecyclerView() {
-        val adapter = HomeTextAdapter(this)
         val recyclerView = binding.homeTextLearned
-        recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
+        getRecommendation { result ->
+            textAdapter.recommendList = result
+            recyclerView.adapter = textAdapter
+        }
     }
 
-    private fun setupViewpager() {
-        binding.homeScheduleViewpager.adapter = adapter
+    private fun setupViewpager(view: View) {
+        getData { new, review ->
+            adapter.newList = new
+            adapter.reviewList = review
+            binding.homeScheduleViewpager.adapter = adapter
+            setupTabLayout(view)
+        }
     }
 
     private fun setupTabLayout(view: View) {

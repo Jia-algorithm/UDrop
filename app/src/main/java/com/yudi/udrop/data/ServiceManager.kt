@@ -249,6 +249,24 @@ class ServiceManager {
         })
     }
 
+    fun getRecommendation(number: Int,completion: (JSONArray) -> Unit){
+        val request =
+            Request.Builder().url("$baseURL/poems/random?number=$number")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user collection.")
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(getJSONArray("result_list"))
+                }
+            }
+        })
+    }
+
     companion object {
         val JSON = String.format("application/json; charset=utf-8").toMediaType()
         const val baseURL = "http://121.199.77.139:5001"

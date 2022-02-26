@@ -144,24 +144,44 @@ url: http://121.199.77.139:5001
   - new_list: 今日所有需要新学的课文，每个课文信息中包含是否已背诵
   - review_list: 今日所有需要复习的课文，每个课文信息中包含是否已背诵
 #### 2.2 set_new_schedule (Todo)
-- param: (user_id: Int, new_schedule: JSONArray) 这里的JSONArray就是你前面返回的故事列表格式，不用管它是个什么词
+- param: (user_id: Int, new_schedule: JSONArray) 这里的JSONArray就是你前面返回的古诗列表格式，不用管它是个什么词
 - return: (resultCode: Int)
   - 0: failure
   - 1: success
-#### 3.1 get_text_detail (Todo)
+#### 3.1 get_text_detail (Done)
+
+/passage/detail
+
+- GET
+
 - param: (title: String)
-- return: (title: String, writer: String, writer_info: String, content: String)
+- return: (title: String, author: String, author_info: String, content: String)
 #### 3.2 search_text (Todo)
 - param: (key: String)
 - return: (result_list: JSONArray) 诗名或作者与关键词匹配
-#### 4.1 get_collection (Todo)
+#### 4.1 get_collection (Done)
+
+/user/collection
+
+GET
+
 - param: (user_id: Int)
 - return: (collection_list: JSONArray)
-#### 4.2 cancel_collection (Todo)
+#### 4.2 remove_collection (Done)
+
+/user/collection
+
+DELETE
+
 - param: (user_id: Int, title: String)
 - return:
-  - "Failed", "Success"
-#### 4.3 add_collection (Todo)
+  - "Failed", "Removed", "No Change"
+#### 4.3 add_collection (Done)
+
+/user/collection
+
+POST
+
 - param: (user_id: Int, title: String)
 - return:
-  - "Failed", "Success"
+  - "Failed", "Added", "No Change"

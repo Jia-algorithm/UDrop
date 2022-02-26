@@ -171,7 +171,12 @@ url: http://121.199.77.139:5001
 
 - param: (title: String)
 - return: (title: String, author: String, author_info: String, content: String)
-#### 3.2 search_text (Todo)
+#### 3.2 search_text (Done)
+
+/poems/search
+
+- GET
+
 - param: (key: String)
 - return: (result_list: JSONArray) 诗名或作者与关键词匹配
 #### 4.1 get_collection (Done)

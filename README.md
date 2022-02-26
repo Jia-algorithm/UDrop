@@ -213,3 +213,14 @@ url: http://121.199.77.139:5001
 - param: (user_id: Int, title: String)
 - return:
   - "Failed", "Added", "No Change"
+
+#### 5.1 reply (Doing)
+
+/response
+
+- POST
+- param: (user_id: Int, text: String) 用户id和用户语音转成的文本
+- return:
+  - response: String，需要转成语音的回复
+  - is_finished: Bool，true - 会话结束，false - 尚未结束继续进行
+

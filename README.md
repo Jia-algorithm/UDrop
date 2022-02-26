@@ -214,6 +214,15 @@ url: http://121.199.77.139:5001
 - return:
   - "Failed", "Added", "No Change"
 
+#### 4.4 check_single_collection(Done)
+
+/user/check_collection
+
+- GET
+- param: (user_id: Int, title: String)
+- return:
+  - "Failed", "Yes", "No"
+
 #### 5.1 reply (Doing)
 
 /response

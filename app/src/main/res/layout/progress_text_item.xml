@@ -61,6 +61,7 @@
             tools:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。" />
 
         <LinearLayout
+            android:id="@+id/progress_text_item_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -81,12 +82,12 @@
                 tools:textColor="@color/udrop_text_2" />
 
             <TextView
+                android:id="@+id/remove_from_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:drawablePadding="4dp"
-                android:onClick="@{() -> handler.removeFromSchedule(model.title)}"
                 android:text="@string/remove_from_schedule"
                 android:textColor="@color/udrop_text_3" />
         </LinearLayout>

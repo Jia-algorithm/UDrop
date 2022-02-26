@@ -12,8 +12,15 @@ import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.model.data.ProgressModel
 import com.yudi.udrop.model.local.ScheduleType
 
-class ProgressAdapter(val handler: ProgressInterface, val scheduleType: ScheduleType, val progressList: ArrayList<ProgressModel>) :
+class ProgressAdapter(
+    private val localManager: SQLiteManager,
+    private val scheduleType: ScheduleType,
+    private val progressList: ArrayList<ProgressModel>,
+    private val handler: ProgressInterface
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var scheduleChanged: Boolean = false
 
     inner class ViewHolder(val binding: ProgressTextItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -54,6 +61,15 @@ class ProgressAdapter(val handler: ProgressInterface, val scheduleType: Schedule
             is ViewHolder -> {
                 holder.binding.model = progressList[position]
                 holder.binding.handler = handler
+                holder.binding.removeFromSchedule.setOnClickListener {
+                    when (scheduleType) {
+                        ScheduleType.REVIEW -> localManager.deleteReview(progressList[position].title)
+                        ScheduleType.NEW -> localManager.deleteNew(progressList[position].title)
+                    }
+                    progressList.removeAt(position)
+                    notifyItemRemoved(position)
+                    notifyDataSetChanged()
+                }
             }
             is DummyHolder -> {
                 holder.binding.tip = when (scheduleType) {

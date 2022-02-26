@@ -1,5 +1,6 @@
 package com.yudi.udrop
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,14 +29,18 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_progress)
+        binding.loading = true
         binding.toolbarModel = ToolbarModel(getString(title), R.drawable.ic_toolbar_back)
+        binding.toolbarHandler = this
         getData {
             if (it) setupRecyclerView(binding.progressRecyclerview) else Toast.makeText(
                 this,
                 R.string.warning,
                 Toast.LENGTH_SHORT
             )
+            binding.loading = false
         }
     }
 
@@ -43,15 +48,29 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         finish()
     }
 
+    override fun checkDetail(title: String) {
+        startActivity(Intent(this, TextDetailActivity::class.java).apply {
+            putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, title)
+        })
+    }
+
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ProgressAdapter(
-            this,
-            if (title == R.string.new_progress) ScheduleType.NEW else ScheduleType.REVIEW,
-            if (title == R.string.new_progress) newScheduleList else reviewScheduleList
-        )
+        if (title == R.string.new_progress) {
+            recyclerView.adapter =
+                ProgressAdapter(SQLiteManager, ScheduleType.NEW, newScheduleList, this)
+            newScheduleList.map {
+                SQLiteManager.addNewSchedule(it.title, it.finished)
+            }
+        } else {
+            recyclerView.adapter =
+                ProgressAdapter(SQLiteManager, ScheduleType.REVIEW, reviewScheduleList, this)
+            reviewScheduleList.map {
+                SQLiteManager.addReviewSchedule(it.title, it.finished)
+            }
+        }
     }
 
     private fun getData(completion: (Boolean) -> Unit) {

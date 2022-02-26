@@ -176,9 +176,17 @@ url: http://121.199.77.139:5001
 /poems/search
 
 - GET
-
 - param: (key: String)
 - return: (result_list: JSONArray) 诗名或作者与关键词匹配
+
+#### 3.3 random_poems (Done)
+
+/poems/random
+
+- GET
+- param: (number: Int) 随机返回的数量
+- return: (result_list: JSONArray)
+
 #### 4.1 get_collection (Done)
 
 /user/collection

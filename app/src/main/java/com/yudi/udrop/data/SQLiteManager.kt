@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import androidx.annotation.Nullable
 import com.yudi.udrop.model.local.UserModel
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class SQLiteManager
@@ -28,6 +30,8 @@ class SQLiteManager
     SQLiteOpenHelper(context, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("create table user(id int not null primary key,name varchar(50) not null,motto varchar(1000),days int)")
+        db.execSQL("create table new(title varchar(1000) not null primary key,done int not null)")
+        db.execSQL("create table review(title varchar(1000) not null primary key,done int not null)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
@@ -38,6 +42,24 @@ class SQLiteManager
         contentValues.put("motto", "")
         contentValues.put("days", 0)
         writableDatabase.insert("user", null, contentValues)
+        writableDatabase.close()
+    }
+
+    fun addNewSchedule(title: String, done: Int) {
+        val contentValues = ContentValues().apply {
+            put("title", title)
+            put("done", done)
+        }
+        writableDatabase.insert("new", null, contentValues)
+        writableDatabase.close()
+    }
+
+    fun addReviewSchedule(title: String, done: Int) {
+        val contentValues = ContentValues().apply {
+            put("title", title)
+            put("done", done)
+        }
+        writableDatabase.insert("review", null, contentValues)
         writableDatabase.close()
     }
 
@@ -61,6 +83,16 @@ class SQLiteManager
         }
     }
 
+    fun deleteNew(title: String) {
+        writableDatabase.delete("new", "title=?", arrayOf(title))
+        writableDatabase.close()
+    }
+
+    fun deleteReview(title: String) {
+        writableDatabase.delete("review", "title=?", arrayOf(title))
+        writableDatabase.close()
+    }
+
     fun getInfo(): UserModel? {
         // 参数1：table_name
         // 参数2：columns 要查询出来的列名。相当于 select  *** from table语句中的 ***部分
@@ -79,5 +111,47 @@ class SQLiteManager
         } finally {
             readableDatabase.close()
         }
+    }
+
+    fun getNew(): JSONArray {
+        val cursor: Cursor = readableDatabase.query("new", null, null, null, null, null, null)
+        val newList = arrayListOf<JSONObject>()
+        try {
+            cursor.moveToFirst()
+            newList.add(JSONObject().apply {
+                put("title", cursor.getString(0))
+                put("done", cursor.getInt(1))
+            })
+            while (cursor.moveToNext()){
+                newList.add(JSONObject().apply {
+                    put("title", cursor.getString(0))
+                    put("done", cursor.getInt(1))
+                })
+            }
+        } catch (e: Exception) {
+            Log.e("SQLiteManager", e.toString())
+        }
+        return JSONArray(newList)
+    }
+
+    fun getReview(): JSONArray {
+        val cursor: Cursor = readableDatabase.query("review", null, null, null, null, null, null)
+        val reviewList = arrayListOf<JSONObject>()
+        try {
+            cursor.moveToFirst()
+            reviewList.add(JSONObject().apply {
+                put("title", cursor.getString(0))
+                put("done", cursor.getInt(1))
+            })
+            while (cursor.moveToNext()){
+                reviewList.add(JSONObject().apply {
+                    put("title", cursor.getString(0))
+                    put("done", cursor.getInt(1))
+                })
+            }
+        } catch (e: Exception) {
+            Log.e("SQLiteManager", e.toString())
+        }
+        return JSONArray(reviewList)
     }
 }

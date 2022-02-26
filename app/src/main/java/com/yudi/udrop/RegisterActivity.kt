@@ -8,7 +8,9 @@ import android.view.MotionEvent
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.snackbar.Snackbar
 import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.ActivityRegisterBinding
 import com.yudi.udrop.interfaces.InputInterface
 import com.yudi.udrop.model.data.RegisterModel
@@ -48,9 +50,19 @@ class RegisterActivity : AppCompatActivity(), InputInterface {
             val name = findViewById<EditText>(R.id.register_name).text
             binding.model?.let { model ->
                 if (model.tipIcon == R.drawable.ic_success && !model.showConfirmWarning && name.toString() != "") {
-                    SQLiteManager.addUser(0, name.toString())
-                    startActivity(Intent(this, OverviewActivity::class.java))
-                    super.finish()
+                    ServiceManager().register(name.toString(), model.password) {
+                        when (it) {
+                            -2 -> Snackbar.make(binding.root, "注册失败", Snackbar.LENGTH_SHORT).show()
+                            -1 -> Snackbar.make(binding.root, "用户名已存在", Snackbar.LENGTH_SHORT).show()
+                            else -> {
+                                SQLiteManager.addUser(it, name.toString())
+                                startActivity(Intent(this, OverviewActivity::class.java))
+                                super.finish()
+                            }
+                        }
+                    }
+                } else {
+                    Snackbar.make(binding.root, "请检查两次密码输入", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

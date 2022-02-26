@@ -15,13 +15,18 @@ import com.yudi.udrop.R
 import com.yudi.udrop.TextDetailActivity
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
+import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
 import com.yudi.udrop.model.data.TextModel
+import org.json.JSONArray
 
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
+    lateinit var SQLiteManager: SQLiteManager
+    private val adapter = HomeScheduleAdapter()
 
     @Nullable
     override fun onCreateView(
@@ -35,9 +40,14 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
         setupViewpager()
         setupTabLayout(view)
+        getData { new, review ->
+            adapter.newList = new
+            adapter.reviewList = review
+        }
     }
 
     override fun clickTextItem(model: TextModel) {
@@ -45,6 +55,19 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
             startActivity(Intent(context, TextDetailActivity::class.java).apply {
                 putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, model.Title)
             })
+        }
+    }
+
+    private fun getData(completion: (JSONArray, JSONArray) -> Unit) {
+        SQLiteManager.getInfo()?.let {
+            ServiceManager().getSchedule(it.id) { new, review ->
+                for (i in 0 until new.length()) {
+                    with(new.getJSONObject(i)) {
+                        SQLiteManager.addNewSchedule(getString("title"), getInt("done"))
+                    }
+                }
+                completion(new, review)
+            }
         }
     }
 
@@ -58,7 +81,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     }
 
     private fun setupViewpager() {
-        binding.homeScheduleViewpager.adapter = HomeScheduleAdapter()
+        binding.homeScheduleViewpager.adapter = adapter
     }
 
     private fun setupTabLayout(view: View) {

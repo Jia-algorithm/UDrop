@@ -12,10 +12,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.yudi.udrop.LaunchActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.adapter.ProfileFeatureAdapter
 import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentProfileBinding
 import com.yudi.udrop.interfaces.InputInterface
 import com.yudi.udrop.model.data.ProfileModel
@@ -39,13 +41,17 @@ class ProfileFragment : Fragment(), InputInterface {
         SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupBinding()
         setupRecyclerView()
+        refreshPage()
+    }
+
+    private fun refreshPage() {
+        SQLiteManager.getInfo()?.let {
+            binding.model =
+                ProfileModel(it.id, it.name, if (it.motto == "") "点击修改个性签名" else it.motto, it.days)
+        }
     }
 
     private fun setupBinding() {
-        SQLiteManager.getInfo()?.let {
-            binding.model =
-                ProfileModel(it.name, if (it.motto == "") "点击修改个性签名" else it.motto, it.days)
-        }
         binding.profileSetting.setOnClickListener {
             binding.model?.let {
                 it.showSettingList.set(!it.showSettingList.get())
@@ -63,9 +69,7 @@ class ProfileFragment : Fragment(), InputInterface {
             }
         }
         binding.profileSignature.setOnClickListener {
-            binding.model?.let {
-                it.doEdit.set(true)
-            }
+            binding.model?.doEdit?.set(true)
         }
         binding.profileSignatureEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -78,13 +82,23 @@ class ProfileFragment : Fragment(), InputInterface {
         })
         binding.profileSignatureEditIcon.setOnClickListener { v ->
             binding.model?.let { it ->
-                if (it.motto.get() != it.editMotto.get().toString())
-                    SQLiteManager.updateInfo(
+                if (it.motto.get() != it.editMotto.get().toString()) {
+                    ServiceManager().changeUserInfo(
+                        it.id,
                         it.Name,
-                        it.editMotto.toString(),
-                        it.DaysNum
-                    )
-                it.motto.set(it.editMotto.get().toString())
+                        it.editMotto.get().toString()
+                    ) { result ->
+                        if (result) {
+                            SQLiteManager.updateInfo(
+                                it.Name,
+                                it.editMotto.get().toString(),
+                                it.DaysNum
+                            )
+                            refreshPage()
+                        } else
+                            Snackbar.make(binding.root, "更新失败", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
                 it.doEdit.set(false)
             }
         }

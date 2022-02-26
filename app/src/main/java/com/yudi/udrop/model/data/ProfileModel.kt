@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 
 data class ProfileModel(
+    val id: Int,
     var Name: String,
     val _motto: String,
     var DaysNum: Int

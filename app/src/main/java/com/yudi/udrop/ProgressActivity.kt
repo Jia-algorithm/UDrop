@@ -45,6 +45,19 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
     }
 
     override fun onLeftItemClick() {
+        SQLiteManager.getInfo()?.let {
+            if (title == R.string.new_progress)
+                ServiceManager().setNewSchedule(it.id, SQLiteManager.getNew()) { requestStatus ->
+                    if (!requestStatus) Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                }
+            else
+                ServiceManager().setReviewSchedule(
+                    it.id,
+                    SQLiteManager.getReview()
+                ) { requestStatus ->
+                    if (!requestStatus) Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                }
+        }
         finish()
     }
 

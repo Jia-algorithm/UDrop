@@ -20,8 +20,6 @@ class ProgressAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var scheduleChanged: Boolean = false
-
     inner class ViewHolder(val binding: ProgressTextItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 

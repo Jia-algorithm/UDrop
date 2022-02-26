@@ -26,8 +26,7 @@ import org.json.JSONArray
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
     lateinit var SQLiteManager: SQLiteManager
-    private var newScheduleList = JSONArray()
-    private var reviewScheduleList = JSONArray()
+    private val adapter = HomeScheduleAdapter()
 
     @Nullable
     override fun onCreateView(
@@ -45,7 +44,10 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         setupRecyclerView()
         setupViewpager()
         setupTabLayout(view)
-        getData()
+        getData { new, review ->
+            adapter.newList = new
+            adapter.reviewList = review
+        }
     }
 
     override fun clickTextItem(model: TextModel) {
@@ -56,11 +58,15 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         }
     }
 
-    private fun getData() {
+    private fun getData(completion: (JSONArray, JSONArray) -> Unit) {
         SQLiteManager.getInfo()?.let {
             ServiceManager().getSchedule(it.id) { new, review ->
-                newScheduleList = new
-                reviewScheduleList = review
+                for (i in 0 until new.length()) {
+                    with(new.getJSONObject(i)) {
+                        SQLiteManager.addNewSchedule(getString("title"), getInt("done"))
+                    }
+                }
+                completion(new, review)
             }
         }
     }
@@ -75,8 +81,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     }
 
     private fun setupViewpager() {
-        binding.homeScheduleViewpager.adapter =
-            HomeScheduleAdapter(newScheduleList, reviewScheduleList)
+        binding.homeScheduleViewpager.adapter = adapter
     }
 
     private fun setupTabLayout(view: View) {

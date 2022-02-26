@@ -89,9 +89,11 @@
         <entry key="app/src/main/res/layout/home_schedule_item.xml" value="0.24695332791051383" />
         <entry key="app/src/main/res/layout/home_schedule_tab_item.xml" value="0.12083333333333333" />
         <entry key="app/src/main/res/layout/home_texts_item.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/profile_item.xml" value="0.10364583333333334" />
         <entry key="app/src/main/res/layout/progress_text_item.xml" value="0.3460212544809239" />
         <entry key="app/src/main/res/layout/text_content.xml" value="0.11752786220871327" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.17708333333333334" />
       </map>
     </option>
   </component>

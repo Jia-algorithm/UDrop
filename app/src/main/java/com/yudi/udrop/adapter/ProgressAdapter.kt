@@ -15,7 +15,6 @@ import com.yudi.udrop.model.local.ScheduleType
 class ProgressAdapter(
     private val localManager: SQLiteManager,
     private val scheduleType: ScheduleType,
-    private val progressList: ArrayList<ProgressModel>,
     private val handler: ProgressInterface
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,6 +24,12 @@ class ProgressAdapter(
 
     inner class DummyHolder(val binding: ProgressNoDataItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    var progressList: ArrayList<ProgressModel> = arrayListOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

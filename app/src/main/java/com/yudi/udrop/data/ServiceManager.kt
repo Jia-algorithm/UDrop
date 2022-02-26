@@ -123,16 +123,18 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        TextDetail(
-                            title,
-                            getString("author"),
-                            getString("content"),
-                            getString("author_info")
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            TextDetail(
+                                title,
+                                getString("author"),
+                                getString("content"),
+                                getString("author_info")
+                            )
                         )
-                    )
-                }
+                    }
             }
         })
     }
@@ -155,7 +157,11 @@ class ServiceManager {
         })
     }
 
-    fun setReviewSchedule(userId: Int, reviewScheduleList: JSONArray, completion: (Boolean) -> Unit) {
+    fun setReviewSchedule(
+        userId: Int,
+        reviewScheduleList: JSONArray,
+        completion: (Boolean) -> Unit
+    ) {
         val params = "{\"user_id\":$userId,\"review_schedule\":\"$reviewScheduleList\"}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/study/review_schedule")

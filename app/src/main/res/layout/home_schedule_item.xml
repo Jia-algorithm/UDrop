@@ -8,6 +8,10 @@
             type="String" />
 
         <variable
+            name="handler"
+            type="com.yudi.udrop.interfaces.ProgressInterface" />
+
+        <variable
             name="model"
             type="com.yudi.udrop.model.data.ScheduleModel" />
     </data>
@@ -24,22 +28,13 @@
         android:paddingVertical="15dp">
 
         <TextView
-            android:id="@+id/home_schedule_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/schedule_set"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/home_schedule_check_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{()->handler.checkProgress(buttonText)}"
             android:text="@string/process_check"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +49,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_schedule_set"
+            app:layout_constraintTop_toBottomOf="@id/home_schedule_check_process"
             tools:text="15" />
 
         <TextView
@@ -87,6 +82,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_rectangle_shape"
             android:backgroundTint="@color/udrop_text_3"
+            android:onClick="@{()->handler.clickScheduleButton(buttonText)}"
             android:paddingVertical="10dp"
             android:text="@{buttonText}"
             android:textAlignment="center"

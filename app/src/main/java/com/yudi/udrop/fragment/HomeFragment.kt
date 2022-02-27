@@ -2,6 +2,8 @@ package com.yudi.udrop.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
-import com.yudi.udrop.CollectionActivity
-import com.yudi.udrop.R
-import com.yudi.udrop.TextDetailActivity
+import com.yudi.udrop.*
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
 import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
+import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
 import com.yudi.udrop.model.local.TextDetail
 import org.json.JSONArray
 
-class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
+class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, ProgressInterface {
     lateinit var binding: FragmentHomeBinding
-    lateinit var SQLiteManager: SQLiteManager
-    private val adapter = HomeScheduleAdapter()
+    lateinit var localManager: SQLiteManager
+    private val adapter = HomeScheduleAdapter(this)
     private val textAdapter by lazy {
         HomeTextAdapter(this)
     }
@@ -37,19 +38,35 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         inflater: LayoutInflater,
         @Nullable container: ViewGroup?,
         @Nullable savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
+        localManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
-        setupViewpager(view)
+        binding.homeScheduleViewpager.adapter = adapter
+        setupTabLayout(view)
         binding.homeCollectionItem.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, CollectionActivity::class.java))
+            }
+        }
+        binding.homeEnterSearch.setOnClickListener {
+            activity?.let {
+                startActivity(Intent(context, SearchActivity::class.java))
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getData { new, review ->
+            Handler(Looper.getMainLooper()).post {
+                adapter.newList = new
+                adapter.reviewList = review
             }
         }
     }
@@ -62,12 +79,34 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         }
     }
 
+    override fun checkProgress(buttonText: String) {
+        activity?.let {
+            startActivity(Intent(context, ProgressActivity::class.java).apply {
+                putExtra(
+                    ProgressActivity.INTENT_EXTRA_TITLE,
+                    if (buttonText == getString(R.string.start_to_learn)) R.string.new_progress else R.string.review_progress
+                )
+            })
+        }
+    }
+
+    override fun clickScheduleButton(buttonText: String) {
+        activity?.let {
+            startActivity(Intent(context, UdropActivity::class.java).apply {
+                putExtra(
+                    UdropActivity.INTENT_EXTRA_TITLE,
+                    if (buttonText == getString(R.string.start_to_learn)) R.string.start_to_learn else R.string.start_to_review
+                )
+            })
+        }
+    }
+
     private fun getData(completion: (JSONArray, JSONArray) -> Unit) {
-        SQLiteManager.getInfo()?.let {
+        localManager.getInfo()?.let {
             ServiceManager().getSchedule(it.id) { new, review ->
                 for (i in 0 until new.length()) {
                     with(new.getJSONObject(i)) {
-                        SQLiteManager.addNewSchedule(getString("title"), getInt("done"))
+                        localManager.addNewSchedule(getString("title"), getInt("done"))
                     }
                 }
                 completion(new, review)
@@ -81,7 +120,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
             for (i in 0 until it.length()) {
                 with(it.getJSONObject(i)) {
                     list.add(
-                        com.yudi.udrop.model.local.TextDetail(
+                        TextDetail(
                             getString("title"),
                             getString("author"),
                             getString("content"),
@@ -99,18 +138,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = textAdapter
         getRecommendation { result ->
-            textAdapter.recommendList = result
-            recyclerView.adapter = textAdapter
-        }
-    }
-
-    private fun setupViewpager(view: View) {
-        getData { new, review ->
-            adapter.newList = new
-            adapter.reviewList = review
-            binding.homeScheduleViewpager.adapter = adapter
-            setupTabLayout(view)
+            Handler(Looper.getMainLooper()).post {
+                textAdapter.recommendList = result
+            }
         }
     }
 

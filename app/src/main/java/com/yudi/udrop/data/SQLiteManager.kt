@@ -31,7 +31,7 @@ class SQLiteManager
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("create table user(id int not null primary key,name varchar(50) not null,motto varchar(1000),days int)")
         db.execSQL("create table new(title varchar(1000) not null primary key,done int not null)")
-        db.execSQL("create table review(title varchar(1000) not null primary key,done int not null)")
+        db.execSQL("create table review(title varchar(1000) not null primary key,done int not null,time varchar(100))")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
@@ -45,13 +45,14 @@ class SQLiteManager
         writableDatabase.close()
     }
 
-    fun addNewSchedule(title: String, done: Int) {
+    fun addNewSchedule(title: String, done: Int): Long {
         val contentValues = ContentValues().apply {
             put("title", title)
             put("done", done)
         }
-        writableDatabase.insert("new", null, contentValues)
+        val resultCode = writableDatabase.insert("new", null, contentValues)
         writableDatabase.close()
+        return resultCode
     }
 
     fun addReviewSchedule(title: String, done: Int) {
@@ -122,7 +123,7 @@ class SQLiteManager
                 put("title", cursor.getString(0))
                 put("done", cursor.getInt(1))
             })
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 newList.add(JSONObject().apply {
                     put("title", cursor.getString(0))
                     put("done", cursor.getInt(1))
@@ -141,11 +142,13 @@ class SQLiteManager
             cursor.moveToFirst()
             reviewList.add(JSONObject().apply {
                 put("title", cursor.getString(0))
+                put("time", cursor.getString(2))
                 put("done", cursor.getInt(1))
             })
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 reviewList.add(JSONObject().apply {
                     put("title", cursor.getString(0))
+                    put("time", cursor.getString(2))
                     put("done", cursor.getInt(1))
                 })
             }

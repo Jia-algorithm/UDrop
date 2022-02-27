@@ -26,6 +26,7 @@
         <activity android:name=".TextDetailActivity" />
         <activity android:name=".ProgressActivity" />
         <activity android:name=".CollectionActivity" />
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

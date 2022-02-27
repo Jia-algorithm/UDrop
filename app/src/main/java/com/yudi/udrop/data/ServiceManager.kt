@@ -24,10 +24,11 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (JSONObject(response.body?.string()).getInt("user_id") == 0)
-                    completion(JSONObject(response.body?.string()).getInt("user_id"))
+                val result = JSONObject(response.body?.string())
+                if (result.getString("success") == "Yes")
+                    completion(result.getInt("user_id"))
                 else
-                    completion(-1)
+                    completion(-2)
             }
         })
     }
@@ -107,7 +108,18 @@ class ServiceManager {
 
             override fun onResponse(call: Call, response: Response) {
                 with(JSONObject(response.body?.string())) {
-                    completion(getJSONArray("new_list"), getJSONArray("review_list"))
+                    completion(
+                        try {
+                            getJSONArray("new_list")
+                        } catch (e: Exception) {
+                            JSONArray()
+                        },
+                        try {
+                            getJSONArray("review_list")
+                        } catch (e: Exception) {
+                            JSONArray()
+                        }
+                    )
                 }
             }
         })
@@ -140,7 +152,7 @@ class ServiceManager {
     }
 
     fun setNewSchedule(userId: Int, newScheduleList: JSONArray, completion: (Boolean) -> Unit) {
-        val params = "{\"user_id\":$userId,\"new_schedule\":\"$newScheduleList\"}"
+        val params = "{\"user_id\":$userId,\"new_schedule\":$newScheduleList}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/study/new_schedule")
                 .build()
@@ -162,7 +174,7 @@ class ServiceManager {
         reviewScheduleList: JSONArray,
         completion: (Boolean) -> Unit
     ) {
-        val params = "{\"user_id\":$userId,\"review_schedule\":\"$reviewScheduleList\"}"
+        val params = "{\"user_id\":$userId,\"review_schedule\":$reviewScheduleList}"
         val request =
             Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/study/review_schedule")
                 .build()
@@ -190,7 +202,13 @@ class ServiceManager {
 
             override fun onResponse(call: Call, response: Response) {
                 with(JSONObject(response.body?.string())) {
-                    completion(getJSONArray("collection_list"))
+                    completion(
+                        try {
+                            getJSONArray("collection_list")
+                        } catch (e: Exception) {
+                            JSONArray()
+                        }
+                    )
                 }
             }
         })
@@ -249,7 +267,7 @@ class ServiceManager {
         })
     }
 
-    fun getRecommendation(number: Int,completion: (JSONArray) -> Unit){
+    fun getRecommendation(number: Int, completion: (JSONArray) -> Unit) {
         val request =
             Request.Builder().url("$baseURL/poems/random?number=$number")
                 .build()
@@ -261,7 +279,37 @@ class ServiceManager {
 
             override fun onResponse(call: Call, response: Response) {
                 with(JSONObject(response.body?.string())) {
-                    completion(getJSONArray("result_list"))
+                    completion(
+                        try {
+                            getJSONArray("result_list")
+                        } catch (e: Exception) {
+                            JSONArray()
+                        }
+                    )
+                }
+            }
+        })
+    }
+
+    fun searchText(key: String, completion: (JSONArray) -> Unit) {
+        val request =
+            Request.Builder().url("$baseURL/poems/search?key=$key")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user collection.")
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(
+                        try {
+                            getJSONArray("result_list")
+                        } catch (e: Exception) {
+                            JSONArray()
+                        }
+                    )
                 }
             }
         })

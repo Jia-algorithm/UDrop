@@ -2,6 +2,8 @@ package com.yudi.udrop
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,14 +19,14 @@ import com.yudi.udrop.model.local.TextDetail
 
 class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityCollectionBinding
-    lateinit var SQLiteManager: SQLiteManager
+    lateinit var localManager: SQLiteManager
     private val adapter by lazy {
-        CollectionAdapter(SQLiteManager, this)
+        CollectionAdapter(localManager, mainHandler, this)
     }
-
+    private val mainHandler = Handler(Looper.getMainLooper())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
+        localManager = SQLiteManager(this, "udrop.db", null, 1)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection)
         binding.loading = true
         binding.toolbarModel = ToolbarModel("收藏夹", R.drawable.ic_toolbar_back)
@@ -46,15 +48,17 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
         getData { collection ->
-            adapter.collectionList = collection
-            recyclerView.adapter = adapter
-            binding.loading = false
+            mainHandler.post {
+                adapter.collectionList = collection
+                binding.loading = false
+            }
         }
     }
 
     private fun getData(completion: (ArrayList<TextDetail>) -> Unit) {
-        SQLiteManager.getInfo()?.let { userModel ->
+        localManager.getInfo()?.let { userModel ->
             ServiceManager().getCollection(userModel.id) {
                 val list = arrayListOf<TextDetail>()
                 for (i in 0 until it.length()) {

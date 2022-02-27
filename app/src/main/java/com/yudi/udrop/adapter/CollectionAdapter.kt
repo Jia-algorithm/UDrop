@@ -1,6 +1,7 @@
 package com.yudi.udrop.adapter
 
 import android.annotation.SuppressLint
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import com.yudi.udrop.model.local.TextDetail
 
 class CollectionAdapter(
     private val localManager: SQLiteManager,
+    val mainHandler: Handler,
     private val handler: ProgressInterface
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -73,11 +75,13 @@ class CollectionAdapter(
                             it.id,
                             collectionList[position].title
                         ) { success ->
-                            if (success) {
-                                collectionList.removeAt(position)
-                                notifyItemRemoved(position)
-                                notifyDataSetChanged()
-                            } else
+                            if (success)
+                                mainHandler.post {
+                                    collectionList.removeAt(position)
+                                    notifyItemRemoved(position)
+                                    notifyDataSetChanged()
+                                }
+                            else
                                 Snackbar.make(
                                     holder.itemView,
                                     R.string.warning,

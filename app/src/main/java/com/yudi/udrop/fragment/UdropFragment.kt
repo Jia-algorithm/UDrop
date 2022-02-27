@@ -28,9 +28,6 @@ class UdropFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Glide.with(view)
-            .load(R.drawable.siri)
-            .into(view.findViewById(R.id.udrop_microphone_gif))
         setupRecyclerView(view)
         val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
         adapter.updateContent(

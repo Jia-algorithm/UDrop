@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="color"
+            type="Integer" />
+
+        <variable
             name="toolbarModel"
             type="com.yudi.udrop.model.data.ToolbarModel" />
 
@@ -24,6 +28,9 @@
             bind:handler="@{toolbarHandler}"
             bind:model="@{toolbarModel}" />
 
-        <include layout="@layout/fragment_udrop" />
+        <include
+            android:id="@+id/udrop_container"
+            layout="@layout/fragment_udrop"
+            bind:micColor="@{color}" />
     </LinearLayout>
 </layout>

@@ -41,11 +41,6 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         binding.toolbarModel = ToolbarModel(getString(title), R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         setupRecyclerView(binding.progressRecyclerview)
-        getData { new, review ->
-            adapter.progressList =
-                if (title == R.string.new_progress) new else review
-            binding.loading = false
-        }
     }
 
     override fun onLeftItemClick() {
@@ -54,7 +49,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
                 ServiceManager().setNewSchedule(it.id, SQLiteManager.getNew()) { requestStatus ->
                     if (!requestStatus) {
                         Looper.prepare()
-                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
                         Looper.loop()
                     }
                 }
@@ -64,6 +59,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
                     SQLiteManager.getReview()
                 ) { requestStatus ->
                     if (!requestStatus) Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
         finish()
@@ -79,7 +75,12 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+        getData { new, review ->
+            adapter.progressList =
+                if (title == R.string.new_progress) new else review
+            recyclerView.adapter = adapter
+            binding.loading = false
+        }
     }
 
     private fun getData(completion: (ArrayList<ProgressModel>, ArrayList<ProgressModel>) -> Unit) {

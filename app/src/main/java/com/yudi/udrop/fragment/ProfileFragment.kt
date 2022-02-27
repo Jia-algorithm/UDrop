@@ -24,7 +24,7 @@ import com.yudi.udrop.model.data.ProfileModel
 
 class ProfileFragment : Fragment(), InputInterface {
     lateinit var binding: FragmentProfileBinding
-    lateinit var SQLiteManager: SQLiteManager
+    lateinit var localManager: SQLiteManager
 
     @Nullable
     override fun onCreateView(
@@ -38,14 +38,14 @@ class ProfileFragment : Fragment(), InputInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
+        localManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupBinding()
         setupRecyclerView()
         refreshPage()
     }
 
     private fun refreshPage() {
-        SQLiteManager.getInfo()?.let {
+        localManager.getInfo()?.let {
             binding.model =
                 ProfileModel(it.id, it.name, if (it.motto == "") "点击修改个性签名" else it.motto, it.days)
         }
@@ -60,7 +60,7 @@ class ProfileFragment : Fragment(), InputInterface {
         binding.profileSettingList.settingSignOut.let {
             it.setOnClickListener {
                 showConfirmDialog {
-                    SQLiteManager.deleteUser()
+                    localManager.deleteUser()
                     activity?.let { it ->
                         startActivity(Intent(context, LaunchActivity::class.java))
                         it.finish()
@@ -80,7 +80,7 @@ class ProfileFragment : Fragment(), InputInterface {
                 binding.model?.editMotto?.set(s.toString())
             }
         })
-        binding.profileSignatureEditIcon.setOnClickListener { v ->
+        binding.profileSignatureEditIcon.setOnClickListener { _ ->
             binding.model?.let { it ->
                 if (it.motto.get() != it.editMotto.get().toString()) {
                     ServiceManager().changeUserInfo(
@@ -89,7 +89,7 @@ class ProfileFragment : Fragment(), InputInterface {
                         it.editMotto.get().toString()
                     ) { result ->
                         if (result) {
-                            SQLiteManager.updateInfo(
+                            localManager.updateInfo(
                                 it.Name,
                                 it.editMotto.get().toString(),
                                 it.DaysNum

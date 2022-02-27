@@ -249,9 +249,27 @@ class ServiceManager {
         })
     }
 
-    fun getRecommendation(number: Int,completion: (JSONArray) -> Unit){
+    fun getRecommendation(number: Int, completion: (JSONArray) -> Unit) {
         val request =
             Request.Builder().url("$baseURL/poems/random?number=$number")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to get user collection.")
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                with(JSONObject(response.body?.string())) {
+                    completion(getJSONArray("result_list"))
+                }
+            }
+        })
+    }
+
+    fun searchText(key: String, completion: (JSONArray) -> Unit) {
+        val request =
+            Request.Builder().url("$baseURL/poems/search?key=$key")
                 .build()
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

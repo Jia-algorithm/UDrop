@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yudi.udrop.CollectionActivity
 import com.yudi.udrop.R
+import com.yudi.udrop.SearchActivity
 import com.yudi.udrop.TextDetailActivity
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
@@ -26,7 +27,7 @@ import org.json.JSONArray
 
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     lateinit var binding: FragmentHomeBinding
-    lateinit var SQLiteManager: SQLiteManager
+    lateinit var localManager: SQLiteManager
     private val adapter = HomeScheduleAdapter()
     private val textAdapter by lazy {
         HomeTextAdapter(this)
@@ -37,19 +38,24 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         inflater: LayoutInflater,
         @Nullable container: ViewGroup?,
         @Nullable savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SQLiteManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
+        localManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
         setupViewpager(view)
         binding.homeCollectionItem.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, CollectionActivity::class.java))
+            }
+        }
+        binding.homeEnterSearch.setOnClickListener {
+            activity?.let {
+                startActivity(Intent(context, SearchActivity::class.java))
             }
         }
     }
@@ -63,11 +69,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
     }
 
     private fun getData(completion: (JSONArray, JSONArray) -> Unit) {
-        SQLiteManager.getInfo()?.let {
+        localManager.getInfo()?.let {
             ServiceManager().getSchedule(it.id) { new, review ->
                 for (i in 0 until new.length()) {
                     with(new.getJSONObject(i)) {
-                        SQLiteManager.addNewSchedule(getString("title"), getInt("done"))
+                        localManager.addNewSchedule(getString("title"), getInt("done"))
                     }
                 }
                 completion(new, review)
@@ -81,7 +87,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
             for (i in 0 until it.length()) {
                 with(it.getJSONObject(i)) {
                     list.add(
-                        com.yudi.udrop.model.local.TextDetail(
+                        TextDetail(
                             getString("title"),
                             getString("author"),
                             getString("content"),

@@ -2,8 +2,11 @@ package com.yudi.udrop
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.ActivityTextDetailBinding
 import com.yudi.udrop.interfaces.ToolbarInterface
@@ -12,15 +15,18 @@ import com.yudi.udrop.model.data.ToolbarModel
 
 class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
     lateinit var binding: ActivityTextDetailBinding
-    private val SQLiteManager = com.yudi.udrop.data.SQLiteManager(this, "udrop.db", null, 1)
+    lateinit var localManager: SQLiteManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        localManager = SQLiteManager(this, "udrop.db", null, 1)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_text_detail)
         binding.toolbarModel = ToolbarModel("古诗详情", R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         binding.model = TextModel("", "", "", "")
         getData {
-            binding.model = it
+            Handler(Looper.getMainLooper()).post {
+                binding.model = it
+            }
             checkCollected(it.Title)
         }
         binding.reciteBySentence.setOnClickListener {
@@ -35,7 +41,7 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
         }
         binding.textDetailCollection.setOnClickListener {
             with(binding.model as TextModel) {
-                SQLiteManager.getInfo()?.let { userInfo ->
+                localManager.getInfo()?.let { userInfo ->
                     if (collected)
                         ServiceManager().removeCollection(userInfo.id, Title) { success ->
                             if (success) collected = false
@@ -64,9 +70,11 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
     }
 
     private fun checkCollected(title: String) {
-        SQLiteManager.getInfo()?.let {
+        localManager.getInfo()?.let {
             ServiceManager().checkCollection(it.id, title) { collected ->
-                binding.model?.collected = collected
+                Handler(Looper.getMainLooper()).post {
+                    binding.model?.collected = collected
+                }
             }
         }
     }

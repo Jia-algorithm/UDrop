@@ -2,6 +2,7 @@ package com.yudi.udrop
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +22,10 @@ import org.json.JSONArray
 
 class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityProgressBinding
-    lateinit var SQLiteManager: SQLiteManager
+    lateinit var localManager: SQLiteManager
     private val adapter by lazy {
         ProgressAdapter(
-            SQLiteManager,
+            localManager,
             if (title == R.string.new_progress) ScheduleType.NEW else ScheduleType.REVIEW,
             this
         )
@@ -35,7 +36,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SQLiteManager = SQLiteManager(this, "udrop.db", null, 1)
+        localManager = SQLiteManager(this, "udrop.db", null, 1)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_progress)
         binding.loading = true
         binding.toolbarModel = ToolbarModel(getString(title), R.drawable.ic_toolbar_back)
@@ -44,22 +45,25 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
     }
 
     override fun onLeftItemClick() {
-        SQLiteManager.getInfo()?.let {
+        localManager.getInfo()?.let {
             if (title == R.string.new_progress)
-                ServiceManager().setNewSchedule(it.id, SQLiteManager.getNew()) { requestStatus ->
+                ServiceManager().setNewSchedule(it.id, localManager.getNew()) { requestStatus ->
                     if (!requestStatus) {
-                        Looper.prepare()
-                        Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
-                        Looper.loop()
+                        Handler(Looper.getMainLooper()).post {
+                            Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             else
                 ServiceManager().setReviewSchedule(
                     it.id,
-                    SQLiteManager.getReview()
+                    localManager.getReview()
                 ) { requestStatus ->
-                    if (!requestStatus) Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT)
-                        .show()
+                    if (!requestStatus) {
+                        Handler(Looper.getMainLooper()).post {
+                            Toast.makeText(this, R.string.warning, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
         }
         finish()
@@ -75,24 +79,26 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
         getData { new, review ->
-            adapter.progressList =
-                if (title == R.string.new_progress) new else review
-            recyclerView.adapter = adapter
-            binding.loading = false
+            Handler(Looper.getMainLooper()).post {
+                adapter.progressList =
+                    if (title == R.string.new_progress) new else review
+                binding.loading = false
+            }
         }
     }
 
     private fun getData(completion: (ArrayList<ProgressModel>, ArrayList<ProgressModel>) -> Unit) {
-        SQLiteManager.getInfo()?.let { userModel ->
+        localManager.getInfo()?.let { userModel ->
             ServiceManager().getSchedule(userModel.id) { new, review ->
                 val newScheduleList = getProgressList(new)
                 val reviewScheduleList = getProgressList(review)
                 newScheduleList.map {
-                    SQLiteManager.addNewSchedule(it.title, it.finished)
+                    localManager.addNewSchedule(it.title, it.finished)
                 }
                 reviewScheduleList.map {
-                    SQLiteManager.addReviewSchedule(it.title, it.finished)
+                    localManager.addReviewSchedule(it.title, it.finished)
                 }
                 completion(newScheduleList, reviewScheduleList)
             }

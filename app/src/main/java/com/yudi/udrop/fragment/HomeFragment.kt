@@ -2,6 +2,8 @@ package com.yudi.udrop.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +49,8 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         super.onViewCreated(view, savedInstanceState)
         localManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
-        setupViewpager(view)
+        binding.homeScheduleViewpager.adapter = adapter
+        setupTabLayout(view)
         binding.homeCollectionItem.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, CollectionActivity::class.java))
@@ -56,6 +59,16 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         binding.homeEnterSearch.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, SearchActivity::class.java))
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getData { new, review ->
+            Handler(Looper.getMainLooper()).post {
+                adapter.newList = new
+                adapter.reviewList = review
             }
         }
     }
@@ -105,18 +118,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = textAdapter
         getRecommendation { result ->
-            textAdapter.recommendList = result
-            recyclerView.adapter = textAdapter
-        }
-    }
-
-    private fun setupViewpager(view: View) {
-        getData { new, review ->
-            adapter.newList = new
-            adapter.reviewList = review
-            binding.homeScheduleViewpager.adapter = adapter
-            setupTabLayout(view)
+            Handler(Looper.getMainLooper()).post {
+                textAdapter.recommendList = result
+            }
         }
     }
 

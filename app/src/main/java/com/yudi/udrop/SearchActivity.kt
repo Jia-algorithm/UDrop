@@ -2,6 +2,7 @@ package com.yudi.udrop
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
@@ -58,10 +59,10 @@ class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface,
         localManager.getInfo()?.let {
             ServiceManager().setNewSchedule(it.id, localManager.getNew()) { requestStatus ->
                 if (!requestStatus) {
-                    Looper.prepare()
-                    Toast.makeText(this, R.string.fail_to_update_schedule, Toast.LENGTH_SHORT)
-                        .show()
-                    Looper.loop()
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(this, R.string.fail_to_update_schedule, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }
             finish()
@@ -84,9 +85,9 @@ class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface,
 
             override fun afterTextChanged(s: Editable?) {
                 getSearchData(s.toString()) { result ->
-                    Looper.prepare()
-                    adapter.resultList = result
-                    Looper.loop()
+                    Handler(Looper.getMainLooper()).post {
+                        adapter.resultList = result
+                    }
                 }
             }
         })
@@ -97,10 +98,12 @@ class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface,
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
         getInitialData { result ->
-            adapter.resultList = result
-            recyclerView.adapter = adapter
-            binding.loading = false
+            Handler(Looper.getMainLooper()).post {
+                adapter.resultList = result
+                binding.loading = false
+            }
         }
     }
 

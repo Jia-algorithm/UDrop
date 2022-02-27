@@ -41,7 +41,6 @@ class HomeScheduleAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //TODO: get real data
         when (position) {
             0 -> with(holder.binding) {
                 buttonText = holder.itemView.context.getString(R.string.start_to_learn)

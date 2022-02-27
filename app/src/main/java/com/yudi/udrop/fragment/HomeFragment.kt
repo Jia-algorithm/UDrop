@@ -13,24 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
-import com.yudi.udrop.CollectionActivity
-import com.yudi.udrop.R
-import com.yudi.udrop.SearchActivity
-import com.yudi.udrop.TextDetailActivity
+import com.yudi.udrop.*
 import com.yudi.udrop.adapter.HomeScheduleAdapter
 import com.yudi.udrop.adapter.HomeTextAdapter
 import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
+import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
 import com.yudi.udrop.model.local.TextDetail
 import org.json.JSONArray
 
-class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
+class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, ProgressInterface {
     lateinit var binding: FragmentHomeBinding
     lateinit var localManager: SQLiteManager
-    private val adapter = HomeScheduleAdapter()
+    private val adapter = HomeScheduleAdapter(this)
     private val textAdapter by lazy {
         HomeTextAdapter(this)
     }
@@ -77,6 +75,28 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface {
         activity?.let {
             startActivity(Intent(context, TextDetailActivity::class.java).apply {
                 putExtra(TextDetailActivity.INTENT_EXTRA_TEXT_TITLE, title)
+            })
+        }
+    }
+
+    override fun checkProgress(buttonText: String) {
+        activity?.let {
+            startActivity(Intent(context, ProgressActivity::class.java).apply {
+                putExtra(
+                    ProgressActivity.INTENT_EXTRA_TITLE,
+                    if (buttonText == getString(R.string.start_to_learn)) R.string.new_progress else R.string.review_progress
+                )
+            })
+        }
+    }
+
+    override fun clickScheduleButton(buttonText: String) {
+        activity?.let {
+            startActivity(Intent(context, UdropActivity::class.java).apply {
+                putExtra(
+                    UdropActivity.INTENT_EXTRA_TITLE,
+                    if (buttonText == getString(R.string.start_to_learn)) R.string.start_to_learn else R.string.start_to_review
+                )
             })
         }
     }

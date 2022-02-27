@@ -24,10 +24,11 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (JSONObject(response.body?.string()).getInt("user_id") == 0)
-                    completion(JSONObject(response.body?.string()).getInt("user_id"))
+                val result = JSONObject(response.body?.string())
+                if (result.getString("success") == "Yes")
+                    completion(result.getInt("user_id"))
                 else
-                    completion(-1)
+                    completion(-2)
             }
         })
     }

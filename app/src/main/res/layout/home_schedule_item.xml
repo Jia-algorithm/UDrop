@@ -8,6 +8,10 @@
             type="String" />
 
         <variable
+            name="handler"
+            type="com.yudi.udrop.interfaces.ProgressInterface" />
+
+        <variable
             name="model"
             type="com.yudi.udrop.model.data.ScheduleModel" />
     </data>
@@ -27,6 +31,7 @@
             android:id="@+id/home_schedule_check_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{()->handler.checkProgress(buttonText)}"
             android:text="@string/process_check"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -77,6 +82,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_rectangle_shape"
             android:backgroundTint="@color/udrop_text_3"
+            android:onClick="@{()->handler.clickScheduleButton(buttonText)}"
             android:paddingVertical="10dp"
             android:text="@{buttonText}"
             android:textAlignment="center"

@@ -19,6 +19,7 @@ import com.yudi.udrop.model.data.ProgressModel
 import com.yudi.udrop.model.data.ToolbarModel
 import com.yudi.udrop.model.local.ScheduleType
 import org.json.JSONArray
+import org.json.JSONObject
 
 class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityProgressBinding
@@ -42,6 +43,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         binding.toolbarModel = ToolbarModel(getString(title), R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         setupRecyclerView(binding.progressRecyclerview)
+        getData()
     }
 
     override fun onLeftItemClick() {
@@ -80,48 +82,39 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        getData { new, review ->
-            Handler(Looper.getMainLooper()).post {
-                adapter.progressList =
-                    if (title == R.string.new_progress) new else review
+    }
+
+    private fun getData() {
+        localManager.getInfo()?.let { userModel ->
+            ServiceManager().getSchedule(userModel.id) { new, review ->
+                if (title == R.string.new_progress) getProgressList(new) else getProgressList(review)
                 binding.loading = false
             }
         }
     }
 
-    private fun getData(completion: (ArrayList<ProgressModel>, ArrayList<ProgressModel>) -> Unit) {
-        localManager.getInfo()?.let { userModel ->
-            ServiceManager().getSchedule(userModel.id) { new, review ->
-                val newScheduleList = getProgressList(new)
-                val reviewScheduleList = getProgressList(review)
-                newScheduleList.map {
-                    localManager.addNewSchedule(it.title, it.finished)
+    private fun getProgressList(list: JSONArray) {
+        var progressList: ArrayList<ProgressModel> = arrayListOf()
+        for (i in 0 until list.length()) {
+            getProgressModel(list.getJSONObject(i)) {
+                progressList.add(it)
+                Handler(Looper.getMainLooper()).post {
+                    adapter.progressList = progressList
                 }
-                reviewScheduleList.map {
-                    localManager.addReviewSchedule(it.title, it.finished)
-                }
-                completion(newScheduleList, reviewScheduleList)
             }
         }
     }
 
-    private fun getProgressList(list: JSONArray): ArrayList<ProgressModel> {
-        var progressList: ArrayList<ProgressModel> = arrayListOf()
-        for (i in 0 until list.length()) {
-            ServiceManager().getTextDetail(list.getJSONObject(i).getString("title")) {
-                it?.let {
-                    progressList.add(
-                        ProgressModel(
-                            it.title,
-                            it.writer,
-                            it.content,
-                            list.getJSONObject(i).getInt("done")
-                        )
+    private fun getProgressModel(jsonObject: JSONObject, completion: (ProgressModel) -> Unit) {
+        ServiceManager().getTextDetail(jsonObject.getString("title")) {
+            it?.let {
+                completion(
+                    ProgressModel(
+                        it.title, it.writer, it.content, jsonObject.getInt("done")
                     )
-                }
+                )
             }
         }
-        return progressList
     }
 
     companion object {

@@ -1,57 +1,199 @@
 package com.yudi.udrop.fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Nullable
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.baidu.speech.EventListener
+import com.baidu.speech.EventManagerFactory
+import com.baidu.speech.asr.SpeechConstant
+import com.baidu.tts.client.SpeechSynthesizer
+import com.baidu.tts.client.TtsMode
 import com.bumptech.glide.Glide
 import com.yudi.udrop.R
-import com.yudi.udrop.adapter.MessageAdapter
-import com.yudi.udrop.model.data.MessageModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.yudi.udrop.UdropActivity
+import com.yudi.udrop.databinding.FragmentUdropBinding
+import org.json.JSONObject
+import java.util.*
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.Map
+import kotlin.collections.set
 
-class UdropFragment : Fragment() {
+class UdropFragment : Fragment(), EventListener {
+    lateinit var binding: FragmentUdropBinding
+    private val asr by lazy {
+        EventManagerFactory.create(context, "asr")
+    }
+    private var speechSynthesizer: SpeechSynthesizer? = null
 
-    private val adapter: MessageAdapter = MessageAdapter()
+    private var running = false
 
+    @Nullable
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        @Nullable container: ViewGroup?,
+        @Nullable savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_udrop, container, false)
+        binding = FragmentUdropBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Glide.with(view)
-            .load(R.drawable.siri)
-            .into(view.findViewById(R.id.udrop_microphone_gif))
-        setupRecyclerView(view)
-        val TimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-        adapter.updateContent(
-            0,
-            MessageModel(false, "你好，我是语滴。", "${TimeFormatter.format(LocalDateTime.now())}")
-        )
-        adapter.updateContent(
-            1,
-            MessageModel(
-                false,
-                "你可以和我聊天，也可以输入“背书”，开始背书之旅哦~",
-                "${TimeFormatter.format(LocalDateTime.now())}"
-            )
-        )
+        binding.result = "你好，我是语滴，点击图标和我说话吧！"
+        initPermission()
+        initTTS()
+        asr.registerListener(this)
+        binding.udropMicrophoneIcon.setOnClickListener {
+            if (running) {
+                stop()
+                running = false
+            } else {
+                binding.result = ""
+                Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
+                stopSpeak()
+                start()
+            }
+        }
     }
 
-    private fun setupRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.udrop_content)
-        recyclerView.adapter = adapter
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        recyclerView.layoutManager = layoutManager
+    override fun onPause() {
+        asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0)
+        asr.unregisterListener(this)
+        speechSynthesizer?.let {
+            it.stop()
+            it.release()
+        }
+        speechSynthesizer = null
+        super.onDestroy()
+    }
+
+    override fun onEvent(
+        name: String?,
+        params: String?,
+        data: ByteArray?,
+        offset: Int,
+        length: Int
+    ) {
+        var logTxt = ""
+
+        if (name == SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL) {
+            params?.let {
+                if (it.contains("\"final_result\"")) {
+                    Glide.with(this).clear(binding.udropSpeakingGif)
+                    binding.result = JSONObject(it).getString("best_result")
+                }
+            }
+        } else {
+            if (params != null && !params.isEmpty()) {
+                logTxt += " ;params :$params"
+            }
+            if (data != null) {
+                logTxt += " ;data length=" + data.size
+            }
+        }
+        Log.i(UdropActivity.TAG, logTxt)
+    }
+
+    private fun initTTS() {
+        speechSynthesizer = SpeechSynthesizer.getInstance()
+        speechSynthesizer?.let {
+            it.setContext(context)
+            var result = it.setAppId(UdropActivity.appId)
+            checkResult(result, "setAppId")
+            result = it.setApiKey(UdropActivity.appKey, UdropActivity.secretKey)
+            checkResult(result, "setApiKey")
+            it.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0")
+            it.setParam(SpeechSynthesizer.PARAM_VOLUME, "9")
+            it.setParam(SpeechSynthesizer.PARAM_SPEED, "5")
+            it.setParam(SpeechSynthesizer.PARAM_PITCH, "5")
+            result = it.initTts(TtsMode.ONLINE)
+            checkResult(result, "initTts")
+        }
+        binding.result?.let {
+            speak(it)
+        }
+    }
+
+    private fun speak(text: String) {
+        speechSynthesizer?.let {
+            val result = it.speak(text)
+            checkResult(result, "speak")
+        } ?: run { Log.e(TAG, "[ERROR], 初始化失败") }
+    }
+
+    private fun stopSpeak() {
+        speechSynthesizer?.let {
+            val result = it.stop()
+            checkResult(result, "stop speak")
+        }
+    }
+
+    private fun checkResult(result: Int, method: String) {
+        if (result != 0) Log.e(TAG, "error code:$result method:$method")
+    }
+
+    private fun start() {
+        val params = LinkedHashMap<String, Any>()
+        params[SpeechConstant.ACCEPT_AUDIO_VOLUME] = false
+        params[SpeechConstant.PID] = 1537
+        asr.send(SpeechConstant.ASR_START, JSONObject(params as Map<*, *>).toString(), null, 0, 0)
+    }
+
+    private fun stop() {
+        Log.i(TAG, "ASR STOP")
+        asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0)
+    }
+
+    private fun initPermission() {
+        val permissions = arrayOf(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.WRITE_SETTINGS,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        val toApplyList = ArrayList<String>()
+        for (perm in permissions) {
+            if (PackageManager.PERMISSION_GRANTED != activity?.let {
+                    ContextCompat.checkSelfPermission(
+                        it,
+                        perm
+                    )
+                }
+            ) {
+                toApplyList.add(perm)
+                // 进入到这里代表没有权限.
+            }
+        }
+        val tmpList = arrayOfNulls<String>(toApplyList.size)
+        if (!toApplyList.isEmpty()) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    toApplyList.toArray(tmpList),
+                    123
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val TAG = "UDropFragment"
     }
 }

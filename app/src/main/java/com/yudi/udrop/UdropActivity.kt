@@ -36,34 +36,32 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
     }
     private var speechSynthesizer: SpeechSynthesizer? = null
 
-    protected var enableOffline = false
     private var running = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_udrop)
         binding.toolbarModel = ToolbarModel(getString(titleResId), R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
-        binding.result = "你好，我是语滴，点击图标开始说话吧！"
+        binding.result = "你好，我是语滴，点击图标和我说话吧！"
         initPermission()
         initTTS()
         asr.registerListener(this)
         binding.udropMicrophoneIcon.setOnClickListener {
             if (running) {
-//                stop()
-                stopSpeak()
+                stop()
                 running = false
             } else {
                 binding.result = ""
                 Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
-//                start()
-                speak("你好我是语滴")
+                stopSpeak()
+                start()
             }
         }
     }
 
     override fun onPause() {
-        super.onPause()
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0)
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -91,33 +89,13 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         var logTxt = ""
 
         if (name == SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL) {
-
-            // 识别相关的结果都在这里
             params?.let {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
                     binding.result = JSONObject(it).getString("best_result")
                 }
             }
-//            if (params.contains("\"nlu_result\"")) {
-//                // 一句话的语义解析结果
-//                if (data != null && length > 0 && data.size > 0)
-//                    logTxt += ", 语义解析结果：" + String(data, offset, length)
-//            } else if (params.contains("\"partial_result\"")) {
-//                // 一句话的临时识别结果
-//                logTxt += ", 临时识别结果：$params"
-//            } else if (params.contains("\"final_result\"")) {
-//                // 一句话的最终识别结果
-//                logTxt += ", 最终识别结果：$params"
-//            } else {
-//                // 一般这里不会运行
-//                logTxt += " ;params :$params"
-//                if (data != null) {
-//                    logTxt += " ;data length=" + data.size
-//                }
-//            }
         } else {
-            // 识别开始，结束，音量，音频数据回调
             if (params != null && !params.isEmpty()) {
                 logTxt += " ;params :$params"
             }
@@ -143,6 +121,9 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             result = it.initTts(TtsMode.ONLINE)
             checkResult(result, "initTts")
         }
+        binding.result?.let {
+            speak(it)
+        }
     }
 
     private fun speak(text: String) {
@@ -167,22 +148,6 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         val params = LinkedHashMap<String, Any>()
         params[SpeechConstant.ACCEPT_AUDIO_VOLUME] = false
         params[SpeechConstant.PID] = 1537
-
-        AutoCheck(
-            applicationContext, @SuppressLint("HandlerLeak")
-            object : Handler() {
-                override fun handleMessage(msg: Message) {
-                    if (msg.what == 100) {
-                        val autoCheck: AutoCheck = msg.obj as AutoCheck
-                        synchronized(autoCheck) {
-                            val message: String =
-                                autoCheck.obtainErrorMessage() // autoCheck.obtainAllMessage();
-                            Log.i(TAG, message)
-                        }
-                    }
-                }
-            }, enableOffline
-        ).checkAsr(params)
         asr.send(SpeechConstant.ASR_START, JSONObject(params as Map<*, *>).toString(), null, 0, 0)
     }
 

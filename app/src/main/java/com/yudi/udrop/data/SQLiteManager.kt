@@ -55,13 +55,79 @@ class SQLiteManager
         return resultCode
     }
 
-    fun addReviewSchedule(title: String, done: Int) {
-        val contentValues = ContentValues().apply {
-            put("title", title)
-            put("done", done)
+    fun updateNewSchedule(list: JSONArray) {
+        writableDatabase.delete("new", null, null)
+        for (i in 0 until list.length()) {
+            with(list.getJSONObject(i)) {
+                writableDatabase.insert("new", null, ContentValues().apply {
+                    put("title", getString("title"))
+                    put("done", getInt("done"))
+                })
+            }
         }
-        writableDatabase.insert("review", null, contentValues)
         writableDatabase.close()
+    }
+
+    fun updateReviewSchedule(list: JSONArray) {
+        writableDatabase.delete("review", null, null)
+        for (i in 0 until list.length()) {
+            with(list.getJSONObject(i)) {
+                writableDatabase.insert("review", null, ContentValues().apply {
+                    put("title", getString("title"))
+                    put("done", getInt("done"))
+                    put("time", getString("time"))
+                })
+            }
+        }
+        writableDatabase.close()
+    }
+
+    fun countUndoneNewSchedule(): Int {
+        return readableDatabase.query(
+            "new",
+            null,
+            "done=?",
+            arrayOf("0"),
+            null,
+            null,
+            null
+        ).count
+    }
+
+    fun countCompletedNewSchedule(): Int {
+        return readableDatabase.query(
+            "new",
+            null,
+            "done=?",
+            arrayOf("1"),
+            null,
+            null,
+            null
+        ).count
+    }
+
+    fun countUndoneReviewSchedule(): Int {
+        return readableDatabase.query(
+            "review",
+            null,
+            "done=?",
+            arrayOf("0"),
+            null,
+            null,
+            null
+        ).count
+    }
+
+    fun countCompletedReviewSchedule(): Int {
+        return readableDatabase.query(
+            "review",
+            null,
+            "done=?",
+            arrayOf("1"),
+            null,
+            null,
+            null
+        ).count
     }
 
     fun updateInfo(name: String, motto: String, days: Int) {

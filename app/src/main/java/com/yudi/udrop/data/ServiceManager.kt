@@ -327,6 +327,30 @@ class ServiceManager {
         })
     }
 
+    fun communicate(userId: Int, text: String, completion: (Boolean, String) -> Unit) {
+        val params = "{\"user_id\":$userId,\"text\":\"$text\"}"
+        val request =
+            Request.Builder().post(params.toRequestBody(JSON)).url("$baseURL/reply")
+                .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failed to update review schedule.")
+                e.printStackTrace()
+                completion(true, "啊哦，出了点小问题，先去别的地方看看吧")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(getBoolean("is_finished"), getString("response"))
+                    }
+                else
+                    completion(true, "啊哦，出了点小问题，先去别的地方看看吧")
+            }
+        })
+    }
+
     companion object {
         val JSON = String.format("application/json; charset=utf-8").toMediaType()
         const val baseURL = "http://121.199.77.139:5001"

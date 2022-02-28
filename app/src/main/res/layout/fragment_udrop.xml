@@ -21,13 +21,17 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView android:id="@+id/udrop_speaking_gif"
+
+            <ImageView
+                android:id="@+id/udrop_speaking_gif"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/udrop_result_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:text="@{result}"
                 android:textColor="@color/white" />
         </LinearLayout>

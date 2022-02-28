@@ -8,20 +8,19 @@ import com.yudi.udrop.R
 import com.yudi.udrop.databinding.HomeScheduleItemBinding
 import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.model.data.ScheduleModel
-import org.json.JSONArray
 
 class HomeScheduleAdapter(val handleSchedule: ProgressInterface) :
     RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: HomeScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    var newList = JSONArray()
+    var newSchedule = ScheduleModel(0, 0)
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var reviewList = JSONArray()
+    var reviewSchedule = ScheduleModel(0, 0)
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -40,24 +39,16 @@ class HomeScheduleAdapter(val handleSchedule: ProgressInterface) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (position) {
             0 -> with(holder.binding) {
-                model = getSchedule(newList)
+                model = newSchedule
                 buttonText = holder.itemView.context.getString(R.string.start_to_learn)
                 handler = handleSchedule
             }
             else -> with(holder.binding) {
-                model = getSchedule(reviewList)
+                model = reviewSchedule
                 buttonText = holder.itemView.context.getString(R.string.start_to_review)
                 handler = handleSchedule
             }
         }
-    }
-
-    private fun getSchedule(list: JSONArray): ScheduleModel {
-        var count = 0
-        for (i in 0 until list.length()) {
-            if (list.getJSONObject(i).getInt("done") == 1) count++
-        }
-        return ScheduleModel(count, list.length())
     }
 
     override fun getItemCount(): Int = 2

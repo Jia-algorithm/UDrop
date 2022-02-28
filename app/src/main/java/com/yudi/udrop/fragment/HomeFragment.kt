@@ -1,5 +1,6 @@
 package com.yudi.udrop.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -22,6 +23,8 @@ import com.yudi.udrop.databinding.FragmentHomeBinding
 import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
+import com.yudi.udrop.model.data.ScheduleModel
+import com.yudi.udrop.model.local.FunctionType
 import com.yudi.udrop.model.local.TextDetail
 import org.json.JSONArray
 
@@ -54,6 +57,14 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
                 startActivity(Intent(context, CollectionActivity::class.java))
             }
         }
+        binding.homeGameItem.setOnClickListener {
+            activity?.let {
+                startActivity(Intent(context, UdropActivity::class.java).apply {
+                    putExtra(UdropActivity.INTENT_EXTRA_TITLE, "游戏中心")
+                    putExtra(UdropActivity.INTENT_EXTRA_TYPE, FunctionType.GAME.typeId)
+                })
+            }
+        }
         binding.homeEnterSearch.setOnClickListener {
             activity?.let {
                 startActivity(Intent(context, SearchActivity::class.java))
@@ -65,8 +76,10 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
         super.onResume()
         getData { new, review ->
             Handler(Looper.getMainLooper()).post {
-                adapter.newList = new
-                adapter.reviewList = review
+                adapter.newSchedule =
+                    ScheduleModel(localManager.countCompletedNewSchedule(), new.length())
+                adapter.reviewSchedule =
+                    ScheduleModel(localManager.countCompletedReviewSchedule(), review.length())
             }
         }
     }
@@ -95,7 +108,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
             startActivity(Intent(context, UdropActivity::class.java).apply {
                 putExtra(
                     UdropActivity.INTENT_EXTRA_TITLE,
-                    if (buttonText == getString(R.string.start_to_learn)) R.string.start_to_learn else R.string.start_to_review
+                    if (buttonText == getString(R.string.start_to_learn)) "学习计划" else "复习计划"
+                )
+                putExtra(
+                    UdropActivity.INTENT_EXTRA_TYPE,
+                    if (buttonText == getString(R.string.start_to_learn)) FunctionType.LEARN_NEW.typeId else FunctionType.REVIEW.typeId
                 )
             })
         }
@@ -104,11 +121,8 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
     private fun getData(completion: (JSONArray, JSONArray) -> Unit) {
         localManager.getInfo()?.let {
             ServiceManager().getSchedule(it.id) { new, review ->
-                for (i in 0 until new.length()) {
-                    with(new.getJSONObject(i)) {
-                        localManager.addNewSchedule(getString("title"), getInt("done"))
-                    }
-                }
+                localManager.updateNewSchedule(new)
+                localManager.updateReviewSchedule(review)
                 completion(new, review)
             }
         }
@@ -146,6 +160,7 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun setupTabLayout(view: View) {
         val tabLayout = binding.homeScheduleTab
         val viewPager = binding.homeScheduleViewpager

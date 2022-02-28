@@ -12,6 +12,7 @@ import com.yudi.udrop.databinding.ActivityTextDetailBinding
 import com.yudi.udrop.interfaces.ToolbarInterface
 import com.yudi.udrop.model.data.TextModel
 import com.yudi.udrop.model.data.ToolbarModel
+import com.yudi.udrop.model.local.FunctionType
 
 class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
     lateinit var binding: ActivityTextDetailBinding
@@ -31,12 +32,14 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
         }
         binding.reciteBySentence.setOnClickListener {
             startActivity(Intent(this, UdropActivity::class.java).apply {
-                putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_by_sentence)
+                putExtra(UdropActivity.INTENT_EXTRA_TITLE, (binding.model as TextModel).Title)
+                putExtra(UdropActivity.INTENT_EXTRA_TYPE, FunctionType.RECITE_BY_SENTENCE.typeId)
             })
         }
         binding.reciteWhole.setOnClickListener {
             startActivity(Intent(this, UdropActivity::class.java).apply {
-                putExtra(UdropActivity.INTENT_EXTRA_TITLE, R.string.recite_whole)
+                putExtra(UdropActivity.INTENT_EXTRA_TITLE, (binding.model as TextModel).Title)
+                putExtra(UdropActivity.INTENT_EXTRA_TYPE, FunctionType.RECITE_WHOLE.typeId)
             })
         }
         binding.textDetailCollection.setOnClickListener {

@@ -3,6 +3,8 @@ package com.yudi.udrop.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,20 +21,23 @@ import com.baidu.tts.client.TtsMode
 import com.bumptech.glide.Glide
 import com.yudi.udrop.R
 import com.yudi.udrop.UdropActivity
+import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentUdropBinding
+import com.yudi.udrop.model.local.FunctionType
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.LinkedHashMap
-import kotlin.collections.Map
 import kotlin.collections.set
 
 class UdropFragment : Fragment(), EventListener {
     lateinit var binding: FragmentUdropBinding
+    lateinit var localManager: SQLiteManager
     private val asr by lazy {
         EventManagerFactory.create(context, "asr")
     }
     private var speechSynthesizer: SpeechSynthesizer? = null
-
+    private var userId = 2
     private var running = false
 
     @Nullable
@@ -47,6 +52,10 @@ class UdropFragment : Fragment(), EventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        localManager = SQLiteManager(context, "udrop.db", null, 1)
+        localManager.getInfo()?.let {
+            userId = it.id
+        }
         binding.result = "你好，我是语滴，点击图标和我说话吧！"
         initPermission()
         initTTS()
@@ -77,6 +86,10 @@ class UdropFragment : Fragment(), EventListener {
             it.release()
         }
         speechSynthesizer = null
+        ServiceManager().communicate(userId,"不玩了"){ isFinished, _ ->
+            if (!isFinished)
+                ServiceManager().communicate(userId,"不背了"){ _, _ -> }
+        }
         super.onDestroy()
     }
 
@@ -94,6 +107,17 @@ class UdropFragment : Fragment(), EventListener {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
                     binding.result = JSONObject(it).getString("best_result")
+                    continueCommunication { reply ->
+                        Handler(Looper.getMainLooper()).post {
+                            binding.result = reply
+                            if(reply.length > 20)
+                                reply.split("，","。","？","！").forEach {
+                                    speak(it)
+                                }
+                            else
+                                speak(reply)
+                        }
+                    }
                 }
             }
         } else {
@@ -189,6 +213,14 @@ class UdropFragment : Fragment(), EventListener {
                     toApplyList.toArray(tmpList),
                     123
                 )
+            }
+        }
+    }
+
+    private fun continueCommunication(completion: (String) -> Unit) {
+        binding.result?.let {
+            ServiceManager().communicate(userId, it) { _, reply ->
+                completion(reply)
             }
         }
     }

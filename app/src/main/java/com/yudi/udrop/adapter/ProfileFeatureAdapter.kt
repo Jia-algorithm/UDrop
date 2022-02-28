@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.CollectionActivity
 import com.yudi.udrop.R
+import com.yudi.udrop.UdropActivity
 import com.yudi.udrop.databinding.ProfileItemBinding
 import com.yudi.udrop.model.data.FeatureModel
+import com.yudi.udrop.model.local.FunctionType
 
 class ProfileFeatureAdapter(val activity: FragmentActivity?) :
     RecyclerView.Adapter<ProfileFeatureAdapter.ProfileViewHolder>() {
@@ -44,6 +46,15 @@ class ProfileFeatureAdapter(val activity: FragmentActivity?) :
             itemViewHolder.itemView.setOnClickListener { view ->
                 activity?.let {
                     it.startActivity(Intent(view.context, CollectionActivity::class.java))
+                }
+            }
+        if (position == 2)
+            itemViewHolder.itemView.setOnClickListener { view ->
+                activity?.let {
+                    it.startActivity(Intent(view.context, UdropActivity::class.java).apply {
+                        putExtra(UdropActivity.INTENT_EXTRA_TITLE, "游戏中心")
+                        putExtra(UdropActivity.INTENT_EXTRA_TYPE, FunctionType.GAME.typeId)
+                    })
                 }
             }
     }

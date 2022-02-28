@@ -1,11 +1,10 @@
 package com.yudi.udrop
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,10 +16,12 @@ import com.baidu.speech.asr.SpeechConstant
 import com.baidu.tts.client.SpeechSynthesizer
 import com.baidu.tts.client.TtsMode
 import com.bumptech.glide.Glide
+import com.yudi.udrop.data.SQLiteManager
+import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.ActivityUdropBinding
 import com.yudi.udrop.interfaces.ToolbarInterface
 import com.yudi.udrop.model.data.ToolbarModel
-import com.yudi.udrop.util.AutoCheck
+import com.yudi.udrop.model.local.FunctionType
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.LinkedHashMap
@@ -28,8 +29,13 @@ import kotlin.collections.set
 
 class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
     lateinit var binding: ActivityUdropBinding
-    private val titleResId: Int by lazy {
-        intent.getIntExtra(INTENT_EXTRA_TITLE, R.string.app_name_cn)
+    lateinit var localManager: SQLiteManager
+    private var userId = 2
+    private val title: String by lazy {
+        intent.getStringExtra(INTENT_EXTRA_TITLE) ?: "语滴"
+    }
+    private val functionType: FunctionType by lazy {
+        intent.getStringExtra(INTENT_EXTRA_TYPE)?.let { typeFromId(it) } ?: FunctionType.DEFAULT
     }
     private val asr by lazy {
         EventManagerFactory.create(this, "asr")
@@ -39,22 +45,37 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
     private var running = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        localManager = SQLiteManager(this, "udrop.db", null, 1)
+        localManager.getInfo()?.let {
+            userId = it.id
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_udrop)
-        binding.toolbarModel = ToolbarModel(getString(titleResId), R.drawable.ic_toolbar_back)
+        binding.toolbarModel = ToolbarModel(title, R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
-        binding.result = "你好，我是语滴，点击图标和我说话吧！"
+        binding.result = ""
         initPermission()
         initTTS()
         asr.registerListener(this)
         binding.udropMicrophoneIcon.setOnClickListener {
             if (running) {
-                stop()
+                stopListen()
                 running = false
             } else {
                 binding.result = ""
                 Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
                 stopSpeak()
-                start()
+                startListen()
+            }
+        }
+        startCommunication { reply ->
+            Handler(Looper.getMainLooper()).post {
+                binding.result = reply
+                if(reply.length > 20)
+                    reply.split("，","。","？","！").forEach {
+                        speak(it)
+                    }
+                else
+                    speak(reply)
             }
         }
     }
@@ -72,6 +93,10 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             it.release()
         }
         speechSynthesizer = null
+        if (functionType == FunctionType.GAME)
+            ServiceManager().communicate(userId,"不玩了"){ _, _ -> }
+        else
+            ServiceManager().communicate(userId,"不背了"){ _, _ -> }
         super.onDestroy()
     }
 
@@ -86,24 +111,25 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         offset: Int,
         length: Int
     ) {
-        var logTxt = ""
-
         if (name == SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL) {
             params?.let {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
                     binding.result = JSONObject(it).getString("best_result")
+                    continueCommunication { reply ->
+                        Handler(Looper.getMainLooper()).post {
+                            binding.result = reply
+                            if(reply.length > 20)
+                                reply.split("，","。","？","！").forEach {
+                                    speak(it)
+                                }
+                            else
+                                speak(reply)
+                        }
+                    }
                 }
             }
-        } else {
-            if (params != null && !params.isEmpty()) {
-                logTxt += " ;params :$params"
-            }
-            if (data != null) {
-                logTxt += " ;data length=" + data.size
-            }
         }
-        Log.i(TAG, logTxt)
     }
 
     private fun initTTS() {
@@ -120,9 +146,6 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             it.setParam(SpeechSynthesizer.PARAM_PITCH, "5")
             result = it.initTts(TtsMode.ONLINE)
             checkResult(result, "initTts")
-        }
-        binding.result?.let {
-            speak(it)
         }
     }
 
@@ -144,14 +167,14 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         if (result != 0) Log.e(TAG, "error code:$result method:$method")
     }
 
-    private fun start() {
+    private fun startListen() {
         val params = LinkedHashMap<String, Any>()
         params[SpeechConstant.ACCEPT_AUDIO_VOLUME] = false
         params[SpeechConstant.PID] = 1537
         asr.send(SpeechConstant.ASR_START, JSONObject(params as Map<*, *>).toString(), null, 0, 0)
     }
 
-    private fun stop() {
+    private fun stopListen() {
         Log.i(TAG, "ASR STOP")
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0)
     }
@@ -175,7 +198,6 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
                 )
             ) {
                 toApplyList.add(perm)
-                // 进入到这里代表没有权限.
             }
         }
         val tmpList = arrayOfNulls<String>(toApplyList.size)
@@ -188,11 +210,65 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         }
     }
 
+    private fun startCommunication(completion: (String) -> Unit) {
+        when (functionType) {
+            FunctionType.REVIEW -> {
+                if (localManager.countUndoneReviewSchedule() == 0)
+                    completion("今天没有要复习的故事")
+                else
+                    ServiceManager().communicate(userId, "复习") { _, reply ->
+                        completion("现在是复习环节，$reply")
+                    }
+            }
+
+            FunctionType.LEARN_NEW -> {
+                if (localManager.countUndoneNewSchedule() == 0)
+                    completion("今天的学习计划都完成啦")
+                else
+                    ServiceManager().communicate(userId, "学习") { _, reply ->
+                        completion("现在是新学环节，$reply")
+                    }
+            }
+            FunctionType.RECITE_WHOLE -> ServiceManager().communicate(userId, title) { _, _ ->
+                ServiceManager().communicate(userId, "全文背诵") { _, reply ->
+                    completion("你已进入全文背诵环节" + reply.substringAfter("好的"))
+                }
+            }
+            FunctionType.RECITE_BY_SENTENCE -> ServiceManager().communicate(userId, title) { _, _ ->
+                ServiceManager().communicate(userId, "逐句跟背") { _, reply ->
+                    completion("你已进入逐句跟背环节" + reply.substringAfter("好的，"))
+                }
+            }
+            FunctionType.GAME -> ServiceManager().communicate(userId, "游戏") { _, reply ->
+                completion("让我们开始游戏吧。$reply")
+            }
+        }
+    }
+
+    private fun continueCommunication(completion: (String) -> Unit) {
+        binding.result?.let {
+            ServiceManager().communicate(userId, it) { _, reply ->
+                completion(reply)
+            }
+        }
+    }
+
     companion object {
         const val TAG = "UDropActivity"
         const val INTENT_EXTRA_TITLE = "title"
+        const val INTENT_EXTRA_TYPE = "function_type"
         const val appId = "25674272"
         const val appKey = "2U8zG0L8TidRMdL31HzG75FO"
         const val secretKey = "WqdU5HRGEnXdwQWfYIMzYQUFjGZiHGPW"
+        fun typeFromId(id: String): FunctionType {
+            return when (id) {
+                "recite_by_sentence" -> FunctionType.RECITE_BY_SENTENCE
+                "recite_whole" -> FunctionType.RECITE_WHOLE
+                "learn_new" -> FunctionType.LEARN_NEW
+                "review" -> FunctionType.REVIEW
+                "game" -> FunctionType.GAME
+                else -> FunctionType.DEFAULT
+            }
+        }
     }
 }

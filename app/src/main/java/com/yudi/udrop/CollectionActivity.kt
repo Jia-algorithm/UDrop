@@ -34,6 +34,16 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
         setupRecyclerView(binding.collectionRecyclerview)
     }
 
+    override fun onResume() {
+        super.onResume()
+        getData { collection ->
+            mainHandler.post {
+                adapter.collectionList = collection
+                binding.loading = false
+            }
+        }
+    }
+
     override fun onLeftItemClick() {
         finish()
     }
@@ -49,12 +59,6 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        getData { collection ->
-            mainHandler.post {
-                adapter.collectionList = collection
-                binding.loading = false
-            }
-        }
     }
 
     private fun getData(completion: (ArrayList<TextDetail>) -> Unit) {

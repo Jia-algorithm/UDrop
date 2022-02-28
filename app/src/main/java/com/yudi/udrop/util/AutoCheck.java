@@ -1,4 +1,4 @@
-package com.baidu.aip.asrwakeup3.core.mini;
+package com.yudi.udrop.util;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 
 import com.baidu.speech.asr.SpeechConstant;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;

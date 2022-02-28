@@ -24,9 +24,9 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val result = JSONObject(response.body?.string())
-                if (result.getString("success") == "Yes")
-                    completion(result.getInt("user_id"))
+                val result = response.body?.string()
+                if (result != "Failed" && JSONObject(result).getString("success") == "Yes")
+                    completion(JSONObject(result).getInt("user_id"))
                 else
                     completion(-2)
             }
@@ -45,7 +45,9 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                completion(JSONObject(response.body?.string()).getInt("userId"))
+                val result = response.body?.string()
+                if (result != "Failed")
+                    completion(JSONObject(result).getInt("userId"))
             }
         })
     }
@@ -60,16 +62,18 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        UserModel(
-                            userId,
-                            getString("user_name"),
-                            if (getString("user_motto") == "null") "" else getString("user_motto"),
-                            getInt("learned_days")
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            UserModel(
+                                userId,
+                                getString("user_name"),
+                                if (getString("user_motto") == "null") "" else getString("user_motto"),
+                                getInt("learned_days")
+                            )
                         )
-                    )
-                }
+                    }
             }
         })
     }
@@ -107,20 +111,22 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        try {
-                            getJSONArray("new_list")
-                        } catch (e: Exception) {
-                            JSONArray()
-                        },
-                        try {
-                            getJSONArray("review_list")
-                        } catch (e: Exception) {
-                            JSONArray()
-                        }
-                    )
-                }
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            try {
+                                getJSONArray("new_list")
+                            } catch (e: Exception) {
+                                JSONArray()
+                            },
+                            try {
+                                getJSONArray("review_list")
+                            } catch (e: Exception) {
+                                JSONArray()
+                            }
+                        )
+                    }
             }
         })
     }
@@ -201,15 +207,17 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        try {
-                            getJSONArray("collection_list")
-                        } catch (e: Exception) {
-                            JSONArray()
-                        }
-                    )
-                }
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            try {
+                                getJSONArray("collection_list")
+                            } catch (e: Exception) {
+                                JSONArray()
+                            }
+                        )
+                    }
             }
         })
     }
@@ -278,15 +286,17 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        try {
-                            getJSONArray("result_list")
-                        } catch (e: Exception) {
-                            JSONArray()
-                        }
-                    )
-                }
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            try {
+                                getJSONArray("result_list")
+                            } catch (e: Exception) {
+                                JSONArray()
+                            }
+                        )
+                    }
             }
         })
     }
@@ -302,15 +312,17 @@ class ServiceManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                with(JSONObject(response.body?.string())) {
-                    completion(
-                        try {
-                            getJSONArray("result_list")
-                        } catch (e: Exception) {
-                            JSONArray()
-                        }
-                    )
-                }
+                val result = response.body?.string()
+                if (result != "Failed")
+                    with(JSONObject(result)) {
+                        completion(
+                            try {
+                                getJSONArray("result_list")
+                            } catch (e: Exception) {
+                                JSONArray()
+                            }
+                        )
+                    }
             }
         })
     }

@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="@{result}"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <ImageView

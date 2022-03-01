@@ -35,7 +35,8 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         intent.getStringExtra(INTENT_EXTRA_TITLE) ?: "语滴"
     }
     private val functionType: FunctionType by lazy {
-        intent.getStringExtra(INTENT_EXTRA_TYPE)?.let { typeFromId(it) } ?: FunctionType.DEFAULT
+        intent.getStringExtra(INTENT_EXTRA_TYPE)?.let { FunctionType.typeFromId(it) }
+            ?: FunctionType.DEFAULT
     }
     private val asr by lazy {
         EventManagerFactory.create(this, "asr")
@@ -58,6 +59,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         asr.registerListener(this)
         binding.udropMicrophoneIcon.setOnClickListener {
             if (running) {
+                Glide.with(this).clear(binding.udropSpeakingGif)
                 stopListen()
                 running = false
             } else {
@@ -70,8 +72,8 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         startCommunication { reply ->
             Handler(Looper.getMainLooper()).post {
                 binding.result = reply
-                if(reply.length > 20)
-                    reply.split("，","。","？","！").forEach {
+                if (reply.length > 20)
+                    reply.split("，", "。", "？", "！").forEach {
                         speak(it)
                     }
                 else
@@ -82,6 +84,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
 
     override fun onPause() {
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0)
+        ServiceManager().communicate(userId, "结束") { _, _ -> }
         super.onPause()
     }
 
@@ -93,10 +96,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             it.release()
         }
         speechSynthesizer = null
-        if (functionType == FunctionType.GAME)
-            ServiceManager().communicate(userId,"不玩了"){ _, _ -> }
-        else
-            ServiceManager().communicate(userId,"不背了"){ _, _ -> }
+        ServiceManager().communicate(userId, "结束") { _, _ -> }
         super.onDestroy()
     }
 
@@ -115,12 +115,12 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             params?.let {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
-                    binding.result = JSONObject(it).getString("best_result")
-                    continueCommunication { reply ->
+                    val result = JSONObject(it).getString("best_result")
+                    continueCommunication(result) { reply ->
                         Handler(Looper.getMainLooper()).post {
                             binding.result = reply
-                            if(reply.length > 20)
-                                reply.split("，","。","？","！").forEach {
+                            if (reply.length > 20)
+                                reply.split("，", "。", "？", "！").forEach {
                                     speak(it)
                                 }
                             else
@@ -231,12 +231,12 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             }
             FunctionType.RECITE_WHOLE -> ServiceManager().communicate(userId, title) { _, _ ->
                 ServiceManager().communicate(userId, "全文背诵") { _, reply ->
-                    completion("你已进入全文背诵环节" + reply.substringAfter("好的"))
+                    completion("你已进入全文背诵环节," + reply.substringAfter("好的"))
                 }
             }
             FunctionType.RECITE_BY_SENTENCE -> ServiceManager().communicate(userId, title) { _, _ ->
                 ServiceManager().communicate(userId, "逐句跟背") { _, reply ->
-                    completion("你已进入逐句跟背环节" + reply.substringAfter("好的，"))
+                    completion("你已进入逐句跟背环节," + reply.substringAfter("好的，"))
                 }
             }
             FunctionType.GAME -> ServiceManager().communicate(userId, "游戏") { _, reply ->
@@ -245,11 +245,9 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         }
     }
 
-    private fun continueCommunication(completion: (String) -> Unit) {
-        binding.result?.let {
-            ServiceManager().communicate(userId, it) { _, reply ->
-                completion(reply)
-            }
+    private fun continueCommunication(text: String, completion: (String) -> Unit) {
+        ServiceManager().communicate(userId, text) { _, reply ->
+            completion(reply)
         }
     }
 
@@ -260,15 +258,5 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         const val appId = "25674272"
         const val appKey = "2U8zG0L8TidRMdL31HzG75FO"
         const val secretKey = "WqdU5HRGEnXdwQWfYIMzYQUFjGZiHGPW"
-        fun typeFromId(id: String): FunctionType {
-            return when (id) {
-                "recite_by_sentence" -> FunctionType.RECITE_BY_SENTENCE
-                "recite_whole" -> FunctionType.RECITE_WHOLE
-                "learn_new" -> FunctionType.LEARN_NEW
-                "review" -> FunctionType.REVIEW
-                "game" -> FunctionType.GAME
-                else -> FunctionType.DEFAULT
-            }
-        }
     }
 }

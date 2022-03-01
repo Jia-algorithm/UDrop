@@ -24,7 +24,6 @@ import com.yudi.udrop.UdropActivity
 import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.data.ServiceManager
 import com.yudi.udrop.databinding.FragmentUdropBinding
-import com.yudi.udrop.model.local.FunctionType
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.LinkedHashMap
@@ -62,6 +61,7 @@ class UdropFragment : Fragment(), EventListener {
         asr.registerListener(this)
         binding.udropMicrophoneIcon.setOnClickListener {
             if (running) {
+                Glide.with(this).clear(binding.udropSpeakingGif)
                 stop()
                 running = false
             } else {
@@ -75,6 +75,7 @@ class UdropFragment : Fragment(), EventListener {
 
     override fun onPause() {
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0)
+        ServiceManager().communicate(userId, "结束") { _, _ -> }
         super.onPause()
     }
 
@@ -86,10 +87,7 @@ class UdropFragment : Fragment(), EventListener {
             it.release()
         }
         speechSynthesizer = null
-        ServiceManager().communicate(userId,"不玩了"){ isFinished, _ ->
-            if (!isFinished)
-                ServiceManager().communicate(userId,"不背了"){ _, _ -> }
-        }
+        ServiceManager().communicate(userId, "结束") { _, _ -> }
         super.onDestroy()
     }
 
@@ -106,12 +104,12 @@ class UdropFragment : Fragment(), EventListener {
             params?.let {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
-                    binding.result = JSONObject(it).getString("best_result")
-                    continueCommunication { reply ->
+                    val result = JSONObject(it).getString("best_result")
+                    continueCommunication(result) { reply ->
                         Handler(Looper.getMainLooper()).post {
                             binding.result = reply
-                            if(reply.length > 20)
-                                reply.split("，","。","？","！").forEach {
+                            if (reply.length > 20)
+                                reply.split("，", "。", "？", "！").forEach {
                                     speak(it)
                                 }
                             else
@@ -217,11 +215,9 @@ class UdropFragment : Fragment(), EventListener {
         }
     }
 
-    private fun continueCommunication(completion: (String) -> Unit) {
-        binding.result?.let {
-            ServiceManager().communicate(userId, it) { _, reply ->
-                completion(reply)
-            }
+    private fun continueCommunication(text: String, completion: (String) -> Unit) {
+        ServiceManager().communicate(userId, text) { _, reply ->
+            completion(reply)
         }
     }
 

@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="40dp"
-        android:text="宣传语，这是宣传语~"
+        android:text="你好，我是语滴智能背书助手~"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/launch_login"

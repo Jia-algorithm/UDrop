@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="yourReply"
+            type="String" />
+
+        <variable
             name="result"
             type="String" />
     </data>
@@ -26,6 +30,15 @@
                 android:id="@+id/udrop_speaking_gif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/udrop_user_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@{yourReply}"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/udrop_result_text"

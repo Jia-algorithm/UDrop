@@ -54,6 +54,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         binding.toolbarModel = ToolbarModel(title, R.drawable.ic_toolbar_back)
         binding.toolbarHandler = this
         binding.result = ""
+        binding.yourReply = ""
         initPermission()
         initTTS()
         asr.registerListener(this)
@@ -63,6 +64,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
                 stopListen()
                 running = false
             } else {
+                binding.yourReply = ""
                 binding.result = ""
                 Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
                 stopSpeak()
@@ -71,7 +73,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         }
         startCommunication { reply ->
             Handler(Looper.getMainLooper()).post {
-                binding.result = reply
+                binding.result = "语滴：$reply"
                 if (reply.length > 20)
                     reply.split("，", "。", "？", "！").forEach {
                         speak(it)
@@ -112,13 +114,14 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         length: Int
     ) {
         if (name == SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL) {
-            params?.let {
-                if (it.contains("\"final_result\"")) {
+            params?.let { s ->
+                if (s.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
-                    val result = JSONObject(it).getString("best_result")
+                    val result = JSONObject(s).getString("best_result")
+                    binding.yourReply = "你：$result"
                     continueCommunication(result) { reply ->
                         Handler(Looper.getMainLooper()).post {
-                            binding.result = reply
+                            binding.result = "语滴：$reply"
                             if (reply.length > 20)
                                 reply.split("，", "。", "？", "！").forEach {
                                     speak(it)

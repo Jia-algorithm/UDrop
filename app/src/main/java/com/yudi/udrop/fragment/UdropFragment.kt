@@ -65,6 +65,7 @@ class UdropFragment : Fragment(), EventListener {
                 stop()
                 running = false
             } else {
+                binding.yourReply = ""
                 binding.result = ""
                 Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
                 stopSpeak()
@@ -105,9 +106,10 @@ class UdropFragment : Fragment(), EventListener {
                 if (it.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
                     val result = JSONObject(it).getString("best_result")
+                    binding.yourReply = "你：$result"
                     continueCommunication(result) { reply ->
                         Handler(Looper.getMainLooper()).post {
-                            binding.result = reply
+                            binding.result = "语滴：$reply"
                             if (reply.length > 20)
                                 reply.split("，", "。", "？", "！").forEach {
                                     speak(it)

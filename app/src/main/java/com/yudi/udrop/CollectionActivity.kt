@@ -71,6 +71,7 @@ class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterf
                             TextDetail(
                                 getString("title"),
                                 getString("author"),
+                                getString("dynasty"),
                                 getString("content"),
                                 ""
                             )

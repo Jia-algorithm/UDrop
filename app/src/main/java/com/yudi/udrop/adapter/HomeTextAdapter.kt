@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
+import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.databinding.HomeTextsItemBinding
 import com.yudi.udrop.databinding.NoDataItemBinding
 import com.yudi.udrop.interfaces.OverviewInterface
 import com.yudi.udrop.model.local.TextDetail
 
-class HomeTextAdapter(val handler: OverviewInterface) :
+class HomeTextAdapter(val handler: OverviewInterface, val localManager: SQLiteManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class HomeViewHolder(val binding: HomeTextsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -19,7 +20,7 @@ class HomeTextAdapter(val handler: OverviewInterface) :
     inner class DummyHolder(val binding: NoDataItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    var recommendList: ArrayList<TextDetail> = arrayListOf()
+    var recommendList: ArrayList<TextDetail> = localManager.getRandom()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -57,7 +58,7 @@ class HomeTextAdapter(val handler: OverviewInterface) :
                 itemViewHolder.binding.handler = handler
             }
             is DummyHolder -> {
-                itemViewHolder.binding.tip = R.string.no_collection
+                itemViewHolder.binding.tip = R.string.no_recommendation
                 itemViewHolder.binding.icon = R.drawable.ic_no_collection
             }
         }

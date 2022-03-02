@@ -66,7 +66,14 @@ class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
         intent?.getStringExtra(INTENT_EXTRA_TEXT_TITLE)?.let { title ->
             ServiceManager().getTextDetail(title) { detail ->
                 detail?.let {
-                    completion(TextModel(it.title, it.writer, it.content, it.writerInfo))
+                    completion(
+                        TextModel(
+                            it.title,
+                            it._writer,
+                            it.content,
+                            it.writerInfo
+                        )
+                    )
                 }
             }
         }

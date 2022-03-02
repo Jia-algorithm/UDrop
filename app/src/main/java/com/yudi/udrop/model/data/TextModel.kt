@@ -7,10 +7,11 @@ import com.yudi.udrop.R
 
 data class TextModel(
     val Title: String,
-    val Writer: String,
+    val writer: String,
     val Context: String,
     val WriterInfo: String
 ) : BaseObservable() {
+
     @get:Bindable
     var collected: Boolean = false
         set(value) {

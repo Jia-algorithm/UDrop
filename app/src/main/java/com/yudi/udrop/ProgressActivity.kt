@@ -110,7 +110,7 @@ class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterfac
             it?.let {
                 completion(
                     ProgressModel(
-                        it.title, it.writer, it.content, jsonObject.getInt("done")
+                        it.title, it._writer, it.content, jsonObject.getInt("done")
                     )
                 )
             }

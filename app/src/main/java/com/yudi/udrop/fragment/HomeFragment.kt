@@ -25,15 +25,16 @@ import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.interfaces.TabLayoutInterface
 import com.yudi.udrop.model.data.ScheduleModel
 import com.yudi.udrop.model.local.FunctionType
-import com.yudi.udrop.model.local.TextDetail
 import org.json.JSONArray
 
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, ProgressInterface {
     lateinit var binding: FragmentHomeBinding
     lateinit var localManager: SQLiteManager
-    private val adapter by lazy { HomeScheduleAdapter(this, localManager) }
+    private val adapter by lazy {
+        HomeScheduleAdapter(this, localManager)
+    }
     private val textAdapter by lazy {
-        HomeTextAdapter(this)
+        HomeTextAdapter(this, localManager)
     }
 
     @Nullable
@@ -50,6 +51,11 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
         super.onViewCreated(view, savedInstanceState)
         localManager = SQLiteManager(binding.root.context, "udrop.db", null, 1)
         setupRecyclerView()
+        getRecommendation {
+            Handler(Looper.getMainLooper()).post {
+                textAdapter.recommendList = localManager.getRandom()
+            }
+        }
         binding.homeScheduleViewpager.adapter = adapter
         setupTabLayout(view)
         binding.homeCollectionItem.setOnClickListener {
@@ -128,22 +134,10 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
         }
     }
 
-    private fun getRecommendation(completion: (ArrayList<TextDetail>) -> Unit) {
-        ServiceManager().getRecommendation(4) {
-            val list = arrayListOf<TextDetail>()
-            for (i in 0 until it.length()) {
-                with(it.getJSONObject(i)) {
-                    list.add(
-                        TextDetail(
-                            getString("title"),
-                            getString("author"),
-                            getString("content"),
-                            ""
-                        )
-                    )
-                }
-            }
-            completion(list)
+    private fun getRecommendation(completion: () -> Unit) {
+        ServiceManager().getRecommendation(4) { result ->
+            localManager.updateRandom(result)
+            completion()
         }
     }
 
@@ -153,11 +147,6 @@ class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, Progress
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = textAdapter
-        getRecommendation { result ->
-            Handler(Looper.getMainLooper()).post {
-                textAdapter.recommendList = result
-            }
-        }
     }
 
     @SuppressLint("InflateParams")

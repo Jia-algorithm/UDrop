@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import androidx.annotation.Nullable
+import com.yudi.udrop.model.local.TextDetail
 import com.yudi.udrop.model.local.UserModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -32,6 +33,7 @@ class SQLiteManager
         db.execSQL("create table user(id int not null primary key,name varchar(50) not null,motto varchar(1000),days int)")
         db.execSQL("create table new(title varchar(1000) not null primary key,done int not null)")
         db.execSQL("create table review(title varchar(1000) not null primary key,done int not null,time varchar(100))")
+        db.execSQL("create table random(title varchar(100) not null primary key,writer varchar(100),dynasty varchar(100),content varchar(1000))")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
@@ -53,6 +55,21 @@ class SQLiteManager
         val resultCode = writableDatabase.insert("new", null, contentValues)
         writableDatabase.close()
         return resultCode
+    }
+
+    fun updateRandom(list: JSONArray) {
+        writableDatabase.delete("random", null, null)
+        for (i in 0 until list.length()) {
+            with(list.getJSONObject(i)) {
+                writableDatabase.insert("random", null, ContentValues().apply {
+                    put("title", getString("title"))
+                    put("writer", getString("author"))
+                    put("dynasty", getString("dynasty"))
+                    put("content", getString("content"))
+                })
+            }
+        }
+        writableDatabase.close()
     }
 
     fun updateNewSchedule(list: JSONArray) {
@@ -222,5 +239,36 @@ class SQLiteManager
             Log.e("SQLiteManager", e.toString())
         }
         return JSONArray(reviewList)
+    }
+
+    fun getRandom(): ArrayList<TextDetail> {
+        val cursor: Cursor = readableDatabase.query("random", null, null, null, null, null, null)
+        val randomList = arrayListOf<TextDetail>()
+        try {
+            cursor.moveToFirst()
+            randomList.add(
+                TextDetail(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    ""
+                )
+            )
+            while (cursor.moveToNext()) {
+                randomList.add(
+                    TextDetail(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        ""
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("SQLiteManager", e.toString())
+        }
+        return randomList
     }
 }

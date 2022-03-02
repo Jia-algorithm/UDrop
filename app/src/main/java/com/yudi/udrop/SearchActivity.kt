@@ -116,6 +116,7 @@ class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface,
                         TextDetail(
                             getString("title"),
                             getString("author"),
+                            getString("dynasty"),
                             getString("content"),
                             ""
                         )
@@ -138,6 +139,7 @@ class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface,
                         TextDetail(
                             getString("title"),
                             getString("author"),
+                            getString("dynasty"),
                             getString("content"),
                             ""
                         )

@@ -148,6 +148,7 @@ class ServiceManager {
                             TextDetail(
                                 title,
                                 getString("author"),
+                                "",
                                 getString("content"),
                                 getString("author_info")
                             )

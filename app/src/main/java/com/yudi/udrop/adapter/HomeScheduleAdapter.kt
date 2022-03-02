@@ -5,22 +5,27 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.R
+import com.yudi.udrop.data.SQLiteManager
 import com.yudi.udrop.databinding.HomeScheduleItemBinding
 import com.yudi.udrop.interfaces.ProgressInterface
 import com.yudi.udrop.model.data.ScheduleModel
 
-class HomeScheduleAdapter(val handleSchedule: ProgressInterface) :
+class HomeScheduleAdapter(val handleSchedule: ProgressInterface, val localManager: SQLiteManager) :
     RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: HomeScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    var newSchedule = ScheduleModel(0, 0)
+    var newSchedule =
+        ScheduleModel(localManager.countCompletedNewSchedule(), localManager.getNew().length())
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var reviewSchedule = ScheduleModel(0, 0)
+    var reviewSchedule = ScheduleModel(
+        localManager.countCompletedReviewSchedule(),
+        localManager.getReview().length()
+    )
         set(value) {
             field = value
             notifyDataSetChanged()

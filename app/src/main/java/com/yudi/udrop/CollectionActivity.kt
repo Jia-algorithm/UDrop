@@ -17,7 +17,7 @@ import com.yudi.udrop.interfaces.ToolbarInterface
 import com.yudi.udrop.model.data.ToolbarModel
 import com.yudi.udrop.model.local.TextDetail
 
-class CollectionActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
+class CollectionActivity : WakeupActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityCollectionBinding
     lateinit var localManager: SQLiteManager
     private val adapter by lazy {

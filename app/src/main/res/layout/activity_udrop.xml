@@ -36,17 +36,20 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/udrop_speaking_gif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/udrop_user_reply"
                     android:layout_width="wrap_content"
@@ -55,6 +58,7 @@
                     android:text="@{yourReply}"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/udrop_result_text"
                     android:layout_width="wrap_content"
@@ -64,13 +68,14 @@
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>
-        </FrameLayout>
 
-        <ImageView
-            android:id="@+id/udrop_microphone_icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_logo" />
+            <ImageView
+                android:id="@+id/udrop_microphone_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_logo" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

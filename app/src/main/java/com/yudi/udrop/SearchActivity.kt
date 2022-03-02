@@ -23,7 +23,7 @@ import com.yudi.udrop.interfaces.ToolbarInterface
 import com.yudi.udrop.model.data.ToolbarModel
 import com.yudi.udrop.model.local.TextDetail
 
-class SearchActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface, InputInterface {
+class SearchActivity : WakeupActivity(), ToolbarInterface, ProgressInterface, InputInterface {
     lateinit var binding: ActivitySearchBinding
     lateinit var localManager: SQLiteManager
     private val adapter by lazy {

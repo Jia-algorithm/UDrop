@@ -21,7 +21,7 @@ import com.yudi.udrop.model.local.ScheduleType
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ProgressActivity : AppCompatActivity(), ToolbarInterface, ProgressInterface {
+class ProgressActivity : WakeupActivity(), ToolbarInterface, ProgressInterface {
     lateinit var binding: ActivityProgressBinding
     lateinit var localManager: SQLiteManager
     private val adapter by lazy {

@@ -14,7 +14,7 @@ import com.yudi.udrop.model.data.TextModel
 import com.yudi.udrop.model.data.ToolbarModel
 import com.yudi.udrop.model.local.FunctionType
 
-class TextDetailActivity : AppCompatActivity(), ToolbarInterface {
+class TextDetailActivity : WakeupActivity(), ToolbarInterface {
     lateinit var binding: ActivityTextDetailBinding
     lateinit var localManager: SQLiteManager
     override fun onCreate(savedInstanceState: Bundle?) {

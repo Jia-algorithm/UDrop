@@ -247,6 +247,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             FunctionType.GAME -> ServiceManager().communicate(userId, "游戏") { _, reply ->
                 completion("让我们开始游戏吧。$reply")
             }
+            FunctionType.DEFAULT -> completion("嗯，我在。")
         }
     }
 

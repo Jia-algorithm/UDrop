@@ -12,7 +12,7 @@ import com.yudi.udrop.fragment.ProfileFragment
 import com.yudi.udrop.fragment.UdropFragment
 
 
-class OverviewActivity : AppCompatActivity(),
+class OverviewActivity : WakeupActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
     private val SQLiteManager = com.yudi.udrop.data.SQLiteManager(this, "udrop.db", null, 1)
     override fun onCreate(savedInstanceState: Bundle?) {

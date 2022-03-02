@@ -66,9 +66,10 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             } else {
                 binding.yourReply = ""
                 binding.result = ""
-                Glide.with(this).asGif().load(R.drawable.siri).into(binding.udropSpeakingGif)
+                Glide.with(this).asGif().load(R.drawable.ic_wave).into(binding.udropSpeakingGif)
                 stopSpeak()
                 startListen()
+                running = true
             }
         }
         startCommunication { reply ->
@@ -117,6 +118,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             params?.let { s ->
                 if (s.contains("\"final_result\"")) {
                     Glide.with(this).clear(binding.udropSpeakingGif)
+                    running = false
                     val result = JSONObject(s).getString("best_result")
                     binding.yourReply = "你：$result"
                     continueCommunication(result) { reply ->

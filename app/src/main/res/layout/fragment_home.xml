@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp">
+            android:paddingBottom="20dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_text_learned"

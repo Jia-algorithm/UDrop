@@ -31,7 +31,7 @@ import org.json.JSONArray
 class HomeFragment : Fragment(), OverviewInterface, TabLayoutInterface, ProgressInterface {
     lateinit var binding: FragmentHomeBinding
     lateinit var localManager: SQLiteManager
-    private val adapter = HomeScheduleAdapter(this, localManager)
+    private val adapter by lazy { HomeScheduleAdapter(this, localManager) }
     private val textAdapter by lazy {
         HomeTextAdapter(this)
     }

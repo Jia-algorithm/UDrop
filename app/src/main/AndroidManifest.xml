@@ -22,16 +22,18 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <meta-data
             android:name="com.baidu.speech.APP_ID"
-            android:value="15590577"/>
+            android:value="15590577" />
 
         <meta-data
             android:name="com.baidu.speech.API_KEY"
-            android:value="q2uPyBe6LmWTZlvb0g1dzcHV"/>
+            android:value="q2uPyBe6LmWTZlvb0g1dzcHV" />
         <meta-data
             android:name="com.baidu.speech.SECRET_KEY"
-            android:value="y7S7hAI894BB3LF1yHYmvQEus1B6wPvj"/>
+            android:value="y7S7hAI894BB3LF1yHYmvQEus1B6wPvj" />
+
         <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +49,7 @@
         <activity android:name=".ProgressActivity" />
         <activity android:name=".CollectionActivity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".Webview" />
     </application>
 
 </manifest>

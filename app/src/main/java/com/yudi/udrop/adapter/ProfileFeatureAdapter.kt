@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yudi.udrop.CollectionActivity
 import com.yudi.udrop.R
 import com.yudi.udrop.UdropActivity
+import com.yudi.udrop.Webview
 import com.yudi.udrop.databinding.ProfileItemBinding
 import com.yudi.udrop.model.data.FeatureModel
 import com.yudi.udrop.model.local.FunctionType
@@ -42,14 +43,13 @@ class ProfileFeatureAdapter(val activity: FragmentActivity?) :
             )
             divider = position == 3
         }
-        if (position == 0)
-            itemViewHolder.itemView.setOnClickListener { view ->
+        when (position) {
+            0 -> itemViewHolder.itemView.setOnClickListener { view ->
                 activity?.let {
                     it.startActivity(Intent(view.context, CollectionActivity::class.java))
                 }
             }
-        if (position == 2)
-            itemViewHolder.itemView.setOnClickListener { view ->
+            2 -> itemViewHolder.itemView.setOnClickListener { view ->
                 activity?.let {
                     it.startActivity(Intent(view.context, UdropActivity::class.java).apply {
                         putExtra(UdropActivity.INTENT_EXTRA_TITLE, "游戏中心")
@@ -57,6 +57,12 @@ class ProfileFeatureAdapter(val activity: FragmentActivity?) :
                     })
                 }
             }
+            3 -> itemViewHolder.itemView.setOnClickListener { view ->
+                activity?.let {
+                    it.startActivity(Intent(view.context, Webview::class.java))
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int = 6

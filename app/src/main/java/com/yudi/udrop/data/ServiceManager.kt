@@ -26,7 +26,7 @@ class ServiceManager {
             override fun onResponse(call: Call, response: Response) {
                 val result = response.body?.string()
                 if (result != "Failed" && JSONObject(result).getString("success") == "Yes")
-                    completion(JSONObject(result).getInt("user_id"))
+                    completion(JSONObject(result).getInt("userId"))
                 else
                     completion(-2)
             }

@@ -8,7 +8,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +54,7 @@ class SearchActivity : WakeupActivity(), ToolbarInterface, ProgressInterface, In
                 .show()
     }
 
-    override fun onLeftItemClick() {
+    override fun finish() {
         localManager.getInfo()?.let {
             ServiceManager().setNewSchedule(it.id, localManager.getNew()) { requestStatus ->
                 if (!requestStatus) {
@@ -65,8 +64,12 @@ class SearchActivity : WakeupActivity(), ToolbarInterface, ProgressInterface, In
                     }
                 }
             }
-            finish()
+            super.finish()
         }
+    }
+
+    override fun onLeftItemClick() {
+        finish()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

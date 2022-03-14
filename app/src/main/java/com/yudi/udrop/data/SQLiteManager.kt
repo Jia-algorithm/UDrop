@@ -100,7 +100,7 @@ class SQLiteManager
     }
 
     fun countUndoneNewSchedule(): Int {
-        return readableDatabase.query(
+        var result = readableDatabase.query(
             "new",
             null,
             "done=?",
@@ -109,10 +109,12 @@ class SQLiteManager
             null,
             null
         ).count
+        readableDatabase.close()
+        return result
     }
 
     fun countCompletedNewSchedule(): Int {
-        return readableDatabase.query(
+        var result = readableDatabase.query(
             "new",
             null,
             "done=?",
@@ -121,10 +123,12 @@ class SQLiteManager
             null,
             null
         ).count
+        readableDatabase.close()
+        return result
     }
 
     fun countUndoneReviewSchedule(): Int {
-        return readableDatabase.query(
+        var result = readableDatabase.query(
             "review",
             null,
             "done=?",
@@ -133,10 +137,12 @@ class SQLiteManager
             null,
             null
         ).count
+        readableDatabase.close()
+        return result
     }
 
     fun countCompletedReviewSchedule(): Int {
-        return readableDatabase.query(
+        var result = readableDatabase.query(
             "review",
             null,
             "done=?",
@@ -145,6 +151,8 @@ class SQLiteManager
             null,
             null
         ).count
+        readableDatabase.close()
+        return result
     }
 
     fun updateInfo(name: String, motto: String, days: Int) {
@@ -215,6 +223,7 @@ class SQLiteManager
         } catch (e: Exception) {
             Log.e("SQLiteManager", e.toString())
         }
+        readableDatabase.close()
         return JSONArray(newList)
     }
 
@@ -238,6 +247,7 @@ class SQLiteManager
         } catch (e: Exception) {
             Log.e("SQLiteManager", e.toString())
         }
+        readableDatabase.close()
         return JSONArray(reviewList)
     }
 
@@ -269,6 +279,7 @@ class SQLiteManager
         } catch (e: Exception) {
             Log.e("SQLiteManager", e.toString())
         }
+        readableDatabase.close()
         return randomList
     }
 }

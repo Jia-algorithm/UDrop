@@ -145,7 +145,7 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
             checkResult(result, "setAppId")
             result = it.setApiKey(appKey, secretKey)
             checkResult(result, "setApiKey")
-            it.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0")
+            it.setParam(SpeechSynthesizer.PARAM_SPEAKER, "5118")
             it.setParam(SpeechSynthesizer.PARAM_VOLUME, "9")
             it.setParam(SpeechSynthesizer.PARAM_SPEED, "5")
             it.setParam(SpeechSynthesizer.PARAM_PITCH, "5")
@@ -261,8 +261,8 @@ class UdropActivity : AppCompatActivity(), ToolbarInterface, EventListener {
         const val TAG = "UDropActivity"
         const val INTENT_EXTRA_TITLE = "title"
         const val INTENT_EXTRA_TYPE = "function_type"
-        const val appId = "25674272"
-        const val appKey = "2U8zG0L8TidRMdL31HzG75FO"
-        const val secretKey = "WqdU5HRGEnXdwQWfYIMzYQUFjGZiHGPW"
+        const val appId = "25670624"
+        const val appKey = "UnXwBV4hPY7TF7BCIjUPaDBm"
+        const val secretKey = "qb2AzG4RihOMrPMKwKp4QLqnb8pjCAzK"
     }
 }

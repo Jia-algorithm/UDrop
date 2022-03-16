@@ -141,7 +141,7 @@ class UdropFragment : Fragment(), EventListener {
             checkResult(result, "setAppId")
             result = it.setApiKey(UdropActivity.appKey, UdropActivity.secretKey)
             checkResult(result, "setApiKey")
-            it.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0")
+            it.setParam(SpeechSynthesizer.PARAM_SPEAKER, "5118")
             it.setParam(SpeechSynthesizer.PARAM_VOLUME, "9")
             it.setParam(SpeechSynthesizer.PARAM_SPEED, "5")
             it.setParam(SpeechSynthesizer.PARAM_PITCH, "5")
